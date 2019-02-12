@@ -3,12 +3,17 @@ from pymongo import MongoClient
 import random
 import smtplib
 from email.message import EmailMessage
+from datetime import date
+
+
 
 app = Flask(__name__)
 client = MongoClient("localhost", 27017)
 
 db = client["elec-vote"]
 citizens = db["citizens"]
+
+places = ["Mumbai"]
 
 def emailGen(to, password):
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -33,6 +38,17 @@ def password():
     return password
 
 
+
+def age(dbDate):
+    dbDate = dbDate.split("-")
+    dbDate = [int(x) for x in dbDate]
+    today = str(date.today()).split("-")
+    today = [int(x) for x in today]
+    age = date(today[0], today[1], today[2]) - date(dbDate[0], dbDate[1], dbDate[2])
+    age = age.days // 365
+    return age
+
+
 @app.route("/")
 def main():
     return render_template("main.html")
@@ -43,21 +59,27 @@ def generate():
     name = (request.form["name"]).lower()
     uid = int(request.form["uid"])
     dob = request.form["dob"]
-    mobile = int(request.form["mobile"])
-    email = request.form["email"]
     place = request.form["place"]
-    print(name, uid , dob , mobile, email)
-    print(type(name), type(uid), type(dob), type(mobile), type(email))
+    print(name, uid , dob, place )
+    print(type(name), type(uid), type(dob), type(place))
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
-    if( db.citizens.find_one({"name": name, "uid": uid, "dob" : dob, "mobile" : mobile, "email" : email, "place" : place}) ):
+    if( db.citizens.find_one({"name": name, "vid": uid, "dob" : dob, "pob" : place}) ):
         #accessing the particular persons data
-        if ()
-        reqData = db.citizens.find_one({"name": name,"uid": uid, "dob" : dob, "mobile" : mobile, "email" : email, "place" : place})
-        #sending email procedure
-        to = reqData["email"]
-        passwordGen = password()
-        emailGen(to, passwordGen)
-        return render_template("main.html", error=error)
+        reqData = db.citizens.find_one({"name": name,"vid": uid, "dob" : dob, "pob" : place})
+        # checking persons age
+        dbDate = reqData["dob"]
+        ageNow = age(dbDate)
+        if (ageNow >= 18 ):
+            #sending email procedure
+            to = reqData["email"]
+            print(to)
+            passwordGen = password()
+            emailGen(to, passwordGen)
+            return render_template("main.html", error=error)
+        else:
+            error = "You are not eligible to vote"
+            return render_template("main.html", error=error)
+
     else:
         error = "The details given by you do not match our database"
         return render_template("main.html", error=error)
