@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 import random
 import smtplib
@@ -15,7 +15,7 @@ citizens = db["citizens"]
 
 
 #list where you can specifically add the places of election
-ECIplaces = ["mumbai",  "sikar"]
+ECIplaces = ["mumbai",  "sikar", "lucknow"]
 
 def emailGen(to, password):
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -55,41 +55,50 @@ def age(dbDate):
 def main():
     return render_template("main.html")
 
+@app.route("/blank")
+def blank():
+    error = "You cannot leave input fields empty"
+    return render_template("main.html", error=error)
 
 @app.route("/generate", methods=["GET", "POST"])
 def generate():
     name = (request.form["name"]).lower()
-    uid = int(request.form["uid"])
+    uid = request.form["uid"]
     dob = request.form["dob"]
-    place = request.form["place"]
+    place = (request.form["place"]).lower()
     print(name, uid , dob, place )
     print(type(name), type(uid), type(dob), type(place))
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
-    if( db.citizens.find_one({"name": name, "vid": uid, "dob" : dob, "pob" : place}) ):
-        #accessing the particular persons data
-        reqData = db.citizens.find_one({"name": name,"vid": uid, "dob" : dob, "pob" : place})
-        # checking persons age
-        dbDate = reqData["dob"]
-        ageNow = age(dbDate)
-        if (ageNow >= 18 ):
-            electPlace = reqData["pob"]
-            if electPlace in ECIplaces:
-                #sending email procedure
-                to = reqData["email"]
-                print(to)
-                passwordGen = password()
-                emailGen(to, passwordGen)
-                return render_template("main.html", error=error)
-            else:
-                error = "Elections are not happening at your place!"
-                return render_template("main.html", error=error)
-        else:
-            error = "You are not eligible to vote, you should be atleast of 18 years in order to vote."
-            return render_template("main.html", error=error)
-
+    if (len(name) == 0 or len(str(uid)) == 0 or len(dob) == 0 or len(place) == 0):
+        error = "You cannot leave input fields blank"
+        return redirect(url_for('blank'))
     else:
-        error = "The details given by you do not match our database"
-        return render_template("main.html", error=error)
+        uid = int(request.form["uid"])
+        if( db.citizens.find_one({"name": name, "vid": uid, "dob" : dob, "pob" : place}) ):
+            #accessing the particular persons data
+            reqData = db.citizens.find_one({"name": name,"vid": uid, "dob" : dob, "pob" : place})
+            # checking persons age
+            dbDate = reqData["dob"]
+            ageNow = age(dbDate)
+            if (ageNow >= 18 ):
+                electPlace = reqData["pob"]
+                if electPlace in ECIplaces:
+                    #sending email procedure
+                    to = reqData["email"]
+                    print(to)
+                    passwordGen = password()
+                    emailGen(to, passwordGen)
+                    return render_template("main.html", error=error)
+                else:
+                    error = "Elections are not happening at your place!"
+                    return render_template("main.html", error=error)
+            else:
+                error = "You are not eligible to vote, you should be atleast of 18 years in order to vote."
+                return render_template("main.html", error=error)
+
+        else:
+            error = "The details given by you do not match our database"
+            return render_template("main.html", error=error)
     # return render_template("success.html")
 
 
