@@ -13,7 +13,9 @@ client = MongoClient("localhost", 27017)
 db = client["elec-vote"]
 citizens = db["citizens"]
 
-places = ["Mumbai"]
+
+#list where you can specifically add the places of election
+ECIplaces = ["mumbai"]
 
 def emailGen(to, password):
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -70,14 +72,19 @@ def generate():
         dbDate = reqData["dob"]
         ageNow = age(dbDate)
         if (ageNow >= 18 ):
-            #sending email procedure
-            to = reqData["email"]
-            print(to)
-            passwordGen = password()
-            emailGen(to, passwordGen)
-            return render_template("main.html", error=error)
+            electPlace = reqData["pob"]
+            if electPlace in ECIplaces:
+                #sending email procedure
+                to = reqData["email"]
+                print(to)
+                passwordGen = password()
+                emailGen(to, passwordGen)
+                return render_template("main.html", error=error)
+            else:
+                error = "Elections are not happening at your place!"
+                return render_template("main.html", error=error)
         else:
-            error = "You are not eligible to vote"
+            error = "You are not eligible to vote, you should be atleast of 18 years in order to vote."
             return render_template("main.html", error=error)
 
     else:
