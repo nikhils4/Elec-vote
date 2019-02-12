@@ -1,137 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-	  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-	 <script src="jquery.geocomplete.js"></script>
-
-
+  	<title>Outh</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="jquery.geocomplete.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=initMap" type="text/javascript"></script>
-<script src="jquery.geocomplete.js"></script>
-
-
-<style type="text/css">
-
-
-	button {
-		width: 15vw;
-		height: 15vh;
-		text-align: center;
-	}
-
-	.bt {
-		text-align: center;
-	}
-
-	.card {
-		margin: 0px;
-
-
-	}
-
-	.card-body {
-	  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	  margin-left: 5vw;
-	  margin-right: 5vw;
-	}
-
-	i {
-		color: black;
-	}
-</style>
-		
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=initMap" type="text/javascript"></script>
+    <script src="jquery.geocomplete.js"></script>
+  <style type="text/css">
+  	button {
+  		width: 15vw;
+  		height: 15vh;
+  		text-align: center;
+  	}
+  	.bt {
+  		text-align: center;
+  	}
+  	.card {
+  		margin: 0px;
+  	}
+  	.card-body {
+  	  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  	  margin-left: 5vw;
+  	  margin-right: 5vw;
+  	}
+  	i {
+  		color: black;
+  	}
+  </style>
 	<script type="text/javascript">
-		
    function initialize() {
       var input = document.getElementById('searchTextField');
       var options = {
-        types: ['geocode'] //this should work !
+        types: ['geocode']
       };
       var autocomplete = new google.maps.places.Autocomplete(input, options);
    }
    google.maps.event.addDomListener(window, 'load', initialize);
-
-
-
-
-
 	</script>
-	<!-- <script type="text/javascript">
-function noenter() {
-  return !(window.event && window.event.keyCode == 13); }
-</script>
- -->
-
 </head>
+
 <body>
-
-<div><input type='search' id='searchText' />
-<input type='button' id='buttonSrch' onclick="search(document.getElementById('searchText'))" value='Search' />
-</div>
-
-
 		<div class="card">
-		<div class="card-header info-color white-text text-center py-4">
+		  <div class="card-header info-color white-text text-center py-4">
         	<strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
     	</div>
 
-    	 <div class="card-body px-lg-5">
+    <div class="card-body px-lg-5">
 
 
-<div class="container">
-  <div class="row">
-    <form class="col s12">
+    <div class="container">
       <div class="row">
-        <div class="input-field col s6">
-        
-          <i class="material-icons prefix">account_box</i>
-          <input id="icon_prefix" type="text" class="validate" style="border-color: black;">
-          <label for="icon_prefix">Name</label>
-      </div>
+        <form class="col s12" action="{{url_for('generate')}}" method="POST">
+          <div class="row">
+            <div class="input-field col s6">
+              <i class="material-icons prefix">account_box</i>
+              <input id="icon_prefix" type="text" class="validate" name="name" style="border-color: black;">
+              <label for="icon_prefix">Name</label>
+            </div>
         </div>
-<div>
-	
 
-</div>
          <div class="row">
-        <div class="input-field col s6">
-        	<i class="material-icons prefix">person_pin</i>
-          <input id="last_name" type="text" data-length="10" class="validate" style="border-color: black;">
-          <label for="last_name">Uid</label>
-        </div>
-      </div>
+            <div class="input-field col s6">
+        	     <i class="material-icons prefix">person_pin</i>
+               <input id="last_name" type="text" data-length="10" name="uid" class="validate" style="border-color: black;">
+               <label for="last_name">Uid</label>
+            </div>
+         </div>
 
 
       <div class="row">
         <div class="input-field col s6">
         	<i class="material-icons prefix">date_range</i>
-          <input id="name" type="date" class="validate" style="border-color: black;">
+          <input id="name" type="date" name="dob"> class="validate" style="border-color: black;">
           <label for="name">Date of Birth</label>
         </div>
-    </div>
+      </div>
 
 
       <div class="row">
         <div class="input-field col s6">
         	<i class="material-icons prefix">place</i>
-          <input id="searchTextField" type="text" class="validate" size="50" autocomplete="on" style="border-color: black;">
+          <input id="searchTextField" type="text" name="place" class="validate" size="50" autocomplete="on" style="border-color: black;">
           <label for="searchTextField"></label>
         </div>
       </div>
-
+      {{error}}
       <div class="bt">
         	<button class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
     			<i class="material-icons right" style="color: white;">send</i>
-		  </button>
-	  </div>
-
+		      </button>
+	    </div>
 
   	</form>
   </div>
