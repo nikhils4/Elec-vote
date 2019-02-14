@@ -7,16 +7,21 @@ from datetime import date
 from credentials import cred
 
 
+#database setup
+
 app = Flask(__name__)
 client = MongoClient("localhost", 27017)
 
 db = client["elec-vote"]
 citizens = db["citizens"]
 onlineVotingCred = db["onlineVotingCred"]
-
+elecPlaces = db["elecPlaces"]
 
 #list where you can specifically add the places of election
 ECIplaces = ["mumbai",  "sikar", "lucknow", "palli"]
+
+
+#online voting cred of users registration and accordingly message generation
 
 def onlineVotingCredReg(to, password, name):
     if (db.onlineVotingCred.find_one({"username": to})):
@@ -26,10 +31,11 @@ def onlineVotingCredReg(to, password, name):
         message = "Hey " + name + ",\n\nYou already generated your password for online voting. Credentials for the same are as follows :\nYour login id : " + to + "\nYour login password : " + password + "\n\n\n\nThank you!!"
         return message
     else:
-        db.onlineVotingCred.insert({"username" : to, "password" : password, "vote" : 0})
+        db.onlineVotingCred.insert_one({"username" : to, "password" : password, "vote" : 0})
         message = "Hey " + name + ",\n\nYour login id : " + to + "\nYour login password : " + password + "\n\n\n\nThank you!!"
         return message
 
+#email generation according to the user credentials generation requirement
 
 def emailGen(to, password, name="ECI Admin"):
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -47,6 +53,8 @@ def emailGen(to, password, name="ECI Admin"):
     s.send_message(msg)
     s.quit()
 
+#password generation for particular user
+
 def password():
     key = "!@#$&*1234567890qwertyuiopasd12345QWERTYUIOPASDFGHJKLZXCVBNM67890fghjklzxcvbnm1234567890!@#$&*"
     key = list(key)
@@ -54,6 +62,8 @@ def password():
     password = key[0:8]
     password = "".join(password)
     return password
+
+#age calculation of the user
 
 def age(dbDate):
     dbDate = dbDate.split("-")
@@ -64,20 +74,40 @@ def age(dbDate):
     age = age.days // 365
     return age
 
+
+#adding place to database related to ECI Admin
+
+@app.route("/addElecPlace", methods=["GET", "POST"])
+def addElecPlaces():
+
+
+#route for user login
+
+@app.route("/userLogin", methods=["GET", "POST"] )
+def userLogin():
+
+
+
+#default route for the password generation for user
+
 @app.route("/")
 def main():
     return render_template("main.html")
+
+#rendering of the main file when user leaves all the input feilds blank
 
 @app.route("/blank")
 def blank():
     error = "You cannot leave input fields empty"
     return render_template("main.html", error=error)
 
+#login portal for ECI Admin
 
 @app.route("/ECI")
 def ECI():
     return render_template("ECILogin.html")
 
+#login credentials processing for ECI Admin
 
 @app.route("/ECILogin" , methods=["POST", "GET"])
 def ECILogin():
@@ -92,6 +122,8 @@ def ECILogin():
         error = "Username and password provided by you is not correct"
         return render_template("ECILogin.html", error=error)
 
+#otp verification route for ECI Admin login
+
 @app.route("/otpVerify", methods=["POST", "GET"])
 def otpVerify():
     otpInput = request.form["otp"]
@@ -100,6 +132,7 @@ def otpVerify():
     else:
         return redirect(url_for("ECI"))
 
+#processing route for generating password for user
 
 @app.route("/generate", methods=["GET", "POST"])
 def generate():
