@@ -62,12 +62,17 @@ def ECILogin():
     username = (request.form["username"]).lower()
     password = request.form["password"]
     if ( username == cred.username and password == cred.password):
-        otp = password()
+        global otp = password()
         emailGen(cred.ECIEmail,otp)
         return render_template("ECIOtp.html")
     else:
-        return render_template("ECILogin.html")
+        error = "Username and password provided by you is not correct"
+        return render_template("ECILogin.html", error=error)
 
+@app.route("/otpVerify")
+def otpVerify():
+    otpInput = request.form["otp"]
+    if (otp == )
 
 
 @app.route("/generate", methods=["GET", "POST"])
