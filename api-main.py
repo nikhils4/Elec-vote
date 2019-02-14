@@ -12,10 +12,24 @@ client = MongoClient("localhost", 27017)
 
 db = client["elec-vote"]
 citizens = db["citizens"]
+onlineVotingCred = db["onlineVotingCred"]
 
 
 #list where you can specifically add the places of election
 ECIplaces = ["mumbai",  "sikar", "lucknow", "palli"]
+
+def onlineVotingCredReg(to, password, name):
+    if (db.onlineVotingCred.find_one({"username": to})):
+        found = db.onlineVotingCred.find_one({"username": to})
+        username = found["username"]
+        password = found["password"]
+        message = "Hey " + name + ",\n\nYou already generated your password for online voting. Credentials for the same are as follows :\nYour login id : " + to + "\nYour login password : " + password + "\n\n\n\nThank you!!"
+        return message
+    else:
+        db.onlineVotingCred.insert({"username" : to, "password" : password, "vote" : 0})
+        message = "Hey " + name + ",\n\nYour login id : " + to + "\nYour login password : " + password + "\n\n\n\nThank you!!"
+        return message
+
 
 def emailGen(to, password, name="ECI Admin"):
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -25,7 +39,7 @@ def emailGen(to, password, name="ECI Admin"):
     if (name=="ECI Admin"):
         message = "Hey " + name + ",\n\nYour login otp is " + password + "\n\n\n\nThank you!!"
     else:
-        message = "Hey " + name + ",\n\nYour login id : " + to + "\nYour login password : " + password + "\n\n\n\nThank you!!"
+        message = onlineVotingCredReg(to, password, name)
     msg.set_content(message)
     msg['Subject'] = 'Online Voting Credentials'
     msg['From'] = "test.proje.niks@gmail.com"
