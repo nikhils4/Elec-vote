@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OAuth</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--    <script src="jquery.geocomplete.js"></script>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=initMap" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style type="text/css">
+   	.bt {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <div class="card">
+            <div class="card-header info-color white-text text-center py-4">
+            	<strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
+        	</div>
+
+  	    <div class="card-body px-lg-5">
+
+  	        <div class="container">
+		        <div class="row">
+		        	<form class="col s12" id="form1" action="{{url_for('generate')}}" method="POST" oninvalid="false">
+		            	<div class="row">
+		            		<div class="input-field col s6">
+		              			<i class="material-icons prefix">account_box</i>
+		              		<input id="icon_prefix" type="text" class="validate" name="otp" style="border-color: black;" required >
+		              		<label for="icon_prefix">OTP</label>
+		                	</div>
+		            	</div>
+		       			<div class="bt">
+                    		<button id="btn1" class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
+                        		<i class="material-icons right" style="color: white;">send</i>
+                      		</button>
+                		</div>
+		            </form>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</body>
+</html>
+
