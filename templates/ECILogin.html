@@ -20,6 +20,24 @@
     #form2 {
     	display: none;
     }
+
+    .loginError {
+      border: 1px solid red;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .error-head {
+      font-size: 1.3em;
+    }
+
+    #warning-img {
+      color: red;
+    }
+
+    .inner-content {
+      margin-bottom: 5px;
+    }
    </style>
 
 <!--    <script type="text/javascript">
@@ -61,12 +79,17 @@
 		                 <label for="password">Password</label>
 		                	</div>
              			</div>
-             			<div class="bt">
+                  <div class="loginError">
+                    <div class="error-head"><i id="warning-img" class="material-icons">error</i>
+                        <div class="inner-content">Oops! There seems to be a problem</div></div>
+                              {{error}}
+                  </div>
+             			<div class="btn-ov">
                     		<button id="btn1" class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
                         		<i class="material-icons right" style="color: white;">send</i>
-                      		</button>
-                		</div>
-						{{error}}
+                      	</button>
+                	</div>
+
 		        	</form>
 
 		        	<!-- <form class="col s12" id="form2" action="{{url_for('generate')}}" method="POST" oninvalid="false">
