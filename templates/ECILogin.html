@@ -46,7 +46,7 @@
 
   	        <div class="container">
 		        <div class="row">
-		        	<form class="col s12" id="form1" action="{{url_for('generate')}}" method="POST" oninvalid="false">
+		        	<form class="col s12" id="form1" action="{{url_for('ECILogin')}}" method="POST" oninvalid="false">
 		            	<div class="row">
 		            		<div class="input-field col s6">
 		              			<i class="material-icons prefix">account_box</i>
@@ -66,6 +66,7 @@
                         		<i class="material-icons right" style="color: white;">send</i>
                       		</button>
                 		</div>
+						{{error}}
 		        	</form>
 
 		        	<!-- <form class="col s12" id="form2" action="{{url_for('generate')}}" method="POST" oninvalid="false">
