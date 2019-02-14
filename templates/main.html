@@ -25,13 +25,15 @@
     }
     .card-body {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      margin-left: 5vw;
-      margin-right: 5vw;
+/*      margin-left: 5vw;
+      margin-right: 5vw;*/
     }
+
     i {
         color: black;
     }
   </style>
+
 </head>
 
 <body>
@@ -51,7 +53,7 @@
             <div class="input-field col s6">
               <i class="material-icons prefix">account_box</i>
               <input id="icon_prefix" type="text" class="validate" name="name" style="border-color: black;" >
-              <label for="icon_prefix">Name</label>
+              <label for="icon_prefix">Full Name</label>
                 </div>
             </div>
 
@@ -61,6 +63,7 @@
                    <input id="last_name" type="number" data-length="10" name="uid" class="validate" style="border-color: black;">
                    <label for="last_name">Uid</label>
                 </div>
+                <div id="err"></div>
              </div>
 
 
