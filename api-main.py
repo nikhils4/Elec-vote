@@ -4,7 +4,7 @@ import random
 import smtplib
 from email.message import EmailMessage
 from datetime import date
-
+from credentials import cred
 
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ ECIplaces = ["mumbai",  "sikar", "lucknow"]
 def emailGen(to, password):
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
-    s.login("test.proje.niks@gmail.com", "@imnikhil7")
+    s.login(cred.emailId, cred.emailPass)
     msg = EmailMessage()
     message = "Your login password is : " + password
     msg.set_content(message)
@@ -30,7 +30,6 @@ def emailGen(to, password):
     s.send_message(msg)
     s.quit()
 
-
 def password():
     key = "!@#$&*1234567890qwertyuiopasd12345QWERTYUIOPASDFGHJKLZXCVBNM67890fghjklzxcvbnm1234567890!@#$&*"
     key = list(key)
@@ -38,8 +37,6 @@ def password():
     password = key[0:8]
     password = "".join(password)
     return password
-
-
 
 def age(dbDate):
     dbDate = dbDate.split("-")
@@ -50,7 +47,6 @@ def age(dbDate):
     age = age.days // 365
     return age
 
-
 @app.route("/")
 def main():
     return render_template("main.html")
@@ -59,6 +55,20 @@ def main():
 def blank():
     error = "You cannot leave input fields empty"
     return render_template("main.html", error=error)
+
+
+@app.route("/ECILogin")
+def ECILogin():
+    username = (request.form["username"]).lower()
+    password = request.form["password"]
+    if ( username == cred.username and password == cred.password):
+        otp = password()
+        emailGen(cred.ECIEmail,otp)
+        return render_template("ECIOtp.html")
+    else:
+        return render_template("ECILogin.html")
+
+
 
 @app.route("/generate", methods=["GET", "POST"])
 def generate():
