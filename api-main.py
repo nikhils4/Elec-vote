@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from pymongo import MongoClient
 import random
 import smtplib
 from email.message import EmailMessage
 from datetime import date
 from credentials import cred
+import json
 
 
 #database setup
@@ -78,17 +79,46 @@ def age(dbDate):
 #adding place to database related to ECI Admin
 
 @app.route("/addElecPlace", methods=["GET", "POST"])
-def addElecPlaces():
+def addElecPlace():
+    if request.method == 'POST':
+        place = request.json['place']
+        if (db.elecPlaces.find_one({"placeName" : place})):
+            return "Place already exist"
+        else:
+            db.elecPlaces.insert_one({"placeName" : place})
+            return "Place Added Successfully"
 
 
-#route for user login
+@app.route("/showElecPlace", methods=["POST", "GET"])
+def showElecPlace():
+    if request.method == "GET":
+        places = list(db.elecPlaces.find({}, {"_id" : 0}));
+        #print(j[0]['placeName']) this is how to access the data
+        trans = jsonify(places)
+        return trans
 
-@app.route("/userLogin", methods=["GET", "POST"] )
+
+#route for user login page rendering
+
+@app.route("/userLogin")
 def userLogin():
+    return render_template("userLogin.html")
 
+#route for processing of data submiotted by user
+
+@app.route("/userLoginProcess", methods=["GET", "POST"])
+def userLoginProcess():
+    username = request.form["username"]
+    password = request.form["password"]
+    if (db.onlineVotingCred.find_one({"username" : username, "password" : password})):
+        return render_template("userSuccessLogin.html")
+    else:
+        error = "The login credentials entered by you are not valid"
+        return render_template("userLogin.html", error=error)
 
 
 #default route for the password generation for user
+
 
 @app.route("/")
 def main():
