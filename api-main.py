@@ -15,16 +15,19 @@ citizens = db["citizens"]
 
 
 #list where you can specifically add the places of election
-ECIplaces = ["mumbai",  "sikar", "lucknow"]
+ECIplaces = ["mumbai",  "sikar", "lucknow", "palli"]
 
-def emailGen(to, password):
+def emailGen(to, password, name="ECI Admin"):
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
     s.login(cred.emailId, cred.emailPass)
     msg = EmailMessage()
-    message = "Your login password is : " + password
+    if (name=="ECI Admin"):
+        message = "Hey " + name + ",\n\nYour login otp is " + password + "\n\n\n\nThank you!!"
+    else:
+        message = "Hey " + name + ",\n\nYour login id : " + to + "\nYour login password : " + password + "\n\n\n\nThank you!!"
     msg.set_content(message)
-    msg['Subject'] = 'Online Voting'
+    msg['Subject'] = 'Online Voting Credentials'
     msg['From'] = "test.proje.niks@gmail.com"
     msg['To'] = to
     s.send_message(msg)
@@ -57,22 +60,31 @@ def blank():
     return render_template("main.html", error=error)
 
 
-@app.route("/ECILogin")
+@app.route("/ECI")
+def ECI():
+    return render_template("ECILogin.html")
+
+
+@app.route("/ECILogin" , methods=["POST", "GET"])
 def ECILogin():
     username = (request.form["username"]).lower()
-    password = request.form["password"]
-    if ( username == cred.username and password == cred.password):
-        global otp = password()
+    passwordInput = request.form["password"]
+    if ( username == cred.username and passwordInput == cred.password):
+        global otp
+        otp = password()
         emailGen(cred.ECIEmail,otp)
         return render_template("ECIOtp.html")
     else:
         error = "Username and password provided by you is not correct"
         return render_template("ECILogin.html", error=error)
 
-@app.route("/otpVerify")
+@app.route("/otpVerify", methods=["POST", "GET"])
 def otpVerify():
     otpInput = request.form["otp"]
-    if (otp == )
+    if (otp == otpInput):
+        return render_template("ECIHomePage.html")
+    else:
+        return redirect(url_for("ECI"))
 
 
 @app.route("/generate", methods=["GET", "POST"])
@@ -94,6 +106,7 @@ def generate():
             reqData = db.citizens.find_one({"name": name,"vid": uid, "dob" : dob, "pob" : place})
             # checking persons age
             dbDate = reqData["dob"]
+            dbName = (reqData["name"]).title()
             ageNow = age(dbDate)
             if (ageNow >= 18 ):
                 electPlace = reqData["pob"]
@@ -102,7 +115,7 @@ def generate():
                     to = reqData["email"]
                     print(to)
                     passwordGen = password()
-                    emailGen(to, passwordGen)
+                    emailGen(to, passwordGen, dbName)
                     return render_template("main.html", error=error)
                 else:
                     error = "Elections are not happening at your place!"
