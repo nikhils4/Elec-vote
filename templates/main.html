@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!--    <script src="jquery.geocomplete.js"></script>-->
+    <!--    <script src="jquery.geocomplete.js"></script>     -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=initMap" type="text/javascript"></script>
@@ -67,7 +67,7 @@
     <div class="container">
       <div class="row">
         
-        <form class="col s12" action="" method="POST" oninvalid="false">
+        <form class="col s12" action="{{url_for('generate')}}" method="POST" oninvalid="false">
           <div class="row">
             <div class="input-field col s6">
               <i class="material-icons prefix">account_box</i>
@@ -102,14 +102,13 @@
                 </div>
               </div>
 
-                <!-- <div id="error">    
-                    <i><b>{{error- THIS IS SOME TEXT}}</b></i>
-                </div> -->
+            <div id="error">
+                    <i><b>{{error}}</b></i>
+                </div>
                 <div class="btn-ov">
                     <button class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
-
                         <i class="material-icons right" style="color: white;">send</i>
-                      </button>
+                    </button>
                 </div>
 
         </form>
@@ -119,7 +118,7 @@
 </div>
 </div>
 <div id="">
-<img id="spinner" src="../images/spinner.gif">
+<img id="spinner" src="../static/images/spinner.gif">
 </div>
 <!--<script type="text/javascript">
 function initialize() {
