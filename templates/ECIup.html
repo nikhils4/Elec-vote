@@ -75,8 +75,7 @@
 		$(document).ready(function() {
 	    $("#additem").click(function() {
 	    	    var value = $("#list_item").val();
-	    	    place = JSON.stringify({"username" : value})
-	    	    console.log(place)
+	    	    place = JSON.stringify({"place" : value})
 	        $.ajax({
 	            type: "POST",
 	            url: "http://127.0.0.1:5000/addElecPlace",
