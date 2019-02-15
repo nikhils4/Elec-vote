@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EVM</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+	<style type="text/css">
+		
+		.grid-container {
+			display: grid;
+			grid-column-gap: 20px;
+			grid-template-columns: auto auto auto;
+			padding: 10px; 
+			border: 1px solid;
+		}
+
+		.grid-item {
+			/*border: 1px solid blue;*/
+			padding: 10px;
+			font-size: 1.5em;
+			text-align: center;
+			border: 1px solid;
+		}
+
+		.img-col {
+			width: 4vw;
+			height: 4vw;
+		}
+
+	</style>
+
+	<script type="text/javascript">
+		 	
+		function confirm1() {
+			alert("Are you sure you want to vote for first party");
+		}
+
+		function confirm2() {
+			alert("Are you sure you want to vote for second party");
+		}
+
+		function confirm3() {
+			alert("Are you sure you want to vote for third party");
+		}
+
+	</script>
+
+</head>
+<body>
+
+	    <div class="card">
+            <div class="card-header info-color white-text text-center py-4">
+                <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
+            </div>
+
+            <div class="grid-container">
+            	<!-- 1SR ROW -->
+            	<div class="grid-item">
+            		<img class="img-col" src="https://source.unsplash.com">
+            	</div>
+
+            	<div class="party-col grid-item">
+            		<div class="content"><b>BJP</b></div>
+            	</div>
+
+            	<div class="vote grid-item">
+            		<button onclick="confirm1()">VOTE</button>
+            	</div>
+
+            	<!-- 2nd ROW -->
+            	<div class="grid-item">
+            		<img class="img-col" src="https://source.unsplash.com">
+            	</div>
+
+            	<div class="party-col grid-item">
+            		<div class="content"><b>BJP</b></div>
+            	</div>
+
+            	<div class="vote grid-item">
+            		<button onclick="confirm2()">VOTE</button>
+            	</div>
+
+            	<!-- 3rd ROW -->
+            	<div class="grid-item">
+            		<img class="img-col" src="https://source.unsplash.com">
+            	</div>
+
+            	<div class="party-col grid-item">
+            		<div class="content"><b>BJP</b></div>
+            	</div>
+
+            	<div class="vote grid-item">
+            		<button onclick="confirm3()">VOTE</button>
+            	</div>
+
+            </div>p
+
+
+
+</body>
+</html>

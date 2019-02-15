@@ -67,7 +67,7 @@
     <div class="container">
       <div class="row">
         
-        <form class="col s12" action="" method="POST" oninvalid="false">
+        <form class="col s12" action="{{url_for('generate')}}" method="POST" oninvalid="false">
           <div class="row">
             <div class="input-field col s6">
               <i class="material-icons prefix">account_box</i>
@@ -102,12 +102,11 @@
                 </div>
               </div>
 
-                <!-- <div id="error">    
-                    <i><b>{{error- THIS IS SOME TEXT}}</b></i>
-                </div> -->
+            <div id="error">
+                    <i><b>{{error}}</b></i>
+                </div>
                 <div class="btn-ov">
                     <button class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
-
                         <i class="material-icons right" style="color: white;">send</i>
                     </button>
                 </div>
@@ -119,7 +118,7 @@
 </div>
 </div>
 <div id="">
-<img id="spinner" src="../images/spinner.gif">
+<img id="spinner" src="../static/images/spinner.gif">
 </div>
 <!--<script type="text/javascript">
 function initialize() {
