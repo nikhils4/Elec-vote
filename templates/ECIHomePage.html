@@ -69,6 +69,8 @@
 
 	button {
             height: 50px;
+            background: transparent;
+            outline: none;
             width: 10vw;
             border-radius: 30px;
             border: none;
@@ -192,18 +194,33 @@ var a ='6af9a9db'
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
 	            	$("#cont").show();
+	            		var disp =document.getElementById("cont")
+	            		var x = document.getElementById("cont").rows.length;
+	            	if(x<=1) {
 
-	            	var disp = document.getElementById("cont");
-	            	for(var i = 0 ; i < result.length ; i++) {
-		            	var tr = document.createElement('tr');
-					    var td = tr.appendChild(document.createElement('td'));
-					    td.innerHTML = i+1;
-					    var td = tr.appendChild(document.createElement('td'));
-					    td.innerHTML = result[i]['placeName'];
-					    disp.appendChild(tr);
-	            	}
+		            	for(var i = 0 ; i < result.length ; i++) {
+			            	var tr = document.createElement('tr');
+						    var td = tr.appendChild(document.createElement('td'));
+						    td.innerHTML = i+1;
+						    var td = tr.appendChild(document.createElement('td'));
+						    td.innerHTML = result[i]['placeName'];
+						    disp.appendChild(tr);
+		            	}
+		            }
+		            else {
+		            	for(var i = 0 ; i < x-1 ; i++) {
+			            	document.getElementById("cont").deleteRow(i+1);	
+			            }
+			            for(var i = 0 ; i < result.length ; i++) {
+			            	var tr = document.createElement('tr');
+						    var td = tr.appendChild(document.createElement('td'));
+						    td.innerHTML = i+1;
+						    var td = tr.appendChild(document.createElement('td'));
+						    td.innerHTML = result[i]['placeName'];
+						    disp.appendChild(tr);
+		            	}}}
 	            }
-	        });
+	        );
 	    })
 	    $("#removeitem").click(function(){
 	    	var value = $("#list_item2").val();
