@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Sign in</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <style>
+        body {
+            margin : 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fc00ff;
+            background: -webkit-linear-gradient(50deg, #00dbde, #fc00ff);
+            background: linear-gradient(50deg, #00dbde, #fc00ff);
+            overflow: hidden;
+            font-family: 'Muli', sans-serif;
+        }
+        .spec {
+            border-radius: 10px;
+            height: 600px;
+            width : 400px;
+            position: absolute;
+        }
+        .one {
+            background: white;
+            opacity: 0.2;
+            transform: rotate(150deg);
+            left: -350px;
+            top : -250px;
+        }
+        .two {
+            transform: rotate(60deg);
+            bottom: -350px;
+            left: 250px;
+            background: white;
+            opacity: 0.2;
+        }
+        .three {
+            transform: rotate(150deg);
+            right : -300px;
+            top : 80px;
+            background: black;
+            opacity: 0.2;
+        }
+        .main {
+            text-align : center;
+            height: 60vh;
+            width: 25vw;
+            margin : auto auto;
+            background-color: white;
+            top: 15vh;
+            position: relative;
+            padding : 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11);
+        }
+        .username {
+            margin : 60px 0 40px 0;
+        }
+        .password {
+            margin : 40px 0 80px 0;
+        }
+        button {
+            height: 50px;
+            width: 10vw;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
+            text-align: center;
+            background-color: #bd59d7;
+            color : white;
+        }
+        input {
+            height: 50px;
+            width: 20vw;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 30px 0 rgba(0,0,0,0.11);
+            text-align: center;
+            font-size: 15px;
+            color : #4c2a52;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active  {
+            -webkit-box-shadow: 0 0 0 30px white inset;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus,
+        button:focus {
+            outline: none;
+        }
+        button, button:focus {
+            outline: none;
+            border: 0;
+            cursor: pointer;
+
+        }
+        ::placeholder{
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            color : #4c2a52;
+            font-family: 'Muli', sans-serif;
+        }
+        h2 {
+            color: #4c2a52;
+        }
+    </style>
+</head>
+<body>
+    <div class="spec one " >
+
+    </div>
+    <div class="spec two">
+
+    </div>
+    <div class="spec three" >
+
+    </div>
+    <div class="main">
+        <h2>Sign In</h2>
+        <form action="/login" method="post">
+            <div class="username">
+                <input type="text" name="username" placeholder="username" >
+            </div>
+            <div class="password">
+                <input type="password" name="password" placeholder="password">
+            </div>
+            <div>
+                <button type="submit">SIGN IN</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
