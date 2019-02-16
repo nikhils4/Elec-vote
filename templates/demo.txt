@@ -1,144 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OAuth</title>
+    <title>ECILogin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--    <script src="jquery.geocomplete.js"></script>     -->
+<!--    <script src="jquery.geocomplete.js"></script>-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=initMap" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!--    <script src="jquery.geocomplete.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <style type="text/css">
-    button {
-        width: 15vw;
-        height: 15vh;
-        text-align: center;
-    }
+   <style type="text/css">
     .btn-ov {
         text-align: center;
     }
-    .card {
-        margin: 0px;
+
+    #form2 {
+      display: none;
     }
-    .card-body {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    .loginError {
+      border: 1px solid red;
+      padding: 10px;
+      border-radius: 10px;
     }
-/*    #error {
-      text-align: center;
-      font-size: 1.5em;
-      margin-bottom: 5vh;
+
+    .error-head {
+      font-size: 1.3em;
+    }
+
+    #warning-img {
       color: red;
-      padding: 2px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-*/
-    .material-icons {
-        color: black;
+
+    .inner-content {
+      margin-bottom: 5px;
     }
-    #spinner{
-      left:50%;
-      right: 50%;
-      transform: translate(-50%,-50%);
-      z-index: 2;
-      margin : auto auto;
-      width: 20vw;
-      height: 20vw;
-      position: absolute;
-    }
-</style>
+   </style>
+
+<!--    <script type="text/javascript">
     
+    $(document).ready(function(){
+  $("#btn1").click(function(){
+    $("#form1").hide();
+    $("#form2").show();
+  });
+ })
+
+
+   </script>
+ -->
 
 </head>
-
 <body>
-        <div class="card">
-          <div class="card-header info-color white-text text-center py-4">
-            <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
-        </div>
+    <div class="card">
+            <div class="card-header info-color white-text text-center py-4">
+              <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
+          </div>
 
-    <div class="card-body px-lg-5">
+        <div class="card-body px-lg-5">
 
+            <div class="container">
+            <div class="row">
+              <form class="col s12" id="form1" action="{{url_for('ECILogin')}}" method="POST" oninvalid="false">
+                  <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_box</i>
+                      <input id="icon_prefix" type="text" class="validate" name="username" style="border-color: black;" required >
+                      <label for="icon_prefix">Login Id</label>
+                      </div>
+                  </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">person_pin</i>
+                     <input id="last_name" type="password" name="password" class="validate" style="border-color: black;">
+                     <label for="password">Password</label>
+                      </div>
+                  </div>
+                  <div class="loginError">
+                    <div class="error-head"><i id="warning-img" class="material-icons">error</i>
+                        <div class="inner-content">Oops! There seems to be a problem</div></div>
+                              {{error}}
+                  </div>
+                  <div class="btn-ov">
+                        <button id="btn1" class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
+                            <i class="material-icons right" style="color: white;">send</i>
+                        </button>
+                  </div>
 
-    <div class="container">
-      <div class="row">
-        
-        <form class="col s12" action="{{url_for('generate')}}" method="POST" oninvalid="false">
-          <div class="row">
-            <div class="input-field col s6">
-              <i class="material-icons prefix">account_box</i>
-              <input id="icon_prefix" type="text" class="validate" name="name" style="border-color: black;" >
-              <label for="icon_prefix">Full Name</label>
-                </div>
-            </div>
+              </form>
 
-             <div class="row">
-                <div class="input-field col s6">
-                     <i class="material-icons prefix">person_pin</i>
-                   <input id="last_name" type="number" data-length="10" name="uid" class="validate" style="border-color: black;">
-                   <label for="last_name">Uid</label>
-                </div>
-             </div>
-
-
-              <div class="row">
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">date_range</i>
-                  <input id="name" type="date" name="dob" class="validate" style="border-color: black;">
-                  <label for="name">Date of Birth</label>
-                </div>
-              </div>
-
-
-              <div class="row">
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">place</i>
-                  <input id="searchTextField" type="text" name="place" class="validate" size="50" autocomplete="on" style="border-color: black;">
-                  <label for="searchTextField"></label>
-                </div>
-              </div>
-
-            <div id="error">
-                    <i><b>{{error}}</b></i>
-                </div>
-                <div class="btn-ov">
-                    <button class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
-                        <i class="material-icons right" style="color: white;">send</i>
-                    </button>
-                </div>
-
-        </form>
+              <!-- <form class="col s12" id="form2" action="{{url_for('generate')}}" method="POST" oninvalid="false">
+                  <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_box</i>
+                      <input id="icon_prefix" type="text" class="validate" name="name" style="border-color: black;" >
+                      <label for="icon_prefix">OTP</label>
+                      </div>
+                  </div>
+                  <div class="btn-ov">
+                        <button class="btn waves-effect waves-light" type="submit" name="action"><b>Submit</b>
+                            <i class="material-icons right" style="color: white;">send</i>
+                          </button>
+                    </div>
+                  </form> -->
+          </div>
+      </div>
+    </div>
   </div>
-</div>
 
-</div>
-</div>
-<div id="">
-<img id="spinner" src="../static/images/spinner.gif">
-</div>
-<!--<script type="text/javascript">
-function initialize() {
-  var input = document.getElementById('searchTextField');
-  var options = {
-    types: ['geocode']
-  };
-  var autocomplete = new google.maps.places.Autocomplete(input, options);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>-->
 
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $("#spinner").hide();
-        $("#submit").click(function(){
-          $(".card").hide();
-          $("#spinner").show();
-        });
-      })
-    </script>
+
 </body>
 </html>
