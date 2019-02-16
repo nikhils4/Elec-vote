@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	
 	<style type="text/css">
-
 		.grid-container {
 			display: grid;
 			grid-column-gap: 20px;
@@ -16,42 +15,51 @@
 			padding: 10px; 
 			border: 1px solid;
 		}
-
 		.grid-item {
-			/*border: 1px solid blue;*/
 			padding: 10px;
 			font-size: 1.5em;
 			text-align: center;
 			border: 1px solid;
 		}
-
 		.img-col {
 			width: 4vw;
 			height: 4vw;
 		}
-        	</style>
-
-	<script type="text/javascript">
-		 	
-		function confirm1() {
-			alert("Are you sure you want to vote for first party");
-		}
-
-		function confirm2() {
-			alert("Are you sure you want to vote for second party");
-		}
-
-		function confirm3() {
-			alert("Are you sure you want to vote for third party");
-		}
-
-	</script>
+        #popup {
+             opacity: 1 !important;
+        	 width: 300px;
+             border-radius: 10px; 
+             top:50%;
+             left:50%;
+             transform: translate(-50%,-50%);
+             height: 150px;
+             display: none;
+             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+             position: absolute;
+             z-index: 20;
+             background-color: #f2f3f4;
+         }
+         .confirmbtn{
+            /*padding: 100px;*/
+            height: 50px;
+            text-align: center;
+            width: 150px;
+            line-height: 50px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+         }
+         .confirmbtn:hover{
+                background-color: yellow;
+         }
+</style>
 
 </head>
-<body>
-            <a href="ECIup.html">check</a>
+<body onload="disableBack()">
 	    
         <div class="card">
+
             <div class="card-header info-color white-text text-center py-4">
                 <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
             </div>
@@ -68,9 +76,9 @@
             	</div>
 
             	<div class="grid-item">
-            		<button type="button" class="button-default link" onclick="confirm1()">VOTE</button>
+            		<button type="button" class="confirm" class="button-default link">VOTE</button>
             	</div>
-                <div></div>
+
             	<!-- 2nd ROW -->
             	<div class="grid-item">
             		<img class="img-col" src="../static/images/congress.png">
@@ -97,13 +105,42 @@
             		<button class="button-default link" onclick="confirm3()">VOTE</button>
             	</div>
 
+            </div>
         </div>
 
-            <script>
-                window.location.hash="no-back-button";
-                window.location.hash="Again-No-back-button";
-                window.onhashchange=function(){window.location.hash="no-back-button";}
-            </script> 
+                <div id="popup"><h3 style="text-align: center;">Are you sure ?</h3>
+                    <div style="display: flex;padding-top: 59.7px">    
+                        <div id="cancel" class="confirmbtn"><b>Cancel</b></div>
+                        <div id="ok" class="confirmbtn"><b>Ok</b></div>
+                    </div>    
+                </div>
 
-</body>
+
+            <script type="text/javascript">
+                function preventBack() {
+                    window.history.forward();
+                }
+                setTimeout("preventBack()", 0);
+                window.onunload() = function() {
+                    null;
+                };
+                $(document).ready(function(){
+                            $(".confirm").click(function () {
+                                $("#popup").show("slow");
+                                $(".card").css('opacity','0.2');
+                                $(".card *").attr("disabled", "disabled").off('click');
+
+                            })
+                            $("#cancel").click(function(){
+                                $("#popup").hide("slow");
+                                $(".card").css('opacity','1');
+                                // $(".card *").attr("enable", "enable").on('click');
+                                // $('.card').css('pointer-events', 'none');
+                                document.getElementByClass('card').style.pointerEvents = 'auto';
+
+
+                            })
+                        });
+            </script>
+
 </html>
