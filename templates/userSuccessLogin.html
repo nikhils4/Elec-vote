@@ -1,109 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>EVM</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
-	<style type="text/css">
-		
-		.grid-container {
-			display: grid;
-			grid-column-gap: 20px;
-			grid-template-columns: auto auto auto;
-			padding: 10px; 
-			border: 1px solid;
-		}
+    <meta charset="UTF-8">
+    <title>Login | Sign in</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <style>
+        body {
+            margin : 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fc00ff;
+            background: -webkit-linear-gradient(50deg, #00dbde, #fc00ff);
+            background: linear-gradient(50deg, #00dbde, #fc00ff);
+            overflow: hidden;
+            font-family: 'Muli', sans-serif;
+        }
+        .spec {
+            border-radius: 10px;
+            height: 600px;
+            width : 400px;
+            position: absolute;
+        }
+        .one {
+            background: white;
+            opacity: 0.2;
+            transform: rotate(150deg);
+            left: -350px;
+            top : -250px;
+        }
+        .two {
+            transform: rotate(60deg);
+            bottom: -350px;
+            left: 250px;
+            background: white;
+            opacity: 0.2;
+        }
+        .three {
+            transform: rotate(150deg);
+            right : -300px;
+            top : 80px;
+            background: black;
+            opacity: 0.2;
+        }
+        .main {
+            text-align : center;
+            height: 40vh;
+            width: 25vw;
+            margin : auto auto;
+            background-color: white;
+            top: 15vh;
+            position: relative;
+            padding : 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11);
+        }
+        .username {
+            margin : 60px 0 40px 0;
+        }
+        .password {
+            margin : 40px 0 80px 0;
+        }
+        button {
+            height: 50px;
+            width: 10vw;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
+            text-align: center;
+            background-color: #bd59d7;
+            color : white;
+        }
+        input {
+            height: 50px;
+            width: 20vw;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 30px 0 rgba(0,0,0,0.11);
+            text-align: center;
+            font-size: 15px;
+            color : #4c2a52;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active  {
+            -webkit-box-shadow: 0 0 0 30px white inset;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus,
+        button:focus {
+            outline: none;
+        }
+        button, button:focus {
+            outline: none;
+            border: 0;
+            cursor: pointer;
 
-		.grid-item {
-			/*border: 1px solid blue;*/
-			padding: 10px;
-			font-size: 1.5em;
-			text-align: center;
-			border: 1px solid;
-		}
-
-		.img-col {
-			width: 4vw;
-			height: 4vw;
-		}
-        	</style>
-
-	<script type="text/javascript">
-		 	
-		function confirm1() {
-			alert("Are you sure you want to vote for first party");
-		}
-
-		function confirm2() {
-			alert("Are you sure you want to vote for second party");
-		}
-
-		function confirm3() {
-			alert("Are you sure you want to vote for third party");
-		}
-
-	</script>
-
+        }
+        ::placeholder{
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+            color : #4c2a52;
+            font-family: 'Muli', sans-serif;
+        }
+        h2 {
+            color: #4c2a52;
+        }
+    </style>
 </head>
 <body>
-            <a href="ECIup.html">check</a>
-	    
-        <div class="card">
-            <div class="card-header info-color white-text text-center py-4">
-                <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
+    <div class="spec one " >
+
+    </div>
+    <div class="spec two">
+
+    </div>
+    <div class="spec three" >
+
+    </div>
+    <div class="main">
+        <h2>OTP</h2>
+        <form action="{{url_for('otpVerify')}}" method="POST" oninvalid="false">
+            
+            <div class="password">
+                <input type="password" name="password" placeholder="password">
             </div>
-
-            <div class="grid-container">
-            	
-                <!-- 1SR ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/bhajpa.jpg">
-            	</div>
-
-            	<div class="grid-item">
-            		<div class="content"><b>BJP</b></div>
-            	</div>
-
-            	<div class="grid-item">
-            		<button type="button" class="button-default link" onclick="confirm1()">VOTE</button>
-            	</div>
-                <div></div>
-            	<!-- 2nd ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/congress.png">
-            	</div>
-
-            	<div class="grid-item">
-            		<div class="content"><b>Congress</b></div>
-            	</div>
-
-            	<div class="grid-item">
-            		<button class="button-default link" onclick="confirm2()">VOTE</button>
-            	</div>
-
-            	<!-- 3rd ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/CPI.png">
-            	</div>
-
-            	<div class="grid-item">
-            		<div class="content"><b>CPI</b></div>
-            	</div>
-
-            	<div class="grid-item">
-            		<button class="button-default link" onclick="confirm3()">VOTE</button>
-            	</div>
-
-        </div>
-
-            <script>
-                window.location.hash="no-back-button";
-                window.location.hash="Again-No-back-button";
-                window.onhashchange=function(){window.location.hash="no-back-button";}
-            </script> 
-
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
