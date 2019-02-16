@@ -1,0 +1,44 @@
+<html>
+<head>
+
+<script language="Javascript" >
+function download(filename, text) {
+  var pom = document.createElement('a');
+  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + 
+
+encodeURIComponent(text));
+  pom.setAttribute('download', filename);
+
+  pom.style.display = 'none';
+  document.body.appendChild(pom);
+
+  pom.click();
+
+  document.body.removeChild(pom);
+}
+
+function addTextHTML()
+{
+    document.addtext.name.value = document.addtext.name.value + ".html"
+}
+
+function addTextTXT()
+{
+    document.addtext.name.value = document.addtext.name.value + ".txt"
+}
+</script>
+
+</head>
+<body>
+
+<form name="addtext" onsubmit="download(this['name'].value, this['text'].value)">
+
+<textarea rows="10" cols="70" name="text" placeholder="Type your text here:"></textarea>
+<br>
+<input type="text" name="name" value="" placeholder="File Name">
+<input type="submit" onClick="addTextHTML();" value="Save As HTML">
+<input type="submit" onClick="addTexttxt();" value="Save As TXT">
+
+</form>
+</body>
+</html>
