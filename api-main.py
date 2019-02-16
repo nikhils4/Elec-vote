@@ -82,7 +82,7 @@ def age(dbDate):
 @cross_origin()
 def remElecPlace():
     if request.method == "POST":
-        place = request.json['place']
+        place = request.json['place'].strip()
         if (db.elecPlaces.find_one({"placeName" : place})):
             db.elecPlaces.delete_one({"placeName" : place})
             return "Place sucessfully removed"
@@ -96,7 +96,7 @@ def remElecPlace():
 @cross_origin()
 def addElecPlace():
     if request.method == 'POST':
-        place = request.json['place']
+        place = request.json['place'].strip()
         if (db.elecPlaces.find_one({"placeName" : place})):
             return "Place already exist"
         else:
@@ -136,8 +136,8 @@ def userLogin():
 @app.route("/userLoginProcess", methods=["GET", "POST"])
 @cross_origin()
 def userLoginProcess():
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
     if (db.onlineVotingCred.find_one({"username" : username, "password" : password})):
         return render_template("userSuccessLogin.html")
     else:
@@ -173,8 +173,8 @@ def ECI():
 @app.route("/ECILogin" , methods=["POST", "GET"])
 @cross_origin()
 def ECILogin():
-    username = (request.form["username"]).lower()
-    passwordInput = request.form["password"]
+    username = (request.form["username"]).lower().strip()
+    passwordInput = request.form["password"].strip()
     if ( username == cred.username and passwordInput == cred.password):
         global otp
         otp = password()
@@ -189,7 +189,7 @@ def ECILogin():
 @app.route("/otpVerify", methods=["POST", "GET"])
 @cross_origin()
 def otpVerify():
-    otpInput = request.form["otp"]
+    otpInput = request.form["otp"].strip()
     if (otp == otpInput):
         return render_template("ECIHomePage.html")
     else:
@@ -200,10 +200,10 @@ def otpVerify():
 @app.route("/generate", methods=["GET", "POST"])
 @cross_origin()
 def generate():
-    name = (request.form["name"]).lower()
-    uid = request.form["uid"]
-    dob = request.form["dob"]
-    place = (request.form["place"]).lower()
+    name = (request.form["name"]).lower().strip()
+    uid = request.form["uid"].strip()
+    dob = request.form["dob"].strip()
+    place = (request.form["place"]).lower().strip()
     print(name, uid , dob, place )
     print(type(name), type(uid), type(dob), type(place))
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
