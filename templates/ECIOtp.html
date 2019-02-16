@@ -54,10 +54,10 @@
             border-radius: 15px;
             box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11);
         }
-        .username {
-            margin : 60px 0 40px 0;
+        .top {
+            margin : 50px 0 40px 0;
         }
-        .password {
+        .second {
             margin : 40px 0 80px 0;
         }
         button {
@@ -111,7 +111,8 @@
     </style>
 </head>
 <body>
-    <div class="spec one " >
+    
+<div class="spec one " >
 
     </div>
     <div class="spec two">
@@ -120,18 +121,22 @@
     <div class="spec three" >
 
     </div>
+
+
+
     <div class="main">
         <h2>OTP</h2>
         <form action="{{url_for('otpVerify')}}" method="POST" oninvalid="false">
 
-            <div class="username">
+            <div class="top">
                 <input type="text" name="otp" required placeholder="Enter OTP">
             </div>
             
             <div>
-                <button type="submit" name="action"><b>SUBMIT</b></button>
+                <button type="second" name="action"><b>SUBMIT</b></button>
             </div>
         </form>
     </div>
+
 </body>
 </html>

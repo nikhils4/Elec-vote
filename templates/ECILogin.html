@@ -54,10 +54,10 @@
             border-radius: 15px;
             box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11);
         }
-        .username {
+        .top {
             margin : 60px 0 40px 0;
         }
-        .password {
+        .second {
             margin : 40px 0 80px 0;
         }
         button {
@@ -123,15 +123,25 @@
     <div class="main">
         <h2>Sign In</h2>
         <form action="{{url_for('ECILogin')}}" method="POST" oninvalid="false">
-            <div class="username">
-                <input type="text" name="username" placeholder="username" >
+
+            <div class="top">
+                <input type="text" name="username" placeholder="username" required>
             </div>
-            <div class="password">
+
+            <div class="second">
                 <input type="password" name="password" placeholder="password">
             </div>
+
             <div>
-                <button type="submit">SIGN IN</button>
+                <button type="submit" name="action"><b>SUBMIT</b></button>
             </div>
+
+            <!-- <div class="second">
+                    <div class="error-head"><i id="warning-img" class="material-icons">error</i>
+                        <div class="inner-content">Oops! There seems to be a problem</div></div>
+                              {{error}}
+            </div>
+ -->
         </form>
     </div>
 </body>
