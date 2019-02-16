@@ -106,7 +106,17 @@ background-attachment: fixed; background-repeat: no-repeat; width: 100vw; height
         </div>
     </div>
 
-
+    <script>
+        /* break back button */                                                                        
+        window.onload=function(){                                                                      
+          var i=0; var previous_hash = window.location.hash;                                           
+          var x = setInterval(function(){                                                              
+            i++; window.location.hash = "/noop/" + i;                                                  
+            if (i==100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000){clearInterval(x);                                                               
+              window.location.hash = previous_hash;}                                                   
+          },10);
+        }
+    </script>
 
 </body>
 </html>
