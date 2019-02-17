@@ -44,7 +44,7 @@
         }
         .main {
             text-align : center;
-            height: 70vh;
+            height: 75vh;
             width: 25vw;
             margin : auto auto;
             background-color: white;
@@ -122,10 +122,11 @@
     </div>
     <div class="main">
         <h2>Sign In</h2>
+        {{error}}
         <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
             <div class="top">
-                <input type="text" name="name" placeholder="username" >
+                <input type="text" name="name" placeholder="name" >
             </div>
 
             <div class="second">

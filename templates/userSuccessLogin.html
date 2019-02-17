@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<style type="text/css">
 		.grid-container {
 			display: grid;
@@ -115,16 +115,18 @@
                     </div>    
                 </div>
 
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
             <script type="text/javascript">
-                function preventBack() {
-                    window.history.forward();
-                }
-                setTimeout("preventBack()", 0);
-                window.onunload() = function() {
-                    null;
-                };
+
                 $(document).ready(function(){
+
+
+                	 // var id = Cookies.get("persis_ie")
+
+						// send id as part of ajax reuest whenever assigning any ajax request
+
+
                             $(".confirm").click(function () {
                                 $("#popup").show("slow");
                                 $(".card").css('opacity','0.2');

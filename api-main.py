@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, make_response
 from pymongo import MongoClient
 import random
 import smtplib
@@ -12,15 +12,14 @@ from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 cors = CORS(app)
+app.secret_key = "1iu2ihoi!@#$%^&*fsdhjfb"
 client = MongoClient("localhost", 27017)
 
 db = client["elec-vote"]
+session = db["session"]
 citizens = db["citizens"]
 onlineVotingCred = db["onlineVotingCred"]
 elecPlaces = db["elecPlaces"]
-
-#list where you can specifically add the places of election
-ECIplaces = ["mumbai",  "sikar", "lucknow", "palli"]
 
 
 #online voting cred of users registration and accordingly message generation
@@ -65,6 +64,16 @@ def password():
     password = "".join(password)
     return password
 
+#token generation
+
+def token():
+    key = "!@#$&*1234567890qwer!@#$%^&*()XFGHJKIUTYFUGCHVHYU&^%$%EYRUT&^%&$E^RTSX$%*()**^&%^$%$O*(&T*FYUVJHKBNIJP(U)*(&IYVBIPU*&^%EDHCVHGU&^ESXCJVKBJHYtyuiopasd12345QWERTYUIOPASDFGHJKLZXCVBNM67890fghjklzxcvbnm1234567890!@#$&*"
+    key = list(key)
+    random.shuffle(key)
+    token = key[0:32]
+    token = "".join(token)
+    return token
+
 #age calculation of the user
 
 def age(dbDate):
@@ -81,13 +90,20 @@ def age(dbDate):
 @app.route("/remElecPlace", methods=["POST", "GET"])
 @cross_origin()
 def remElecPlace():
-    if request.method == "POST":
-        place = request.json['place'].strip()
-        if (db.elecPlaces.find_one({"placeName" : place})):
-            db.elecPlaces.delete_one({"placeName" : place})
-            return "Place sucessfully removed"
-        else:
-            return "Such place does not exist in the database"
+    try:
+        persis_id = request.json['persis_id']
+        if (db.session.find_one({'persis_id': persis_id})):
+            if request.method == "POST":
+                place = request.json['place'].strip()
+                if (db.elecPlaces.find_one({"placeName" : place})):
+                    db.elecPlaces.delete_one({"placeName" : place})
+                    return "Place sucessfully removed"
+                else:
+                    return "Such place does not exist in the database"
+            else:
+                return "Try logging in first"
+    except KeyError:
+        return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 
 #adding place to database related to ECI Admin
@@ -95,65 +111,104 @@ def remElecPlace():
 @app.route("/addElecPlace", methods=["GET", "POST"])
 @cross_origin()
 def addElecPlace():
-    if request.method == 'POST':
-        place = request.json['place'].strip()
-        if (db.elecPlaces.find_one({"placeName" : place})):
-            return "Place already exist"
+    try:
+        persis_id = request.json['persis_id']
+        if(db.session.find_one({'persis_id' : persis_id})):
+            if request.method == 'POST':
+                place = request.json['place'].strip()
+                if (len(place) == 0):
+                    return "You cannot add empty places to the database"
+                else:
+                    if (db.elecPlaces.find_one({"placeName" : place})):
+                        return "Place already exist"
+                    else:
+                        db.elecPlaces.insert_one({"placeName" : place})
+                        return "Place Added Successfully"
         else:
-            db.elecPlaces.insert_one({"placeName" : place})
-            return "Place Added Successfully"
+            return "Try logging in first"
+    except KeyError:
+        return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 #route to show all the places from the db
 
 @app.route("/showElecPlace", methods=["POST", "GET"])
 @cross_origin()
 def showElecPlace():
-    if request.method == "GET":
-        places = list(db.elecPlaces.find({}, {"_id" : 0}));
-        #print(j[0]['placeName']) this is how to access the data
-        trans = jsonify(places)
-        return trans
+    try:
+        persis_id = request.json['persis_id']
+        if (db.session.find_one({'persis_id': persis_id})):
+            if request.method == "GET":
+                places = list(db.elecPlaces.find({}, {"_id" : 0}));
+                #print(j[0]['placeName']) this is how to access the data
+                trans = jsonify(places)
+                return trans
+        else:
+            return "Try logging in first"
+    except KeyError:
+        return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 #to remove all the
 
 @app.route("/clearPlace", methods=["POST", "GET"])
 @cross_origin()
 def clearPlace():
-    if request.method == "POST":
-        db.elecPlaces.remove()
-        return "All places are removed successfully"
+    try:
+        persis_id = request.json['persis_id']
+        if (db.session.find_one({'persis_id': persis_id})):
+            if request.method == "POST":
+                db.elecPlaces.remove()
+                return "All places are removed successfully"
+        else:
+            return "Try logging in first"
+    except KeyError:
+        return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 
-#route for user login page rendering
+#route for user login page rendering and processing
 
-@app.route("/userLogin")
+@app.route("/userLogin", methods=["GET", "POST"])
 @cross_origin()
 def userLogin():
-    return render_template("userLoginhtml")
+    if request.method == "GET":
+        return render_template("userLogin.html")
+    if request.method == "POST":
+        username = request.form["username"].strip()
+        password = request.form["password"].strip()
+        if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+            resp = make_response(render_template('userSuccessLogin.html'))
+            cookie = token()
+            resp.set_cookie('persis_ie', cookie, max_age=6000000)
+            db.session.insert_one({"persis_id" : cookie, "username" : username})
+            return resp
+        else:
+            error = "The login credentials entered by you are not valid"
+            return render_template("userLogin.html", error=error)
 
-#route for processing of data submiotted by user
 
-@app.route("/userLoginProcess", methods=["GET", "POST"])
-@cross_origin()
-def userLoginProcess():
-    username = request.form["username"].strip()
-    password = request.form["password"].strip()
-    if (db.onlineVotingCred.find_one({"username" : username, "password" : password})):
-        return render_template("userSuccessLogin.html")
-    else:
-        error = "The login credentials entered by you are not valid"
-        return render_template("userLogin.html", error=error)
-
-
-#default route for the password generation for user
-
+#default route for vote now and password generation button
 
 @app.route("/")
 @cross_origin()
 def main():
-    return render_template("main.html")
+    return render_template("home.html")
+
+#redirect route for userlogin directed from home button
+
+@app.route("/homeLogin")
+@cross_origin()
+def login():
+    return redirect(url_for("userLogin"))
+
+
+#redirect route for password generation directed from home button
+
+@app.route("/homeGen")
+@cross_origin()
+def gen():
+    return redirect(url_for("generate"))
 
 #rendering of the main file when user leaves all the input feilds blank
+
 
 @app.route("/blank")
 @cross_origin()
@@ -161,57 +216,106 @@ def blank():
     error = "You cannot leave input fields empty"
     return render_template("main.html", error=error)
 
-#login portal for ECI Admin
 
-@app.route("/ECI")
-@cross_origin()
-def ECI():
-    return render_template("ECILogin.html")
-
-#login credentials processing for ECI Admin
+#login credentials page rendering and processing for ECI Admin
 
 @app.route("/ECILogin" , methods=["POST", "GET"])
 @cross_origin()
 def ECILogin():
-    username = (request.form["username"]).lower().strip()
-    passwordInput = request.form["password"].strip()
-    if ( username == cred.username and passwordInput == cred.password):
-        global otp
-        otp = password()
-        emailGen(cred.ECIEmail,otp)
-        return render_template("ECIOtp.html")
-    else:
-        error = "Username and password provided by you is not correct"
-        return render_template("ECILogin.html", error=error)
+    if request.method == 'POST':
+        username = (request.form["username"]).lower()
+        if (db.session.find_one({'username' : username })):
+            error = "One user is already logged in using your credentials"
+            return render_template("ECILogin.html", error=error)
+        else:
+            username = (request.form["username"]).lower().strip()
+            passwordInput = request.form["password"].strip()
+            if ( username == cred.username and passwordInput == cred.password):
+                global otp
+                otp = password()
+                emailGen(cred.ECIEmail,otp)
+                resp = make_response(render_template('ECIOtp.html'))
+                resp.set_cookie('username' , username, max_age=60000)
+                return resp
+            else:
+                error = "Username and password provided by you is not correct"
+                return render_template("ECILogin.html", error=error)
+    if request.method == "GET":
+        return render_template("ECILogin.html")
+
 
 #otp verification route for ECI Admin login
 
 @app.route("/otpVerify", methods=["POST", "GET"])
 @cross_origin()
 def otpVerify():
-    otpInput = request.form["otp"].strip()
-    if (otp == otpInput):
-        return render_template("ECIHomePage.html")
-    else:
-        return redirect(url_for("ECI"))
+    # session.pop("user", None)
+    if request.method == "POST":
+        otpInput = request.form["otp"]
+        if (type(otpInput) == None):
+            return redirect(url_for("ECILogin"))
+        if (otp == otpInput):
+            username = request.cookies.get('username')
+            resp = make_response(render_template('ECIHomePage.html'))
+            cookie = token()
+            resp.set_cookie('persis_id', cookie, max_age=600)
+            if (db.session.find_one({"username" : username})):
+                data = db.session.find_one({"username" : username})
+                cookie = data["persis_id"]
+            else:
+                db.session.insert_one({"persis_id": cookie, "username": username})
+            return resp
+        # response = make_response()
+        # for i, j in zip(list_1, list_2):
+        #     url = 'http://www.website.com/{}'.format(i)
+        #     payload = 'encoded{}'.format(j)
+        #     headers = {...}
+        #     request = requests.request("POST", url, data=payload, headers=headers)
+        #     for key, value in request.cookies.items():
+        #         response.set_cookie(key, value)
+        # return response
+        else:
+            if len(otpInput) == 0:
+                error = "You cannot leave otp field blank, re-enter credentials to log in"
+                return render_template("ECIOtp.html", error=error)
+            else:
+                error = "Enter correct OTP"
+                return render_template("ECIOtp.html", error=error)
+    if (request.method == "GET"):
+        return redirect(url_for("ECILogin"))
+
+
+@app.route("/logout", methods=["GET", "POST"])
+@cross_origin()
+def logout():
+    if request.method == "POST":
+        id = request.cookies.get("persis_id")
+        db.session.delete_many({"persis_id" : id})
+        resp = make_response(render_template("logout.html"))
+        resp.set_cookie('persis_id', '', expires=0)
+        return "You are sucessfully logged out"
+
 
 #processing route for generating password for user
 
 @app.route("/generate", methods=["GET", "POST"])
 @cross_origin()
 def generate():
-    name = (request.form["name"]).lower().strip()
-    uid = request.form["uid"].strip()
-    dob = request.form["dob"].strip()
-    place = (request.form["place"]).lower().strip()
-    print(name, uid , dob, place )
-    print(type(name), type(uid), type(dob), type(place))
+    name = (request.form["name"]).lower()
+    uid = request.form["uid"]
+    dob = request.form["dob"]
+    place = request.form["place"]
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
     if (len(name) == 0 or len(str(uid)) == 0 or len(dob) == 0 or len(place) == 0):
         error = "You cannot leave input fields blank"
         return redirect(url_for('blank'))
     else:
-        uid = int(request.form["uid"])
+        name = (request.form["name"]).strip().lower()
+        uid = int(request.form["uid"].strip())
+        dob = request.form["dob"].strip()
+        place = (request.form["place"]).strip()
+        print(name, uid, dob, place)
+        print(type(name), type(uid), type(dob), type(place))
         if( db.citizens.find_one({"name": name, "vid": uid, "dob" : dob, "pob" : place}) ):
             #accessing the particular persons data
             reqData = db.citizens.find_one({"name": name,"vid": uid, "dob" : dob, "pob" : place})
@@ -221,7 +325,7 @@ def generate():
             ageNow = age(dbDate)
             if (ageNow >= 18 ):
                 electPlace = reqData["pob"]
-                if electPlace in ECIplaces:
+                if (db.elecPlaces.find_one({"placeName" : electPlace})):
                     #sending email procedure
                     to = reqData["email"]
                     print(to)
@@ -230,15 +334,28 @@ def generate():
                     return render_template("main.html", error=error)
                 else:
                     error = "Elections are not happening at your place!"
+                    print(error)
                     return render_template("main.html", error=error)
             else:
                 error = "You are not eligible to vote, you should be atleast of 18 years in order to vote."
+                print(error)
                 return render_template("main.html", error=error)
 
         else:
             error = "The details given by you do not match our database"
+            print(error)
             return render_template("main.html", error=error)
     # return render_template("success.html")
+
+@app.errorhandler(404)
+@cross_origin()
+def pageNotFound(e):
+    return render_template("error404.html"), 404
+
+@app.errorhandler(500)
+@cross_origin()
+def internalServerError(e):
+    return render_template("error500.html"), 500
 
 
 app.run(debug=True)

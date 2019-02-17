@@ -125,6 +125,7 @@
 
 
     <div class="main">
+		{{error}}
         <h2>OTP</h2>
         <form action="{{url_for('otpVerify')}}" method="POST" oninvalid="false">
 
@@ -137,6 +138,12 @@
             </div>
         </form>
     </div>
-
+<input id="alwaysFetch" type="hidden" />
+<script>
+    setTimeout(function () {
+        var el = document.getElementById('alwaysFetch');
+        el.value = el.value ? location.reload() : true;
+    }, 0);
+</script>
 </body>
 </html>
