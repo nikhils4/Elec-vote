@@ -8,17 +8,23 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    	<link rel="stylesheet" type="text/css" href="../static/css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/set1.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/set1.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
 	<title></title>
-	<style type="text/css">
 
+	<style type="text/css">
+	body{
+		background: #000428;
+		background: linear-gradient(to right, #004e92, #000428);
+
+	}
 	.header {
 		width:100%;
 		height: 8vh;
-/*		background-color: #fff;*/
-		background-color: #d18a70;
+		background: #0f0c29;
+		background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+
 	}
 		
 	#list_item1, #list_item2 {
@@ -26,20 +32,6 @@
 		height: 6vh;
 	}
 
-	.main-body {
-		margin: 2vw;
-		display: grid;
-		grid-template-columns: auto auto;
-	}
-
-	.grid-item {
-		text-align: center;
-	}
-
-	.mid-content {
-		margin: 5vw;
-		margin-top: 3vw;
-	}
 
 	#cont {
 	  margin: 2vw;
@@ -55,7 +47,7 @@
 	  
 	}
 
-	#cont tr:nth-child(even){background-color: #f2f2f2;}
+	#cont tr:nth-child(even){background-color: #f2eaea;}
 
 	#cont tr:hover {background-color: #ddd;}
 
@@ -63,35 +55,31 @@
 	  padding-top: 12px;
 	  padding-bottom: 12px;
 	  text-align: center;
-	  background-color: #d18a70;
+	  background-color: #ce7797;
 	  color: white;
 	}
 
 	button {
-            height: 50px;
+            height: 46px;
             background: transparent;
             outline: none;
-            width: 10vw;
-            border-radius: 30px;
+            width: 8vw;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
             border: none;
-            box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
+            box-shadow: 0 5px 10px 0 rgba(189,89,215,0.25);
             text-align: center;
-            background-color: #d18a70;
+            background-color: #2948ff;
             color : white;
+            margin-left: -10px;
         }
-
-    #first-img {
-    	width: 3vw;
-    	height: 3vw;
-    	margin-top: 7px;
-    	margin-left: 90vw;
+    #additem,#removeitem{
+		border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        background: rgba(0,194,162,1);
     }
-
-    #second-img {
-    	position: absolute;
-    	width: 1.3vw;
-    	height: 4vw;
-    	margin-left: 6px;
+    #removeitem{
+    	background-color: #c9404c
     }
 
     #whole {
@@ -101,32 +89,58 @@
     input {
             height: 50px;
             width: 20vw;
-            border-radius: 15px;
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
             border: none;
-            box-shadow: 0 5px 30px 0 rgba(0,0,0,0.11);
+            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.11);
             text-align: center;
             font-size: 15px;
             color : #4c2a52;
             outline: none;
         }
-    .img {
-    	margin-left: 60px;
-    }
 
-    #sel {
-			float: right;
-			background-color: black;
-			color: aqua;
-			appearance: none;
-			line-height: 20;
-			outline: 0;
-			margin-top: 20px;
-			margin-right: 10px;
-			font-size: 0.3em;
-			width: 20px;
+		#show-btn,#clear-btn{
+			border-top-left-radius: 20px;
+			border-bottom-right-radius: :20px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius :0px;
+			background: #1261ea;
+        	border:2px solid #4e54c8;
+
+		}
+		#clear-btn{
+			background: #CB356B;
+        	border:2px solid #BD3F32;
 		}
 
+		.city {
+			margin-top: 80px;
+			margin-left: 50px;
+		}
 
+		.rem-city {
+			margin-top: 30vh;
+		}
+		.buttons {
+			position: absolute;
+			margin-top: -350px;
+		}
+		.shw-btn {
+			margin-left: 60vw;
+			margin-top: -10vh;
+		}
+		.clr-btn {
+			margin-left: 80vw;
+			margin-top: -6vh;
+		}
+
+		#submit2 {
+			float: right;
+			margin-top: 1.1vh;
+			margin-right: 10px;
+			border-radius: 25px;
+			width: 20vh;
+		}
 
 	</style>
 
@@ -137,16 +151,12 @@
 
  <div class="header">
 
- 	<div class="img">
-	 	<img id="first-img" src="../static/images/user.svg">
-	 	<img id="second-img" src="../static/images/down-arrow.svg">
- 	</div>
+
 	<form name="form1" method="post" action="">
 		
+		  <label>
 
-		  <label class="logoutLblPos">
-
-		  <!-- <button id="submit2"></button> -->
+		  <button id="submit2"><b style="margin-top: -13px;">Log Out<b>&nbsp&nbsp&nbsp<img style="height: 20px;width: 20px;border-radius: 5px;" src="../static/images/logout.png"></button>
 
 		  </label>
 
@@ -156,17 +166,16 @@
 
 
 	<form>
-		<div class="main-body">
+		<div class="city">
 
-			<div class="grid-item">
+			<div>
 
 				<input type="text" id="list_item1" name = "txt1" placeholder="Enter city name" name="city" autocomplete="on">
-				
 				<button id="additem" type="button">Add City</button>
 			
 			</div>
 
-			<div class="grid-item">
+			<div class="rem-city">
 
 				<input type="text" id="list_item2" name = "txt2" placeholder="Enter city name" name="rem_city" autocomplete="on">
 				<button id="removeitem" type="button">Remove City</button>
@@ -179,17 +188,17 @@
 
 		<br><br><br><br><br>
 
-		<div class="main-body">
+		<div class="buttons">
 
-			<div class = "grid-item mid-content">
+			<div class = "shw-btn">
 
-				<button id="show-btn" onclick="result()">Show item:</button>
+				<button id="show-btn" onclick="result()">Show items</button>
 
 				<div id="output"></div>
 
 			</div>
 
-			<div class="mid-content grid-item">
+			<div class="clr-btn">
 				<button id="clear-btn" onclick="aler()">Clear All</button>
 			</div>
 		</div>
@@ -206,15 +215,10 @@
 		
 	<script type="text/javascript">
 
-//	window.location.hash="no-back-button";
-//	window.location.hash="Again-No-back-button";
-//	window.onhashchange=function(){window.location.hash="no-back-button";}
-
 var a ='6af9a9db'
-
-		// function aler() {
-		// 	alert("Are you sure?");
-		// }
+	// on press of logout
+	// get 
+	// to delete perses ie cookie 
 
 	$(document).ready(function() {
 	    $("#additem").click(function() {
