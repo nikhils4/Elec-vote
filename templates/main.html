@@ -108,6 +108,21 @@
         h2 {
             color: #4c2a52;
         }
+        .error {
+          border: 1px solid red;
+          border-radius: 10px;
+          padding-bottom: 10px;
+        }
+        .err-content {
+          text-align: left;
+          padding: 8px;
+          font-size: 1.2em;
+
+        }
+        img {
+          width: 20px;
+          height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -124,8 +139,16 @@
         <h2>Sign In</h2>
         <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
+          <div class="error">
+            <div class="err-content">
+              <img src="../static/images/warning.svg">
+              <div style="display: inline-block;">Oops! There seems to be an error</div>
+            </div>
+            {{error}}
+          </div>
+
             <div class="top">
-                <input type="text" name="name" placeholder="username" >
+                <input type="text" name="name" placeholder="username">
             </div>
 
             <div class="second">

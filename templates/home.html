@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UserSuccessLogin</title>
+	<style type="text/css">
+
+		body {
+			margin: 0px;
+		}
+
+		.user-name{
+			float: left;
+			width: 20vw;
+			height: 10vh;
+			background: #1c92d2; 
+			background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);
+			background: linear-gradient(to right, #f2fcfe, #1c92d2); 
+			margin-top: 1vh;
+	  	    box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+		}
+
+		.head {
+			position: absolute;
+			width: 50vw;
+			height: 10vh;
+			background: #1c92d2; 
+			background: -webkit-linear-gradient(to top, #f2fcfe, #1c92d2);
+			background: linear-gradient(to top, #f2fcfe, #1c92d2); 
+			margin-top: 1vh;
+			margin-left: 25%;
+			text-align: center;
+			font-size: 2em;
+	  	    box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);			
+		}
+
+		.content {
+			text-align: center;
+			line-height: 10vh;
+			font-size: 2.4em;
+		}
+
+		.logout {
+			float: right;
+			width: 20vw;
+			height: 10vh;
+			background: #1c92d2; 
+			background: -webkit-linear-gradient(to left, #f2fcfe, #1c92d2);
+			background: linear-gradient(to left, #f2fcfe, #1c92d2); 
+			margin-top: 1vh;
+	  	    box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		button {
+            height: 45px;
+            background: transparent;
+            outline: none;
+            width: 10vw;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
+            text-align: center;
+            background-color: #fff;
+            margin-left: 26%;
+            margin-top: 4%;
+            cursor: pointer;
+        }
+
+        .main-body {
+        	width:70%;
+        	height: 85vh;
+        	background: #1c92d2; 
+			background: -webkit-linear-gradient(to top, #f2fcfe, #1c92d2);
+			background: linear-gradient(to top, #f2fcfe, #1c92d2); 
+        	margin: auto auto;
+        	/*margin-top: 10vh;*/
+        	position: absolute;
+        	margin-top: 12vh;
+        	margin-left: 14.5%;
+        	box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .grid-container {
+        	display: grid;
+        	grid-template-columns: auto auto auto;
+        	grid-gap: 20px;
+        }
+
+        .grid-item {
+        	text-align: center;
+        	font-size: 1.5em;
+        }
+
+        img {
+        	width: 5vw;
+        	height: 5vw;
+        	border-radius: 50%; 
+        }
+
+        .align {
+        	margin-top: 20px;
+        }
+
+
+
+	</style>
+</head>
+<body>
+
+	<div class="user-name">
+		<div class="content">User Name</div>
+	</div>
+
+	<div class="head">
+		Government Of Ram Mandir
+	</div>
+
+	<div class="logout">
+		<form>
+			<button class="log-btn">Log Out</button>
+		</form>
+	</div>
+
+	<div class="main-body">
+		<div class="grid-container">
+
+			<!-- 1st ROW -->
+			<div class="grid-item">
+				Party Symbol
+			</div>
+
+			<div class="grid-item">
+				Party Name
+			</div>
+
+			<div class="grid-item">
+				Vote
+			</div>	
+
+			<!-- 2nd ROW -->
+			<div class="grid-item">
+				<img src="bhajpa.jpg">
+			</div>
+
+			<div class="grid-item align">
+				BJP
+			</div>
+
+			<div class="grid-item align">
+				Arrow
+			</div>	
+
+			<!-- 3rd ROW -->
+			<div class="grid-item">
+				<img src="congress.png">
+			</div>
+
+			<div class="grid-item align">
+				Congress
+			</div>
+
+			<div class="grid-item align">
+				Arrow
+			</div>	
+				
+		</div>
+	</div>
+
+</body>
+</html>
