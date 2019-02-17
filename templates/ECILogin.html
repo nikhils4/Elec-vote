@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login | Sign in</title>
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         body {
             margin : 0;
@@ -44,7 +45,7 @@
         }
         .main {
             text-align : center;
-            height: 50vh;
+            height: 45vh;
             width: 25vw;
             margin : auto auto;
             background-color: white;
@@ -107,6 +108,30 @@
         }
         h2 {
             color: #4c2a52;
+            margin: 0px;
+        }
+        .error {
+          border: 1px solid red;
+          border-radius: 10px;
+          padding-bottom: 10px;
+          margin-top: 10px;
+          display: none;
+        }
+        .err-content {
+          text-align: left;
+          padding: 8px;
+          font-size: 1.2em;
+
+        }
+        img {
+          width: 20px;
+          height: 20px;
+        }
+        .box {
+            margin-top: -30px;
+        }
+        .display {
+            margin-top: -40px;
         }
     </style>
 </head>
@@ -122,27 +147,46 @@
     </div>
     <div class="main">
         <h2>Sign In</h2>
-        <form action="{{url_for('ECILogin')}}" method="POST" oninvalid="false">
 
-            <div class="top">
-                <input type="text" name="username" placeholder="username" required>
+          <div class="error">
+            <div class="err-content">
+              <img src="../static/images/warning.svg"> {{error}}
             </div>
+          </div>
 
-            <div class="second">
-                <input type="password" name="password" placeholder="password">
-            </div>
+        <div class="box">
+            <form action="{{url_for('ECILogin')}}" method="POST" oninvalid="false">
 
-            <div>
-                <button type="submit" name="action"><b>SUBMIT</b></button>
-            </div>
+                <div class="top">
+                    <input type="text" name="username" placeholder="username" required>
+                </div>
 
-            <!-- <div class="second">
-                    <div class="error-head"><i id="warning-img" class="material-icons">error</i>
-                        <div class="inner-content">Oops! There seems to be a problem</div></div>
-                              {{error}}
-            </div>
- -->
-        </form>
+                <div class="second">
+                    <input type="password" name="password" placeholder="password">
+                </div>
+
+                <div class="display">
+                    <button type="submit" name="action"><b>SUBMIT</b></button>
+                </div>
+
+                <!-- <div class="second">
+                        <div class="error-head"><i id="warning-img" class="material-icons">error</i>
+                            <div class="inner-content">Oops! There seems to be a problem</div></div>
+                                  {{error}}
+                </div>
+     -->
+            </form>
+          </div>
     </div>
+
+    <script type="text/javascript">
+    var error ={{error}}
+      if (error.length>0) {
+        $(".error").show();
+        $(".main").css('height','55vh');
+      }
+
+    </script>
+
 </body>
 </html>
