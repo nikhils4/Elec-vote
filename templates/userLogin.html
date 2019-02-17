@@ -124,7 +124,7 @@
         <h2>Sign In</h2>
         <form action="/login" method="post">
             <div class="username">
-                <input type="text" name="username" placeholder="username" >
+                <input id="input" type="text" name="username" placeholder="username" >
             </div>
             <div class="password">
                 <input type="password" name="password" placeholder="password">
@@ -134,5 +134,17 @@
             </div>
         </form>
     </div>
+
+    <script type="text/javascript">
+        
+        $(document).ready(function(){
+            var x = document.getElementById("input");
+            $.cookie(x);
+        })
+
+    </script>
+
+
+
 </body>
 </html>

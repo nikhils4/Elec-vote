@@ -68,18 +68,22 @@
 	}
 
 	button {
-            height: 50px;
+            height: 45px;
             background: transparent;
             outline: none;
-            width: 10vw;
-            border-radius: 30px;
+            width: 8vw;
+            
             border: none;
             box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
             text-align: center;
             background-color: #d18a70;
             color : white;
+            margin-left: -10px;
         }
-
+        #additem,#removeitem{
+border-top-right-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
     #first-img {
     	width: 3vw;
     	height: 3vw;
@@ -101,7 +105,8 @@
     input {
             height: 50px;
             width: 20vw;
-            border-radius: 15px;
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
             border: none;
             box-shadow: 0 5px 30px 0 rgba(0,0,0,0.11);
             text-align: center;
@@ -125,7 +130,13 @@
 			font-size: 0.3em;
 			width: 20px;
 		}
+		#show-btn,#clear-btn{
+			border-top-left-radius: 20px;
+			border-bottom-right-radius: :20px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius :0px;
 
+		}
 
 
 	</style>
@@ -141,6 +152,7 @@
 	 	<img id="first-img" src="../static/images/user.svg">
 	 	<img id="second-img" src="../static/images/down-arrow.svg">
  	</div>
+
 	<form name="form1" method="post" action="">
 		
 
@@ -183,7 +195,7 @@
 
 			<div class = "grid-item mid-content">
 
-				<button id="show-btn" onclick="result()">Show item:</button>
+				<button id="show-btn" onclick="result()">Show items</button>
 
 				<div id="output"></div>
 
@@ -206,15 +218,10 @@
 		
 	<script type="text/javascript">
 
-//	window.location.hash="no-back-button";
-//	window.location.hash="Again-No-back-button";
-//	window.onhashchange=function(){window.location.hash="no-back-button";}
-
 var a ='6af9a9db'
-
-		// function aler() {
-		// 	alert("Are you sure?");
-		// }
+	// on press of logout
+	// get 
+	// to delete perses ie cookie 
 
 	$(document).ready(function() {
 	    $("#additem").click(function() {
