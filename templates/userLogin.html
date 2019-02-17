@@ -157,9 +157,9 @@
         </div>
 
         <div class="box">
-            <form action="/login" method="post">
+            <form action="" method="post">
                 <div class="username">
-                    <input type="text" name="username" placeholder="username" >
+                    <input id="username" type="text" name="username" placeholder="username" >
                 </div>
                 <div class="password">
                     <input type="password" name="password" placeholder="password">
@@ -171,11 +171,13 @@
         </div>
     </div>
     <script type="text/javascript">
-    var error ={{error}}
+
+    var error = '{{error}}'
       if (error.length>0) {
         $(".error").show();
         $(".main").css('height','55vh');
       }
+
 
     </script>
 </body>

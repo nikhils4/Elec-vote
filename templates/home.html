@@ -73,19 +73,31 @@
         	margin-top: 12vh;
         	color:white;
         	/*margin-left: 14.5%;*/
-        	box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        	/*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
         }
 
         .grid-container {
         	display: grid;
         	grid-template-columns: auto auto auto;
-        	grid-gap: 20px;
+
+        	/*grid-template-rows: 100px 100px 100px;*/
+        	border: 1px solid #fff;
+        	width: 60vw;
+        	margin: auto auto;
+        	margin-top: 60px;
+        	/*border-radius: 40px;*/
+        	border-bottom-left-radius: 40px;
+        	border-top-right-radius: 40px;
+        	box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
         }
 
         .grid-item {
         	text-align: center;
         	font-size: 1.5em;
         	padding-top: 15px;
+        	border-bottom: 1px solid;
+        	/*border: 1px solid;*/
         }
 
         img {
@@ -97,7 +109,13 @@
         .align {
         	margin-top: 20px;
         }
-
+        .first-row {
+        padding: 20px;
+        /*border-top: 1px solid;*/
+        }
+        .last-row {
+        	border: 0px solid;
+        }
 
 
 	</style>
@@ -124,14 +142,14 @@
 		<div class="grid-container">
 
 			<!-- 1st ROW -->
-			<div class="grid-item">
+			<div class="grid-item first-row">
 				Party Symbol
 			</div>
-			<div class="grid-item">
+			<div class="grid-item first-row">
 				Party Name
 			</div>
 
-			<div class="grid-item">
+			<div class="grid-item first-row">
 				Vote
 			</div>	
 
@@ -150,7 +168,7 @@
 
 			<!-- 3rd ROW -->
 			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
+				<img src="../static/images/congress.png">
 			</div>
 
 			<div class="grid-item align">
@@ -162,7 +180,7 @@
 			</div>	
 				
 
-			<!-- 3rd ROW -->
+			<!-- 4th ROW -->
 			<div class="grid-item">
 				<img src="../static/images/bhajpa.jpg">
 			</div>
@@ -175,16 +193,16 @@
 				Arrow
 			</div>	
 
-			<!-- 3rd ROW -->
-			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
+			<!-- 5th ROW -->
+			<div class="grid-item last-row">
+				<img src="../static/images/congress.png">
 			</div>
 
-			<div class="grid-item align">
+			<div class="grid-item align last-row">
 				Congress
 			</div>
 
-			<div class="grid-item align">
+			<div class="grid-item align last-row">
 				Arrow
 			</div>	
 
