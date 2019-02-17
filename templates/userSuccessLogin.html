@@ -8,141 +8,194 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<style type="text/css">
-		.grid-container {
-			display: grid;
-			grid-column-gap: 20px;
-			grid-template-columns: auto auto auto;
-			padding: 10px; 
-			border: 1px solid;
+
+		body {
+			margin: 0px;
+			background: #4b6cb7;
+		background: linear-gradient(to right, #182848, #4b6cb7);
+
 		}
-		.grid-item {
-			padding: 10px;
-			font-size: 1.5em;
+
+		.user-name{
+			float: left;
+			width: 20vw;
+			height: 10vh;
+			margin-top: 1vh;
+	  	    /*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+	  	    color: white;
+
+		}
+
+		.head {
+			position: absolute;
+			width: 50vw;
+			height: 10vh;
+			margin-top: 1vh;
+			margin-left: 25%;
 			text-align: center;
-			border: 1px solid;
+			font-size: 2em;
+	  	    /*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+	  	    color: white;
+	  	    line-height: 10vh;			
 		}
-		.img-col {
-			width: 4vw;
-			height: 4vw;
+
+		.content {
+			text-align: center;
+			line-height: 10vh;
+			font-size: 2.4em;
 		}
-        #popup {
-             opacity: 1 !important;
-        	 width: 300px;
-             border-radius: 10px; 
-             top:50%;
-             left:50%;
-             transform: translate(-50%,-50%);
-             height: 150px;
-             display: none;
-             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-             position: absolute;
-             z-index: 20;
-             background-color: #f2f3f4;
-         }
-         .confirmbtn{
-            /*padding: 100px;*/
-            height: 50px;
+
+
+		.logout {
+			float: right;
+			width: 20vw;
+			height: 10vh;
+			margin-top: 1vh;
+	  	    /*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+	  	    color: white;
+		}
+
+		button {
+            height: 45px;
+            background: transparent;
+            outline: none;
+            width: 10vw;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
             text-align: center;
-            width: 150px;
-            line-height: 50px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 0%;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-         }
-         .confirmbtn:hover{
-                background-color: yellow;
-         }
-</style>
+            background-color: #fff;
+            margin-left: 26%;
+            margin-top: 4%;
+            cursor: pointer;
+        }
 
+        .main-body {
+        	width:100%;
+        	height: 88vh;
+        	background: #6392ff;
+        	margin: auto auto;
+        	position: absolute;
+        	margin-top: 12vh;
+        	color:white;
+        	/*margin-left: 14.5%;*/
+        	box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .grid-container {
+        	display: grid;
+        	grid-template-columns: auto auto auto;
+        	grid-gap: 20px;
+        }
+
+        .grid-item {
+        	text-align: center;
+        	font-size: 1.5em;
+        	padding-top: 15px;
+        }
+
+        img {
+        	width: 5vw;
+        	height: 5vw;
+        	border-radius: 50%; 
+        }
+
+        .align {
+        	margin-top: 20px;
+        }
+
+
+
+	</style>
 </head>
-<body onload="disableBack()">
-	    
-        <div class="card">
+<body>
 
-            <div class="card-header info-color white-text text-center py-4">
-                <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
-            </div>
+	<div>
+		<div class="user-name">
+			<div class="content"><b style="color:#d8daff">User Name</b></div>
+		</div>
 
-            <div class="grid-container">
-            	
-                <!-- 1SR ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/bhajpa.jpg">
-            	</div>
+		<div class="head">
+			<b style="color:#d8daff">Government Of Ram Mandir</b>
+		</div>
 
-            	<div class="grid-item">
-            		<div class="content"><b>BJP</b></div>
-            	</div>
+		<div class="logout">
+			<form action="{{url_for('logout')}}" method="POST" oninvalid="false">
+				<button><b style="color:#aeb1ef;font-size: 20px;">Log Out</b></button>
+			</form>
+		</div>
+	</div>
 
-            	<div class="grid-item">
-            		<button type="button" class="confirm" class="button-default link">VOTE</button>
-            	</div>
+	<div class="main-body">
+		<div class="grid-container">
 
-            	<!-- 2nd ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/congress.png">
-            	</div>
+			<!-- 1st ROW -->
+			<div class="grid-item">
+				Party Symbol
+			</div>
+			<div class="grid-item">
+				Party Name
+			</div>
 
-            	<div class="grid-item">
-            		<div class="content"><b>Congress</b></div>
-            	</div>
+			<div class="grid-item">
+				Vote
+			</div>	
 
-            	<div class="grid-item">
-            		<button class="button-default link" onclick="confirm2()">VOTE</button>
-            	</div>
+			<!-- 2nd ROW -->
+			<div class="grid-item">
+				<img src="../static/images/bhajpa.jpg">
+			</div>
 
-            	<!-- 3rd ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/CPI.png">
-            	</div>
+			<div class="grid-item align">
+				BJP
+			</div>
 
-            	<div class="grid-item">
-            		<div class="content"><b>CPI</b></div>
-            	</div>
+			<div class="grid-item align">
+				Arrow
+			</div>	
 
-            	<div class="grid-item">
-            		<button class="button-default link" onclick="confirm3()">VOTE</button>
-            	</div>
+			<!-- 3rd ROW -->
+			<div class="grid-item">
+				<img src="../static/images/bhajpa.jpg">
+			</div>
 
-            </div>
-        </div>
+			<div class="grid-item align">
+				Congress
+			</div>
 
-                <div id="popup"><h3 style="text-align: center;">Are you sure ?</h3>
-                    <div style="display: flex;padding-top: 59.7px">    
-                        <div id="cancel" class="confirmbtn"><b>Cancel</b></div>
-                        <div id="ok" class="confirmbtn"><b>Ok</b></div>
-                    </div>    
-                </div>
+			<div class="grid-item align">
+				Arrow
+			</div>	
+				
 
-	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+			<!-- 3rd ROW -->
+			<div class="grid-item">
+				<img src="../static/images/bhajpa.jpg">
+			</div>
 
-            <script type="text/javascript">
+			<div class="grid-item align">
+				Congress
+			</div>
 
-                $(document).ready(function(){
+			<div class="grid-item align">
+				Arrows
+			</div>	
 
+			<!-- 3rd ROW -->
+			<div class="grid-item">
+				<img src="../static/images/bhajpa.jpg">
+			</div>
 
-                	 // var id = Cookies.get("persis_ie")
+			<div class="grid-item align">
+				Congress
+			</div>
 
-						// send id as part of ajax reuest whenever assigning any ajax request
+			<div class="grid-item align">
+				Arrow
+			</div>	
 
+		</div>
+	</div>
 
-                            $(".confirm").click(function () {
-                                $("#popup").show("slow");
-                                $(".card").css('opacity','0.2');
-                                $(".card *").attr("disabled", "disabled").off('click');
-
-                            })
-                            $("#cancel").click(function(){
-                                $("#popup").hide("slow");
-                                $(".card").css('opacity','1');
-                                // $(".card *").attr("enable", "enable").on('click');
-                                // $('.card').css('pointer-events', 'none');
-                                document.getElementByClass('card').style.pointerEvents = 'auto';
-
-
-                            })
-                        });
-            </script>
-
+</body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login | Sign in</title>
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         body {
             margin : 0;
@@ -55,7 +56,8 @@
             box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11);
         }
         .top {
-            margin : 50px 0 30px 0;
+            margin : 0px;
+            margin-top: 20px;
         }
         .second {
             margin : 20px 0 30px 0;
@@ -107,6 +109,25 @@
         }
         h2 {
             color: #4c2a52;
+            margin: 0px;
+        }
+
+        .error {
+          border: 1px solid red;
+          border-radius: 10px;
+          padding-bottom: 10px;
+          margin-top: 10px;
+          display: none;
+        }
+        .err-content {
+          text-align: left;
+          padding: 8px;
+          font-size: 1.2em;
+
+        }
+        img {
+          width: 20px;
+          height: 20px;
         }
     </style>
 </head>
@@ -125,8 +146,16 @@
         {{error}}
         <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
+          <div class="error">
+            <div class="err-content">
+              <img src="../static/images/warning.svg"> {{error}}
+            </div>
+          </div>
+
             <div class="top">
+
                 <input type="text" name="name" placeholder="name" >
+
             </div>
 
             <div class="second">
@@ -137,7 +166,7 @@
                 <input  name="dob" placeholder="yyyy-mm-dd">
             </div>
 
-            <div class="second">
+            <div id="dec" class="second">
                 <input id="place" type="text" name="place" placeholder="place of birth" >
             </div>
 
@@ -147,6 +176,14 @@
         </form>
     </div>
     <script type="text/javascript">
+
+      var error ={{error}}
+      if (error.length>0) {
+        $(".error").show();
+        $("#dec").css("margin-bottom",'20px');
+        $(".main").css('height','73vh');
+      }
+
     function activatePlacesSearch() {
     var input = document.getElementById("place");
     var autocomplete = new google.maps.places.Autocomplete(input);
