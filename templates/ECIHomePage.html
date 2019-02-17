@@ -233,7 +233,7 @@ var a ='2029faa3'
 	    $("#additem").click(function() {
 	    	    var value = $("#list_item1").val();
 	    	    var id = Cookies.get("persis_id")
-	    	    place = {'place' : value, 'persis_id' : id};
+	    	    var place = {'place' : value, 'persis_id' : id};
 	    	    console.log(place);
 	           $.ajax({
 	            type: 'POST',
@@ -246,10 +246,14 @@ var a ='2029faa3'
 	        });
 	    });
 	    $("#show-btn").click(function(){
+	    	var id = Cookies.get("persis_id")
+			var place = {'persis_id' : id};
+			console.log(place);
 	    	$.ajax({
-	            type: 'GET',
+	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/showElecPlace",
-                contentType: 'JSON',
+                contentType: 'application/JSON',
+				data : JSON.stringify(place),
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
 	            	// $("#cont").show();
@@ -276,7 +280,9 @@ var a ='2029faa3'
 	    })
 	    $("#removeitem").click(function(){
 	    	var value = $("#list_item2").val();
-	    	place = {'place' : value};
+	    	var id = Cookies.get("persis_id")
+			var place = {'place' : value, 'persis_id' : id};
+			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/remElecPlace",
@@ -289,10 +295,14 @@ var a ='2029faa3'
 	    })
 	});
 	    $("#clear-btn").click(function(){
+			var id = Cookies.get("persis_id")
+			var place = {'persis_id' : id};
+			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/clearPlace",
                 contentType: 'application/JSON',
+				data: JSON.stringify(place),
                 // data: JSON.stringify(place),
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {

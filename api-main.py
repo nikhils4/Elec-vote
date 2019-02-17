@@ -135,9 +135,10 @@ def addElecPlace():
 @cross_origin()
 def showElecPlace():
     try:
+        print(request.json)
         persis_id = request.json['persis_id']
         if (db.session.find_one({'persis_id': persis_id})):
-            if request.method == "GET":
+            if request.method == "POST":
                 places = list(db.elecPlaces.find({}, {"_id" : 0}));
                 #print(j[0]['placeName']) this is how to access the data
                 trans = jsonify(places)
@@ -174,15 +175,19 @@ def userLogin():
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"].strip()
-        if (db.onlineVotingCred.find_one({"username": username, "password": password})):
-            resp = make_response(render_template('userSuccessLogin.html'))
-            cookie = token()
-            resp.set_cookie('persis_ie', cookie, max_age=6000000)
-            db.session.insert_one({"persis_id" : cookie, "username" : username})
-            return resp
-        else:
-            error = "The login credentials entered by you are not valid"
+        if (db.session.find_one({'username' : username })):
+            error = "One user is already logged in using your credentials"
             return render_template("userLogin.html", error=error)
+        else:
+            if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+                resp = make_response(render_template('userSuccessLogin.html'))
+                cookie = token()
+                resp.set_cookie('persis_id', cookie, max_age=3000)
+                db.session.insert_one({"persis_id" : cookie, "username" : username})
+                return resp
+            else:
+                error = "The login credentials entered by you are not valid"
+                return render_template("userLogin.html", error=error)
 
 
 #default route for vote now and password generation button
@@ -197,7 +202,7 @@ def main():
 @app.route("/homeLogin")
 @cross_origin()
 def login():
-    return redirect(url_for("userLogin"))
+    return render_template("userLogin.html")
 
 
 #redirect route for password generation directed from home button
@@ -205,7 +210,7 @@ def login():
 @app.route("/homeGen")
 @cross_origin()
 def gen():
-    return redirect(url_for("generate"))
+    return render_template("main.html")
 
 #rendering of the main file when user leaves all the input feilds blank
 
@@ -235,7 +240,7 @@ def ECILogin():
                 otp = password()
                 emailGen(cred.ECIEmail,otp)
                 resp = make_response(render_template('ECIOtp.html'))
-                resp.set_cookie('username' , username, max_age=60000)
+                resp.set_cookie('username' , username, max_age=3000)
                 return resp
             else:
                 error = "Username and password provided by you is not correct"
@@ -258,7 +263,7 @@ def otpVerify():
             username = request.cookies.get('username')
             resp = make_response(render_template('ECIHomePage.html'))
             cookie = token()
-            resp.set_cookie('persis_id', cookie, max_age=600)
+            resp.set_cookie('persis_id', cookie, max_age=3000)
             if (db.session.find_one({"username" : username})):
                 data = db.session.find_one({"username" : username})
                 cookie = data["persis_id"]
@@ -290,10 +295,14 @@ def otpVerify():
 def logout():
     if request.method == "POST":
         id = request.cookies.get("persis_id")
-        db.session.delete_many({"persis_id" : id})
-        resp = make_response(render_template("logout.html"))
-        resp.set_cookie('persis_id', '', expires=0)
-        return "You are sucessfully logged out"
+        if (id == None):
+            error = "Although you must not do this"
+            return render_template("logout.html", error = error)
+        else:
+            db.session.delete_many({"persis_id" : id})
+            resp = make_response(render_template("logout.html"))
+            resp.set_cookie('persis_id', '', expires=0)
+            return resp
 
 
 #processing route for generating password for user
@@ -357,6 +366,11 @@ def pageNotFound(e):
 def internalServerError(e):
     return render_template("error500.html"), 500
 
+
+@app.errorhandler(405)
+@cross_origin()
+def methodNotFound(e):
+    return render_template("error405.html"), 405
 
 app.run(debug=True)
 
