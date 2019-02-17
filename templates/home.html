@@ -1,195 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>UserSuccessLogin</title>
+	<title>Elec Vote</title>
+
+
 	<style type="text/css">
-
-		body {
-			margin: 0px;
-			background: #4b6cb7;
-		background: linear-gradient(to right, #182848, #4b6cb7);
-
+		
+		form{
+			height: 100px;
+			width: 100px;
+			color: white;
+			margin-left: 40vw;
 		}
-
-		.user-name{
-			float: left;
-			width: 20vw;
-			height: 10vh;
-			margin-top: 1vh;
-	  	    /*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-	  	    color: white;
-
-		}
-
-		.head {
-			position: absolute;
-			width: 50vw;
-			height: 10vh;
-			margin-top: 1vh;
-			margin-left: 25%;
-			text-align: center;
-			font-size: 2em;
-	  	    /*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-	  	    color: white;
-	  	    line-height: 10vh;			
-		}
-
-		.content {
-			text-align: center;
-			line-height: 10vh;
-			font-size: 2.4em;
-		}
-
-		.logout {
-			float: right;
-			width: 20vw;
-			height: 10vh;
-			margin-top: 1vh;
-	  	    /*box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-	  	    color: white;
-		}
-
 		button {
-            height: 45px;
+            height: 60px;
             background: transparent;
             outline: none;
-            width: 10vw;
-            border-radius: 30px;
+            width: 25vw;
+            border-radius: 20px;
             border: none;
-            box-shadow: 0 15px 30px 0 rgba(189,89,215,0.25);
+            box-shadow: 0 5px 10px 0 rgba(189,89,215,0.25);
             text-align: center;
-            background-color: #fff;
-            margin-left: 26%;
-            margin-top: 4%;
-            cursor: pointer;
+            background-color: #2948ff;
+            color : white;
         }
+        #form1{
 
-        .main-body {
-        	width:100%;
-        	height: 88vh;
-        	background: #6392ff;
-        	margin: auto auto;
-        	position: absolute;
-        	margin-top: 12vh;
-        	color:white;
-        	/*margin-left: 14.5%;*/
-        	box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			margin-top: 40vh;
         }
-
-        .grid-container {
-        	display: grid;
-        	grid-template-columns: auto auto auto;
-        	grid-gap: 20px;
+        h2{
+        	line-height: 4px;
         }
+        body{
+        	background: #0f0c29;
+			background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
 
-        .grid-item {
-        	text-align: center;
-        	font-size: 1.5em;
-        	padding-top: 15px;
         }
-
-        img {
-        	width: 5vw;
-        	height: 5vw;
-        	border-radius: 50%; 
-        }
-
-        .align {
-        	margin-top: 20px;
-        }
-
-
-
 	</style>
+
 </head>
+
+
+
+
 <body>
 
-	<div>
-		<div class="user-name">
-			<div class="content"><b style="color:#d8daff">User Name</b></div>
-		</div>
+	<form id="form1">
+		<button><h2><b>Generate Credentials</b></h2></button>
+	</form>
 
-		<div class="head">
-			<b style="color:#d8daff">Government Of Ram Mandir</b>
-		</div>
-
-		<div class="logout">
-			<form>
-				<button><b style="color:#aeb1ef;font-size: 20px;">Log Out</b></button>
-			</form>
-		</div>
-	</div>
-
-	<div class="main-body">
-		<div class="grid-container">
-
-			<!-- 1st ROW -->
-			<div class="grid-item">
-				Party Symbol
-			</div>
-			<div class="grid-item">
-				Party Name
-			</div>
-
-			<div class="grid-item">
-				Vote
-			</div>	
-
-			<!-- 2nd ROW -->
-			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
-			</div>
-
-			<div class="grid-item align">
-				BJP
-			</div>
-
-			<div class="grid-item align">
-				Arrow
-			</div>	
-
-			<!-- 3rd ROW -->
-			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
-			</div>
-
-			<div class="grid-item align">
-				Congress
-			</div>
-
-			<div class="grid-item align">
-				Arrow
-			</div>	
-				
-
-			<!-- 3rd ROW -->
-			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
-			</div>
-
-			<div class="grid-item align">
-				Congress
-			</div>
-
-			<div class="grid-item align">
-				Arrows
-			</div>	
-
-			<!-- 3rd ROW -->
-			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
-			</div>
-
-			<div class="grid-item align">
-				Congress
-			</div>
-
-			<div class="grid-item align">
-				Arrow
-			</div>	
-
-		</div>
-	</div>
+	<form>
+		<button><h2><b>Vote Now</b></h2></button>
+	</form>
 
 </body>
 </html>
