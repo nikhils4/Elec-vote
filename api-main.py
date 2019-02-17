@@ -6,11 +6,12 @@ from email.message import EmailMessage
 from datetime import date
 from credentials import cred
 import json
-
+from flask_cors import CORS, cross_origin
 
 #database setup
 
 app = Flask(__name__)
+cors = CORS(app)
 client = MongoClient("localhost", 27017)
 
 db = client["elec-vote"]
@@ -75,21 +76,37 @@ def age(dbDate):
     age = age.days // 365
     return age
 
+#route to remove particular place from db (elecPlaces)
+
+@app.route("/remElecPlace", methods=["POST", "GET"])
+@cross_origin()
+def remElecPlace():
+    if request.method == "POST":
+        place = request.json['place'].strip()
+        if (db.elecPlaces.find_one({"placeName" : place})):
+            db.elecPlaces.delete_one({"placeName" : place})
+            return "Place sucessfully removed"
+        else:
+            return "Such place does not exist in the database"
+
 
 #adding place to database related to ECI Admin
 
 @app.route("/addElecPlace", methods=["GET", "POST"])
+@cross_origin()
 def addElecPlace():
     if request.method == 'POST':
-        place = request.json['place']
+        place = request.json['place'].strip()
         if (db.elecPlaces.find_one({"placeName" : place})):
             return "Place already exist"
         else:
             db.elecPlaces.insert_one({"placeName" : place})
             return "Place Added Successfully"
 
+#route to show all the places from the db
 
 @app.route("/showElecPlace", methods=["POST", "GET"])
+@cross_origin()
 def showElecPlace():
     if request.method == "GET":
         places = list(db.elecPlaces.find({}, {"_id" : 0}));
@@ -97,19 +114,30 @@ def showElecPlace():
         trans = jsonify(places)
         return trans
 
+#to remove all the
+
+@app.route("/clearPlace", methods=["POST", "GET"])
+@cross_origin()
+def clearPlace():
+    if request.method == "POST":
+        db.elecPlaces.remove()
+        return "All places are removed successfully"
+
 
 #route for user login page rendering
 
 @app.route("/userLogin")
+@cross_origin()
 def userLogin():
-    return render_template("userLogin.html")
+    return render_template("userLoginhtml")
 
 #route for processing of data submiotted by user
 
 @app.route("/userLoginProcess", methods=["GET", "POST"])
+@cross_origin()
 def userLoginProcess():
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
     if (db.onlineVotingCred.find_one({"username" : username, "password" : password})):
         return render_template("userSuccessLogin.html")
     else:
@@ -121,12 +149,14 @@ def userLoginProcess():
 
 
 @app.route("/")
+@cross_origin()
 def main():
     return render_template("main.html")
 
 #rendering of the main file when user leaves all the input feilds blank
 
 @app.route("/blank")
+@cross_origin()
 def blank():
     error = "You cannot leave input fields empty"
     return render_template("main.html", error=error)
@@ -134,15 +164,17 @@ def blank():
 #login portal for ECI Admin
 
 @app.route("/ECI")
+@cross_origin()
 def ECI():
     return render_template("ECILogin.html")
 
 #login credentials processing for ECI Admin
 
 @app.route("/ECILogin" , methods=["POST", "GET"])
+@cross_origin()
 def ECILogin():
-    username = (request.form["username"]).lower()
-    passwordInput = request.form["password"]
+    username = (request.form["username"]).lower().strip()
+    passwordInput = request.form["password"].strip()
     if ( username == cred.username and passwordInput == cred.password):
         global otp
         otp = password()
@@ -155,8 +187,9 @@ def ECILogin():
 #otp verification route for ECI Admin login
 
 @app.route("/otpVerify", methods=["POST", "GET"])
+@cross_origin()
 def otpVerify():
-    otpInput = request.form["otp"]
+    otpInput = request.form["otp"].strip()
     if (otp == otpInput):
         return render_template("ECIHomePage.html")
     else:
@@ -165,11 +198,12 @@ def otpVerify():
 #processing route for generating password for user
 
 @app.route("/generate", methods=["GET", "POST"])
+@cross_origin()
 def generate():
-    name = (request.form["name"]).lower()
-    uid = request.form["uid"]
-    dob = request.form["dob"]
-    place = (request.form["place"]).lower()
+    name = (request.form["name"]).lower().strip()
+    uid = request.form["uid"].strip()
+    dob = request.form["dob"].strip()
+    place = (request.form["place"]).lower().strip()
     print(name, uid , dob, place )
     print(type(name), type(uid), type(dob), type(place))
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"

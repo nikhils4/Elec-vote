@@ -8,39 +8,31 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	
 	<style type="text/css">
-		.grid-container {
-			display: grid;
-			grid-column-gap: 20px;
-			grid-template-columns: auto auto auto;
-			padding: 10px; 
-			border: 1px solid;
-		}
-		.grid-item {
-			padding: 10px;
-			font-size: 1.5em;
-			text-align: center;
-			border: 1px solid;
-		}
+
+        body{
+            background: #1F1C2C;
+            background: linear-gradient(to right, #928DAB, #1F1C2C);
+
+        }
+		
 		.img-col {
 			width: 4vw;
 			height: 4vw;
 		}
         #popup {
-             opacity: 1 !important;
+            display: none;
         	 width: 300px;
-             border-radius: 10px; 
+             border-radius: 25px; 
              top:50%;
              left:50%;
              transform: translate(-50%,-50%);
-             height: 150px;
-             display: none;
+             height: 162px;
              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
              position: absolute;
              z-index: 20;
              background-color: #f2f3f4;
          }
          .confirmbtn{
-            /*padding: 100px;*/
             height: 50px;
             text-align: center;
             width: 150px;
@@ -49,98 +41,130 @@
             display: inline-block;
             margin-bottom: 0%;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
          }
          .confirmbtn:hover{
                 background-color: yellow;
          }
+         .card{
+            display: inline-block;
+            width: 80%;
+            border:2px solid;
+            border-color: rgb(56, 98, 165);
+            padding: 20px;
+            margin: 20px 10% auto 10%;
+
+         }
+         .first,.second,.three,.four{
+            display: inline-block;
+            height: 100px;
+            width: 33%;
+            text-align: center;
+            line-height: 100px;
+            border:2px solid;
+            border-color: #cc6735;
+         }
+        label{
+            vertical-align: middle;
+            margin-top: 10px;
+        }
+        input{
+            height: 20px;
+            width: 20px;
+        }
+
 </style>
 
 </head>
-<body onload="disableBack()">
+<body >
+
+
+    <!-- <img style="height: 100%;width: 100%;position: absolute;z-index: -1;" src="../static/images/india.jpg"> -->
 	    
-        <div class="card">
+    <div id="main">    
 
-            <div class="card-header info-color white-text text-center py-4">
-                <strong style="color: black;font-size: 2em">Government of Ram Mandir</strong>
-            </div>
-
-            <div class="grid-container">
-            	
-                <!-- 1SR ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/bhajpa.jpg">
-            	</div>
-
-            	<div class="grid-item">
-            		<div class="content"><b>BJP</b></div>
-            	</div>
-
-            	<div class="grid-item">
-            		<button type="button" class="confirm" class="button-default link">VOTE</button>
-            	</div>
-
-            	<!-- 2nd ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/congress.png">
-            	</div>
-
-            	<div class="grid-item">
-            		<div class="content"><b>Congress</b></div>
-            	</div>
-
-            	<div class="grid-item">
-            		<button class="button-default link" onclick="confirm2()">VOTE</button>
-            	</div>
-
-            	<!-- 3rd ROW -->
-            	<div class="grid-item">
-            		<img class="img-col" src="../static/images/CPI.png">
-            	</div>
-
-            	<div class="grid-item">
-            		<div class="content"><b>CPI</b></div>
-            	</div>
-
-            	<div class="grid-item">
-            		<button class="button-default link" onclick="confirm3()">VOTE</button>
-            	</div>
-
+        <div><h1 style="text-align: center;">Government of Ram Mandir</h1></div>
+<form>
+            <div class="card">
+            <div class="first"><img class="img-col" src="../static/images/congress.png"></div>
+            <div class="second"><b>Party</b></div>
+            <div class="three"><b>VOTE</b>
+                <label class="switch switch1">
+                  <input type="radio" name="party">
+                </label>
             </div>
         </div>
 
-                <div id="popup"><h3 style="text-align: center;">Are you sure ?</h3>
-                    <div style="display: flex;padding-top: 59.7px">    
-                        <div id="cancel" class="confirmbtn"><b>Cancel</b></div>
-                        <div id="ok" class="confirmbtn"><b>Ok</b></div>
-                    </div>    
-                </div>
+        <div class="card">
+            <div class="first">  <img class="img-col" src="../static/images/congress.png"> </div>    
+            <div class="second"><b>Party</b></div>      
+            <div class="three"><b>VOTE</b>
+                <label class="switch switch2">
+                  <input type="radio" name="party">
+                </label>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="first"><img class="img-col" src="../static/images/CPI.png"></div>
+            <div class="second"><b>Party</b></div>
+            <div class="three"><b>VOTE</b>
+                <label class="switch switch3">
+                  <input type="radio" name="party">
+                </label>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="four"><img class="img-col" src="../static/images/congress.png"></div>
+            <div class="second"><b>Party</b></div>
+            <div class="three"><b>VOTE</b>
+                <label class="switch switch4">
+                  <input type="radio" name="party">
+                </label>
+            </div>
+        </div>
+</form>
 
 
-            <script type="text/javascript">
-                function preventBack() {
-                    window.history.forward();
-                }
-                setTimeout("preventBack()", 0);
-                window.onunload() = function() {
-                    null;
-                };
-                $(document).ready(function(){
-                            $(".confirm").click(function () {
-                                $("#popup").show("slow");
-                                $(".card").css('opacity','0.2');
-                                $(".card *").attr("disabled", "disabled").off('click');
-
-                            })
-                            $("#cancel").click(function(){
-                                $("#popup").hide("slow");
-                                $(".card").css('opacity','1');
-                                // $(".card *").attr("enable", "enable").on('click');
-                                // $('.card').css('pointer-events', 'none');
-                                document.getElementByClass('card').style.pointerEvents = 'auto';
+    </div>    
 
 
-                            })
-                        });
-            </script>
+    <div id="popup"><h3 style="text-align: center;padding-top: 10px">Are you sure ?</h3>
+        <div style="display: flex;padding-top: 59.7px">    
+            <div id="cancel" class="confirmbtn"><b>Cancel</b></div>
+            <div id="ok" class="confirmbtn"><b>Ok</b></div>
+        </div>    
+    </div>
+
+
+        <script type="text/javascript">
+            
+            $(document).ready(function(){
+                $(".switch").click(function () {
+                    $("#popup").css("display", "block");
+                    $(".card").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
+                })
+                $("#cancel").click(function(){
+                    $("#popup").css("display", "none");
+
+                    $(".card").css({
+                        'opacity':'1',
+                        'pointer-events': 'auto'
+                });
+                    // $("#cancel").off('click');
+                })
+                // $("#cancel").click(function(){
+                //     $(".switch1").click();
+                //     $("#cancel").off('click');
+                // }) 
+                });
+
+        </script>
+    </body>
+
 
 </html>
