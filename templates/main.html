@@ -45,7 +45,7 @@
         }
         .main {
             text-align : center;
-            height: 75vh;
+            height: 70vh;
             width: 25vw;
             margin : auto auto;
             background-color: white;
@@ -81,6 +81,7 @@
             text-align: center;
             font-size: 15px;
             color : #4c2a52;
+
         }
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
@@ -93,6 +94,7 @@
         textarea:focus,
         button:focus {
             outline: none;
+            box-shadow: 0 5px 30px 0 rgba(0,0,0,0.11);
         }
         button, button:focus {
             outline: none;
@@ -100,6 +102,16 @@
             cursor: pointer;
 
         }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            /*-webkit-box-shadow: 0 0 0 30px white inset !important;*/
+            color : #4c2a52;
+            box-shadow: 0 5px 10px 0 rgba(189,89,215,0.25);
+        }
+
         ::placeholder{
             text-align: center;
             font-weight: bold;
@@ -119,7 +131,14 @@
           margin-top: 10px;
           display: none;
         }
-        .err-content {
+        .success {
+            border: 1px solid green;
+            border-radius: 10px;
+            padding-bottom: 15px;
+            margin-top: 13px;
+            display: none;
+        }
+        .err-content,.suc-content {
           text-align: left;
           padding: 8px;
           font-size: 1.2em;
@@ -129,27 +148,53 @@
           width: 20px;
           height: 20px;
         }
+        #vote-btn {
+          background: #76B3FA;
+          border-radius: 100px;
+          color: #fff;
+          font-size: 1em;
+          margin: 0 15px;
+          position: absolute;
+          margin-top: 54vh;
+          margin-left: -59px;
+          display: none;
+        }
+
     </style>
 </head>
 <body>
-    <div class="spec one " >
+    <div class="spec one">
 
     </div>
     <div class="spec two">
 
     </div>
-    <div class="spec three" >
+    <div class="spec three">
 
     </div>
+
     <div class="main">
         <h2>Sign In</h2>
-        <span>{{error}}</span>
+        
         <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
           <div class="error">
             <div class="err-content">
-              <img src="../static/images/warning.svg"> {{error}}
+              <img src="../static/images/warning.svg"> <span id="err">{{error}}</span>
             </div>
+          </div>
+
+          <div class="success">
+            <div class="suc-content">
+              <img src="../static/images/success.svg"> <span id="suc">{{success}}</span>
+            </div>
+          </div>
+
+
+          <div class="vote">
+            <form action="{{url_for('login')}}" method="POST" oninvalid="false">
+                <button id="vote-btn"><b>Vote Now</b></button>
+            </form>
           </div>
 
             <div class="top">
@@ -171,21 +216,40 @@
             </div>
 
             <div>
-                <button type="submit">SIGN IN</button>
+                <button id="signin" type="submit">SIGN IN</button>
             </div>
         </form>
+    </div>
+
+    <div class="flip-card-back">
+        <div class="error">
+            <div class="err-content">
+              <img src="../static/images/warning.svg"> <span id="success">{{success}}</span>
+            </div>
+          </div>
+
     </div>
 
     <script type="text/javascript">
 
 
 
-      var error = $("span").html();
+      var error = $("#err").html();
       if (error.length>10) {
         $(".error").show();
         $("#dec").css("margin-bottom",'20px');
         $(".main").css('height','73vh');
       }
+
+      var success = '$("#suc").html()';
+      if (success.length>12) {
+        $(".success").show();
+        $("#dec").css("margin-bottom",'20px');
+        $(".main").css('height','77vh');
+        $("#signin").css('display','none');
+        $("#vote-btn").show();
+      }
+
     function activatePlacesSearch() {
     var input = document.getElementById("place");
     var autocomplete = new google.maps.places.Autocomplete(input);
