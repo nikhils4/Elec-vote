@@ -149,12 +149,12 @@
 
 
     <div class="main">
-		{{error}}
+		
         <h2>OTP</h2>
 
         <div class="error">
             <div class="err-content">
-              <img src="../static/images/warning.svg"> {{error}}
+              <img src="../static/images/warning.svg"> <span>{{error}}</span>
             </div>
         </div>
 
@@ -179,10 +179,8 @@
     }, 0);
 
 
-
-    <script type="text/javascript">
-    var error ={{error}}
-      if (error.length>0) {
+    var error = $("span").html();
+      if (error.length>10) {
         $(".error").show();
         $(".main").css('height','40vh');
       }

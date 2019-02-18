@@ -85,13 +85,25 @@
         .grid-container {
         	display: grid;
         	grid-template-columns: auto auto auto;
-        	grid-gap: 20px;
+        	grid-gap: 0px;
+        	border: 1px solid;
+        	border-bottom-left-radius: 40px;
+        	border-top-right-radius: 40px;
+        	width: 60vw;
+        	margin: auto auto;
+        	margin-top: 60px;
+    	    box-shadow: 0 8px 18px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
         }
 
         .grid-item {
         	text-align: center;
         	font-size: 1.5em;
         	padding-top: 15px;
+        	padding: 10px;
+        	border-bottom: 1px solid;
+
         }
 
         img {
@@ -100,11 +112,13 @@
         	border-radius: 50%; 
         }
 
+        .last-row {
+        	border-bottom: 0px solid;
+        }
+
         .align {
         	margin-top: 20px;
         }
-
-
 
 	</style>
 </head>
@@ -182,15 +196,15 @@
 			</div>	
 
 			<!-- 3rd ROW -->
-			<div class="grid-item">
+			<div class="grid-item last-row">
 				<img src="../static/images/bhajpa.jpg">
 			</div>
 
-			<div class="grid-item align">
+			<div class="grid-item align last-row">
 				Congress
 			</div>
 
-			<div class="grid-item align">
+			<div class="grid-item align last-row">
 				Arrow
 			</div>	
 
