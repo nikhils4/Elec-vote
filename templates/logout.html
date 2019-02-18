@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+You are sucessfully logged out
+{{error}}
+<input id="alwaysFetch" type="hidden" />
+<script>
+    setTimeout(function () {
+        var el = document.getElementById('alwaysFetch');
+        el.value = el.value ? location.reload() : true;
+    }, 0);
+</script>
+</body>
+</html>

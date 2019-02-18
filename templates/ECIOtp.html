@@ -149,6 +149,7 @@
 
 
     <div class="main">
+		{{error}}
         <h2>OTP</h2>
 
         <div class="error">
@@ -170,6 +171,14 @@
             </form>
         </div>
     </div>
+<input id="alwaysFetch" type="hidden" />
+<script>
+    setTimeout(function () {
+        var el = document.getElementById('alwaysFetch');
+        el.value = el.value ? location.reload() : true;
+    }, 0);
+
+
 
     <script type="text/javascript">
     var error ={{error}}

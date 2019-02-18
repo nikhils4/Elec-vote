@@ -1,5 +1,5 @@
-
 <html>
+
 <head>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -37,7 +37,6 @@
 	  margin: 2vw;
 	  border-collapse: collapse;
 	  width: 50%;
-	  display: none;
 	  margin: auto auto;
 	}
 
@@ -190,9 +189,10 @@
  <div class="header">
 
 
-	<form name="form1" method="post" action="">
-		
-		  <label>
+	<form align="right" name="form1" method="post" action="{{url_for('logout')}}">
+
+		  <label class="logoutLblPos">
+
 
 		  <button id="submit2"><b style="margin-top: -13px;">Log Out<b>&nbsp&nbsp&nbsp<img style="height: 20px;width: 20px;border-radius: 5px;" src="../static/images/logout.png"></button>
 
@@ -230,23 +230,28 @@
 
 			<div class = "shw-btn">
 
-				<button id="show-btn" onclick="result()">Show items</button>
+				<button id="show-btn">Show items</button>
 
 				<div id="output"></div>
 
 			</div>
 
 			<div class="clr-btn">
-				<button id="clear-btn" onclick="aler()">Clear All</button>
+				<button id="clear-btn" >Clear All</button>
 			</div>
 		</div>
 
 					<table id="cont" border="1px" style="border-collapse: collapse;">
-						<tr>
-							<th>Index</th>
-							<th>Place</th>
-						</tr>	
 					</table>
+ <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+ <input id="alwaysFetch" type="hidden" />
+<script>
+    setTimeout(function () {
+        var el = document.getElementById('alwaysFetch');
+        el.value = el.value ? location.reload() : true;
+    }, 0);
+</script>
 
 	</div>
 
@@ -267,15 +272,23 @@
 
 	<script type="text/javascript">
 
-	var a ='6af9a9db'
 	// on press of logout
 	// get 
 	// to delete perses ie cookie 
 
+//	window.location.hash="no-back-button";
+//	window.location.hash="Again-No-back-button";
+//	window.onhashchange=function(){window.location.hash="no-back-button";}
+
+var a ='2029faa3'
+		// function aler() {
+		// 	alert("Are you sure?");
+		// }
 	$(document).ready(function() {
 	    $("#additem").click(function() {
 	    	    var value = $("#list_item1").val();
-	    	    place = {'place' : value};
+	    	    var id = Cookies.get("persis_id")
+	    	    var place = {'place' : value, 'persis_id' : id};
 	    	    console.log(place);
 	           $.ajax({
 	            type: 'POST',
@@ -288,45 +301,43 @@
 	        });
 	    });
 	    $("#show-btn").click(function(){
-	    	
+	    	var id = Cookies.get("persis_id")
+			var place = {'persis_id' : id};
+			console.log(place);
 	    	$.ajax({
-	            type: 'GET',
+	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/showElecPlace",
-                contentType: 'JSON',
+                contentType: 'application/JSON',
+				data : JSON.stringify(place),
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
-	            	$("#cont").show();
-	            		var disp =document.getElementById("cont")
-	            		var x = document.getElementById("cont").rows.length;
-	            	if(x<=1) {
+	            	// $("#cont").show();
+                    var disp =document.getElementById("cont")
+                    $("table#cont").empty();
+                    var trh = document.createElement('tr');
+                    var th = trh.appendChild(document.createElement('th'));
+                    th.innerHTML = "Index";
+                    var th = trh.appendChild(document.createElement('th'));
+                    th.innerHTML = "Place"
+                    disp.appendChild(trh);
+                    for(var i = 0 ; i < result.length ; i++) {
+                        var tr = document.createElement('tr');
+                        var td = tr.appendChild(document.createElement('td'));
+                        td.innerHTML = i + 1;
+                        var td = tr.appendChild(document.createElement('td'));
+                        td.innerHTML = result[i]['placeName'];
+                        disp.appendChild(tr);
+                    }
+	            }
 
-		            	for(var i = 0 ; i < result.length ; i++) {
-			            	var tr = document.createElement('tr');
-						    var td = tr.appendChild(document.createElement('td'));
-						    td.innerHTML = i+1;
-						    var td = tr.appendChild(document.createElement('td'));
-						    td.innerHTML = result[i]['placeName'];
-						    disp.appendChild(tr);
-		            	}
-		            }
-		            else {
-		            	for(var i = 0 ; i < x-1 ; i++) {
-			            	document.getElementById("cont").deleteRow(i+1);	
-			            }
-			            for(var i = 0 ; i < result.length ; i++) {
-			            	var tr = document.createElement('tr');
-						    var td = tr.appendChild(document.createElement('td'));
-						    td.innerHTML = i+1;
-						    var td = tr.appendChild(document.createElement('td'));
-						    td.innerHTML = result[i]['placeName'];
-						    disp.appendChild(tr);
-		            	}}}
 	            }
 	        );
 	    })
 	    $("#removeitem").click(function(){
 	    	var value = $("#list_item2").val();
-	    	place = {'place' : value};
+	    	var id = Cookies.get("persis_id")
+			var place = {'place' : value, 'persis_id' : id};
+			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/remElecPlace",
@@ -339,10 +350,14 @@
 	    })
 	});
 	    $("#clear-btn").click(function(){
+			var id = Cookies.get("persis_id")
+			var place = {'persis_id' : id};
+			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/clearPlace",
                 contentType: 'application/JSON',
+				data: JSON.stringify(place),
                 // data: JSON.stringify(place),
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
@@ -366,7 +381,7 @@
 
 </script>
 
-	        <script type="text/javascript">
+<script type="text/javascript">
             
             $(document).ready(function(){
                 $("#clear-btn").click(function () {
@@ -420,9 +435,7 @@
                 })
                 });
 
-
-            </script>
-
+</script>
 
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=activatePlacesSearch"></script>

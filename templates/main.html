@@ -45,7 +45,7 @@
         }
         .main {
             text-align : center;
-            height: 70vh;
+            height: 75vh;
             width: 25vw;
             margin : auto auto;
             background-color: white;
@@ -143,7 +143,8 @@
     </div>
     <div class="main">
         <h2>Sign In</h2>
-        
+
+        <span>{{error}}</span>
         <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
           <div class="error">
@@ -153,7 +154,9 @@
           </div>
 
             <div class="top">
-                <input type="text" name="name" placeholder="username">
+
+                <input type="text" name="name" placeholder="name" >
+
             </div>
 
             <div class="second">
@@ -173,23 +176,26 @@
             </div>
         </form>
     </div>
+
     <script type="text/javascript">
 
-      var error ={{error}}
-      if (error.length>0) {
+
+
+      var error = $("span").html();
+      if (error.length>10) {
         $(".error").show();
         $("#dec").css("margin-bottom",'20px');
         $(".main").css('height','73vh');
       }
-
     function activatePlacesSearch() {
     var input = document.getElementById("place");
     var autocomplete = new google.maps.places.Autocomplete(input);
 
   }
 
+
     </script>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=activatePlacesSearch"></script>
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=activatePlacesSearch"></script>
 
 </body>
 </html>
