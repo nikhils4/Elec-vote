@@ -232,8 +232,9 @@ var a ='2029faa3'
 	$(document).ready(function() {
 	    $("#additem").click(function() {
 	    	    var value = $("#list_item1").val();
-	    	    var id = Cookies.get("persis_id")
-	    	    var place = {'place' : value, 'persis_id' : id};
+	    	    var id = Cookies.get("persis_id");
+				var un = Cookies.get("username");
+	    	    var place = {'place' : value, 'persis_id' : id, "username" : un};
 	    	    console.log(place);
 	           $.ajax({
 	            type: 'POST',
@@ -246,8 +247,9 @@ var a ='2029faa3'
 	        });
 	    });
 	    $("#show-btn").click(function(){
-	    	var id = Cookies.get("persis_id")
-			var place = {'persis_id' : id};
+	    	var id = Cookies.get("persis_id");
+			var un = Cookies.get("username");
+			var place = {'persis_id' : id, "username" : un};
 			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
@@ -257,22 +259,29 @@ var a ='2029faa3'
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
 	            	// $("#cont").show();
-                    var disp =document.getElementById("cont")
-                    $("table#cont").empty();
-                    var trh = document.createElement('tr');
-                    var th = trh.appendChild(document.createElement('th'));
-                    th.innerHTML = "Index";
-                    var th = trh.appendChild(document.createElement('th'));
-                    th.innerHTML = "Place"
-                    disp.appendChild(trh);
-                    for(var i = 0 ; i < result.length ; i++) {
-                        var tr = document.createElement('tr');
-                        var td = tr.appendChild(document.createElement('td'));
-                        td.innerHTML = i + 1;
-                        var td = tr.appendChild(document.createElement('td'));
-                        td.innerHTML = result[i]['placeName'];
-                        disp.appendChild(tr);
+					if (typeof(result) == "string"){
+						$("table#cont").empty();
+						document.getElementById("output").innerHTML = result;
+					}
+					else{
+						var disp =document.getElementById("cont")
+						$("table#cont").empty();
+						var trh = document.createElement('tr');
+						var th = trh.appendChild(document.createElement('th'));
+						th.innerHTML = "Index";
+						var th = trh.appendChild(document.createElement('th'));
+						th.innerHTML = "Place"
+						disp.appendChild(trh);
+						for(var i = 0 ; i < result.length ; i++) {
+							var tr = document.createElement('tr');
+							var td = tr.appendChild(document.createElement('td'));
+							td.innerHTML = i + 1;
+							var td = tr.appendChild(document.createElement('td'));
+							td.innerHTML = result[i]['placeName'];
+							disp.appendChild(tr);
                     }
+					}
+
 	            }
 
 	            }
@@ -280,8 +289,9 @@ var a ='2029faa3'
 	    })
 	    $("#removeitem").click(function(){
 	    	var value = $("#list_item2").val();
-	    	var id = Cookies.get("persis_id")
-			var place = {'place' : value, 'persis_id' : id};
+	    	var id = Cookies.get("persis_id");
+			var un = Cookies.get("username");
+			var place = {'persis_id' : id, "username" : un, 'place' : value};
 			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
@@ -295,8 +305,9 @@ var a ='2029faa3'
 	    })
 	});
 	    $("#clear-btn").click(function(){
-			var id = Cookies.get("persis_id")
-			var place = {'persis_id' : id};
+			var id = Cookies.get("persis_id");
+			var un = Cookies.get("username");
+			var place = {'persis_id' : id, "username" : un};
 			console.log(place);
 	    	$.ajax({
 	            type: 'POST',
