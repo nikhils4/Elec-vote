@@ -141,7 +141,45 @@
 			border-radius: 25px;
 			width: 20vh;
 		}
+		#popup,#popup1,#popup2 {
+             display: none;
+        	 width: 300px;
+             border-radius: 25px; 
+             top:50%;
+             left:50%;
+             transform: translate(-50%,-50%);
+             height: 162px;
+             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+             position: absolute;
+             z-index: 20;
+             background-color: #f2f3f4;
+         }
+         .confirmbtn{
+            height: 50px;
+            text-align: center;
+            width: 150px;
+            line-height: 50px;
+            margin-top: -20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
+         }
+         .confirmbtn:hover{
+                background-color: #1574C5;
+         }
+         #ok1,#ok2{
+         	height: 40px;
+         	width: 300px;
+         	text-align: center;
+         	margin-top: 37.5px;
+         	line-height: 40px;
+         	border-radius: 30px;
+         }
+        #ok1,#ok2:hover{
+                background-color: #1574C5;
+         }
 	</style>
 
 </head>
@@ -212,10 +250,24 @@
 
 	</div>
 
-		
+    <div id="popup1" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px">Place Added Sccessfully</h3>
+            <div id="ok1"><b style="text-align: center;">Ok</b></div>
+    </div>
+    <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px">Place Remove Sccessfully</h3>
+            <div id="ok2"><b style="text-align: center;">Ok</b></div>
+    </div>
+
+    <div id="popup"><h3 style="text-align: center;padding-top: 10px">Are you sure ?</h3>
+        <div style="display: flex;padding-top: 59.7px">    
+            <div id="cancel" class="confirmbtn"><b>Cancel</b></div>
+            <div id="ok" class="confirmbtn"><b>Ok</b></div>
+        </div>    
+    </div>
+
+
 	<script type="text/javascript">
 
-var a ='6af9a9db'
+	var a ='6af9a9db'
 	// on press of logout
 	// get 
 	// to delete perses ie cookie 
@@ -313,6 +365,66 @@ var a ='6af9a9db'
 
 
 </script>
+
+	        <script type="text/javascript">
+            
+            $(document).ready(function(){
+                $("#clear-btn").click(function () {
+                    $("#popup").css("display", "block");
+                    $("#whole").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
+                })
+                $("#cancel").click(function(){
+                    $("#popup").css("display", "none");
+
+                    $("#whole").css({
+                        'opacity':'1',
+                        'pointer-events': 'auto'
+                });
+                })
+                
+
+            	$("#additem").click(function () {
+                    $("#popup1").css("display", "block");
+                    $("#whole").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
+                })
+                $("#ok1").click(function(){
+                    $("#popup1").css("display", "none");
+
+                    $("#whole").css({
+                        'opacity':'1',
+                        'pointer-events': 'auto'
+                });
+                })
+              
+
+            	$("#removeitem").click(function () {
+                    $("#popup2").css("display", "block");
+                    $("#whole").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
+                })
+                $("#ok2").click(function(){
+                    $("#popup2").css("display", "none");
+
+                    $("#whole").css({
+                        'opacity':'1',
+                        'pointer-events': 'auto'
+                });
+                })
+                });
+
+
+            </script>
+
+
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkqBEmy8wmdJeUwjwUTUiBCieJ6o4LYNI&libraries=places&region=in&callback=activatePlacesSearch"></script>
 </body>
 </html>
