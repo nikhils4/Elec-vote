@@ -2,12 +2,14 @@
 <html>
 <head>
 	<title>EVM</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">  
+
 	<style type="text/css">
+		
 
 		body {
 			margin: 0px;
@@ -119,11 +121,131 @@
         .align {
         	margin-top: 20px;
         }
+        #popup {
+             display: none;
+        	 width: 300px;
+             border-radius: 25px; 
+             top:50%;
+             left:50%;
+             transform: translate(-50%,-50%);
+             height: 162px;
+             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+             position: absolute;
+             z-index: 20;
+             background-color: #f2f3f4;
+         }
+         .confirmbtn{
+            height: 50px;
+            text-align: center;
+            width: 150px;
+            line-height: 50px;
+            margin-top: -20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+         }
+         .confirmbtn:hover{
+                background-color: #1574C5;
+         }
+         #ok,#cancel{
+         	height: 40px;
+         	width: 300px;
+         	text-align: center;
+         	margin-top: 37.5px;
+         	line-height: 40px;
+         	border-radius: 30px;
+         }
+        #ok,#cancel:hover{
+                background-color: #1574C5;
+         }
+
+.btn-2 {
+  background-color: #00AFD1;
+}
+.btn-2 .round {
+  background-color: #00c4eb;
+}
+
+a {
+  text-decoration: none;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+  padding: 12px 53px 12px 23px;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-weight: bold;
+  position: relative;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  display: inline-block;
+  cursor: pointer;
+}
+a span {
+  position: relative;
+  z-index: 3;
+}
+a .round {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  width: 38px;
+  height: 45px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  z-index: 2;
+}
+
+a .round i {
+  position: absolute;
+  top: 50%;
+  margin-top: -6px;
+  left: 50%;
+  margin-left: -4px;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.txt {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/*.icon {
+		margin-top: -10px;
+	}
+*/
+.type-1 a:hover {
+  padding-left: 48px;
+  padding-right: 28px;
+}
+.type-1 a:hover .round {
+  width: calc(100% - 6px);
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+}
+.type-1 a:hover .round i {
+  left: 12%;
+}
 
 	</style>
 </head>
 <body>
 
+<div id="whole">
 	<div>
 		<div class="user-name">
 			<div class="content"><b style="color:#d8daff">User Name</b></div>
@@ -142,6 +264,7 @@
 
 	<div class="main-body">
 		<div class="grid-container">
+			
 
 			<!-- 1st ROW -->
 			<div class="grid-item">
@@ -164,8 +287,15 @@
 				BJP
 			</div>
 
-			<div class="grid-item align">
-				Arrow
+			<div class="grid-item">
+				<div class="type-1">
+				  <div>
+				    <a class="btn btn-2">
+				      <span id="bjp" class="txt" value="BJP">VOTE ME</span>
+				      <span class="round"><i class="fa fa-chevron-right" style="margin-top: -10px"></i></span>
+				    </a>
+				  </div>
+				 </div>
 			</div>	
 
 			<!-- 3rd ROW -->
@@ -174,11 +304,18 @@
 			</div>
 
 			<div class="grid-item align">
-				Congress
+				Nota
 			</div>
 
-			<div class="grid-item align">
-				Arrow
+			<div class="grid-item">
+				<div class="type-1">
+				  <div>
+				    <a class="btn btn-2">
+				      <span id="nota" class="txt" value="Nota">VOTE ME</span>
+				      <span class="round"><i class="fa fa-chevron-right" style="margin-top: -10px"></i></span>
+				    </a>
+				  </div>
+				 </div>
 			</div>	
 				
 
@@ -191,8 +328,15 @@
 				Congress
 			</div>
 
-			<div class="grid-item align">
-				Arrows
+			<div class="grid-item">
+				<div class="type-1">
+				  <div>
+				    <a class="btn btn-2">
+				      <span id="cong" class="txt" value="Congress">VOTE ME</span>
+				      <span class="round"><i class="fa fa-chevron-right" style="margin-top: -10px"></i></span>
+				    </a>
+				  </div>
+				 </div>
 			</div>	
 
 			<!-- 3rd ROW -->
@@ -201,15 +345,157 @@
 			</div>
 
 			<div class="grid-item align last-row">
-				Congress
+				Sena
 			</div>
 
 			<div class="grid-item align last-row">
-				Arrow
+				<div class="type-1">
+				  <div>
+				    <a class="btn btn-2">
+				      <span id="sena" class="txt" value="Sena">VOTE ME</span>
+				      <span class="round"><i class="fa fa-chevron-right" style="margin-top: -10px"></i></span>
+				    </a>
+				  </div>
+				 </div>
 			</div>	
-
 		</div>
-	</div>
+		<span class="output"></span>
+</div>
+
+</div>
+	<div id="popup"><h3 style="text-align: center;padding-top: 10px">Are you sure ?</h3>
+        <div style="display: flex;padding-top: 59.7px">    
+            <div id="cancel" class="confirmbtn"><b>Cancel</b></div>
+            <div id="ok" class="confirmbtn"><b>Ok</b></div>
+        </div>    
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+<!-- 	<script type="text/javascript">
+		
+		$(document).ready(function(){
+                $("#bjp").click(function () {
+                    $("#popup").css("display", "block");
+                    $("#whole").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
+                })
+                $("#cancel").click(function(){
+                    $("#popup").css("display", "none");
+                    $("#whole").css({
+                        'opacity':'1',
+                        'pointer-events': 'auto'
+                });
+                });
+              	$("#ok").click(function() {
+              	$("#popup").css("display", "none");
+                    $("#whole").css({
+                        'opacity':'1',
+                        'pointer-events': 'auto'
+                });
+                
+	    	    var id = Cookies.get("persis_id")
+	    	    var userVote = {'vote' : 'bjp', 'persis_id' : id};
+	    	    console.log(userVote);
+	            $.ajax({
+	            type: 'POST',
+	            url: "http://"+a+".ngrok.io/vote",
+                contentType: 'application/json',
+	            data : JSON.stringify(userVote),
+	            success: function(result) {
+	               $('body').html('result');
+	            }
+	        });
+	     });
+	    });  
+           
+
+</script>  -->
+<script type="text/javascript">
+
+	var a='3e703396';
+
+    	$(document).ready(function() {
+	    $("#bjp").click(function() {
+	    	    var id = Cookies.get("persis_id")
+	    	    var userVote = {'vote' : 'bjp', 'persis_id' : id};
+	    	    console.log(userVote);
+	           $.ajax({
+	            type: 'POST',
+	            url: "http://"+a+".ngrok.io/vote",
+                contentType: 'application/json',
+	            data : JSON.stringify(userVote),
+	            success: function(result) {
+	             if(typeof(result) == "string"){
+	            		$("span.output").html(result)
+	            	}
+	            	else{
+	            		$('body').html(result);
+	            	}
+	        }
+	    });
+	    });
+	    $("#cong").click(function() {
+	    	    var id = Cookies.get("persis_id")
+	    	    var userVote = {'vote' : 'cong', 'persis_id' : id};
+	    	    console.log(userVote);
+	           $.ajax({
+	            type: 'POST',
+	            url: "http://"+a+".ngrok.io/vote",
+                contentType: 'application/json',
+	            data : JSON.stringify(userVote),
+	            success: function(result) {
+	            	if(typeof(result) == "string"){
+	            		$("span.output").html(result)
+	            	}
+	            	else{
+	            		$('body').html(result);
+	            	}
+	            }
+	        });
+	    });
+	    $("#sena").click(function() {
+	    	    var id = Cookies.get("persis_id")
+	    	    var userVote = {'vote' : 'sena', 'persis_id' : id};
+	    	    console.log(userVote);
+	           $.ajax({
+	            type: 'POST',
+	            url: "http://"+a+".ngrok.io/vote",
+                contentType: 'application/json',
+	            data : JSON.stringify(userVote),
+	            success: function(result) {
+	            if(typeof(result) == "string"){
+	            		$("span.output").html(result)
+	            	}
+	            	else{
+	            		$('body').html(result);
+	            	}}
+	        });
+	    });
+	    $("#nota").click(function() {
+	    	    var id = Cookies.get("persis_id")
+	    	    var userVote = {'vote' : 'nota', 'persis_id' : id};
+	    	    console.log(userVote);
+	           $.ajax({
+	            type: 'POST',
+	            url: "http://"+a+".ngrok.io/vote",
+                contentType: 'application/json',
+	            data : JSON.stringify(userVote),
+	            success: function(result) {
+	            	
+	            if(typeof(result) == "string"){
+	            		$("span.output").html(result)
+	            	}
+	            	else{
+	            		$('body').html(result);
+	            	}}
+	        });
+	    });
+	});
+
+
+	</script>
 
 </body>
 </html>

@@ -83,10 +83,10 @@
             color : #4c2a52;
 
         }
-        input:-webkit-autofill,
+    
         input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active  {
+        input:-webkit-autofill:focus
+          {
             -webkit-box-shadow: 0 0 0 30px white inset;
         }
         input:focus,
@@ -101,15 +101,6 @@
             border: 0;
             cursor: pointer;
 
-        }
-
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-            /*-webkit-box-shadow: 0 0 0 30px white inset !important;*/
-            color : #4c2a52;
-            box-shadow: 0 5px 10px 0 rgba(189,89,215,0.25);
         }
 
         ::placeholder{
@@ -176,6 +167,13 @@
     <div class="main">
         <h2>Sign In</h2>
 
+          <div class="vote">
+            <form action="{{url_for('login')}}" method="POST" oninvalid="false">
+                <button id="vote-btn"><b>Vote Now</b></button>
+            </form>
+          </div>
+
+
         <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
           <div class="error">
@@ -188,13 +186,6 @@
             <div class="suc-content">
               <img src="../static/images/success.svg"> <span id="suc">{{success}}</span>
             </div>
-          </div>
-
-
-          <div class="vote">
-            <form action="{{url_for('login')}}" method="POST" oninvalid="false">
-                <button id="vote-btn"><b>Vote Now</b></button>
-            </form>
           </div>
 
             <div class="top">
@@ -241,7 +232,7 @@
         $(".main").css('height','73vh');
       }
 
-      var success = '$("#suc").html()';
+      var success = $("#suc").html();
       if (success.length>12) {
         $(".success").show();
         $("#dec").css("margin-bottom",'20px');

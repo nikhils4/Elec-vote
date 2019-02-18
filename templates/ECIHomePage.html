@@ -1,6 +1,7 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -20,11 +21,13 @@
 
 	}
 	.header {
+		position: sticky;
+		top: 0;
 		width:100%;
 		height: 8vh;
 		background: #0f0c29;
 		background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
-
+		
 	}
 		
 	#list_item1, #list_item2 {
@@ -38,6 +41,11 @@
 	  border-collapse: collapse;
 	  width: 50%;
 	  margin: auto auto;
+	  position: absolute;
+	  margin-top: -40vh;
+	  margin-left: 45vw;
+	  border-radius: 20px;
+	  margin-bottom: 40px;
 	}
 
 	#cont td, #cont th {
@@ -46,7 +54,7 @@
 	  
 	}
 
-	#cont tr:nth-child(even){background-color: #f2eaea;}
+	#cont tr:nth-child(even){background-color: #ffff;}
 
 	#cont tr:hover {background-color: #ddd;}
 
@@ -54,7 +62,7 @@
 	  padding-top: 12px;
 	  padding-bottom: 12px;
 	  text-align: center;
-	  background-color: #ce7797;
+	  background-color: #cd2342;
 	  color: white;
 	}
 
@@ -137,9 +145,10 @@
 		#submit2 {
 			float: right;
 			margin-top: 1.1vh;
-			margin-right: 10px;
+			margin-right: 20px;
 			border-radius: 25px;
 			width: 20vh;
+			height: 6vh;
 		}
 		#popup,#popup1,#popup2 {
              display: none;
@@ -230,11 +239,7 @@
 		<div class="buttons">
 
 			<div class = "shw-btn">
-
 				<button id="show-btn">Show items</button>
-
-				<div id="output"></div>
-
 			</div>
 
 			<div class="clr-btn">
@@ -244,22 +249,15 @@
 
 					<table id="cont" border="1px" style="border-collapse: collapse;">
 					</table>
- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
  <input id="alwaysFetch" type="hidden" />
-<script>
-    setTimeout(function () {
-        var el = document.getElementById('alwaysFetch');
-        el.value = el.value ? location.reload() : true;
-    }, 0);
-</script>
 
 	</div>
 
-    <div id="popup1" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px">Place Added Sccessfully</h3>
+    <div id="popup1" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
             <div id="ok1"><b style="text-align: center;">Ok</b></div>
     </div>
-    <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px">Place Remove Sccessfully</h3>
+    <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
             <div id="ok2"><b style="text-align: center;">Ok</b></div>
     </div>
 
@@ -269,6 +267,15 @@
             <div id="ok" class="confirmbtn"><b>Ok</b></div>
         </div>    
     </div>
+
+ <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+    setTimeout(function () {
+        var el = document.getElementById('alwaysFetch');
+        el.value = el.value ? location.reload() : true;
+    }, 0);
+</script>
+
 
 
 	<script type="text/javascript">
@@ -284,7 +291,29 @@
 var a ='2029faa3'
 		// function aler() {
 		// 	alert("Are you sure?");
-		// }
+		// 
+
+var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglore'},{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglore'},{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglore'}];
+
+			var disp = document.getElementById("cont")
+                    $("table#cont").empty();
+                    var trh = document.createElement('tr');
+                    var th = trh.appendChild(document.createElement('th'));
+                    th.innerHTML = "Index";
+                    var th = trh.appendChild(document.createElement('th'));
+                    th.innerHTML = "Place"
+                    disp.appendChild(trh);
+                    for(var i = 0 ; i < newarr.length ; i++) {
+                        var tr = document.createElement('tr');
+                        var td = tr.appendChild(document.createElement('td'));
+                        td.innerHTML = i + 1;
+                        var td = tr.appendChild(document.createElement('td'));
+                        td.innerHTML = newarr[i]['placeName'];
+                        disp.appendChild(tr);
+                    }
+
+
+
 	$(document).ready(function() {
 	    $("#additem").click(function() {
 	    	    var value = $("#list_item1").val();
@@ -301,6 +330,8 @@ var a ='2029faa3'
 	            }
 	        });
 	    });
+
+
 	    $("#show-btn").click(function(){
 	    	var id = Cookies.get("persis_id")
 			var place = {'persis_id' : id};
@@ -328,12 +359,11 @@ var a ='2029faa3'
                         var td = tr.appendChild(document.createElement('td'));
                         td.innerHTML = result[i]['placeName'];
                         disp.appendChild(tr);
-                    }
-	            }
+                    }}
+	            });
+	    	})
 
-	            }
-	        );
-	    })
+
 	    $("#removeitem").click(function(){
 	    	var value = $("#list_item2").val();
 	    	var id = Cookies.get("persis_id")
@@ -348,8 +378,10 @@ var a ='2029faa3'
 	            success: function(result) {
 	            	document.getElementById("output").innerHTML=result;
 	            }
-	    })
-	});
+	    	})
+		});
+
+
 	    $("#clear-btn").click(function(){
 			var id = Cookies.get("persis_id")
 			var place = {'persis_id' : id};
