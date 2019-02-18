@@ -176,7 +176,6 @@
     <div class="main">
         <h2>Sign In</h2>
 
-        <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
           <div class="error">
             <div class="err-content">
@@ -192,10 +191,11 @@
 
 
           <div class="vote">
-            <form action="{{url_for('login')}}" method="POST" oninvalid="false">
+            <form action="{{url_for('login')}}" method="GET" oninvalid="false">
                 <button id="vote-btn"><b>Vote Now</b></button>
             </form>
           </div>
+        <form action="{{url_for('generate')}}" method="POST" oninvalid="false">
 
             <div class="top">
 
@@ -241,7 +241,7 @@
         $(".main").css('height','73vh');
       }
 
-      var success = '$("#suc").html()';
+      var success = $("#suc").html();
       if (success.length>12) {
         $(".success").show();
         $("#dec").css("margin-bottom",'20px');

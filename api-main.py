@@ -7,7 +7,7 @@ from datetime import date
 from credentials import cred
 import json
 from flask_cors import CORS, cross_origin
-import datetime
+import datetime as dt
 
 #database setup
 
@@ -22,6 +22,26 @@ citizens = db["citizens"]
 onlineVotingCred = db["onlineVotingCred"]
 elecPlaces = db["elecPlaces"]
 vote = db["vote"]
+
+
+def sessionTime():
+    dateNow = str(dt.datetime.date(dt.datetime.now())).split("-")
+    timeNow = str(dt.datetime.time(dt.datetime.now())).split(":")
+    dateNow = [int(x) for x in dateNow]
+    timeNow = [int(float(x)) for x in timeNow]
+    print("Session time called")
+    return [dateNow, timeNow]
+
+
+# def sessionDuration():
+#     dateTime = sessionTime()
+#     dateNow = dateTime[0]
+#     timeNow = dateTime[1]
+#     a = dt.datetime(dateNow[0], dateNow[1], dateNow[2], timeNow[0], timeNow[1], timeNow[2])
+#     b = dt.datetime(2013, 12, 31, 23, 59, 59)
+#     (b - a).total_seconds()
+#     print((b - a).total_seconds()
+
 
 #online voting cred of users registration and accordingly message generation
 
@@ -142,10 +162,6 @@ def showElecPlace():
     try:
         username = request.json['username']
         persis_id = request.json['persis_id']
-        # print("Hello")
-        # print(persis_id)
-        # print(username)
-        # print("Hlo")
         print(db.session.find_one({'persis_id': persis_id}))
         if (db.session.find_one({'persis_id': persis_id})):
             if request.method == "POST":
@@ -189,14 +205,54 @@ def userLogin():
         username = request.form["username"].strip()
         password = request.form["password"].strip()
         if (db.session.find_one({'username' : username })):
-            error = "One user is already logged in using your credentials"
-            return render_template("userLogin.html", error=error)
+            data = db.session.find_one({'username' : username })
+            dbYear = data["dateLogin"][0]
+            dbMonth = data["dateLogin"][1]
+            dbDate = data["dateLogin"][2]
+            dbHour = data["timeLogin"][0]
+            dbMinute = data["timeLogin"][1]
+            dbSecond = data["timeLogin"][2]
+            print(dbYear, dbMonth, dbDate, dbHour, dbMinute, dbSecond)
+            now = sessionTime()
+            nowYear = now[0][0]
+            nowMonth = now[0][1]
+            nowDate = now[0][2]
+            nowHour = now[1][0]
+            nowMinute = now[1][1]
+            nowSecond = now[1][2]
+            a = dt.datetime(dbYear,dbMonth, dbDate, dbHour,dbMinute, dbSecond)
+            b = dt.datetime(nowYear, nowMonth, nowDate, nowHour, nowMinute, nowSecond)
+            duration = (b - a).total_seconds()
+            print(duration)
+            if ( duration > 180):
+                db.session.delete_many({"username": username})
+                if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+                    dateTime = sessionTime()
+                    dateNow = dateTime[0]
+                    timeNow = dateTime[1]
+                    resp = make_response(render_template('userSuccessLogin.html'))
+                    cookie = token()
+                    resp.set_cookie('persis_id', cookie, max_age=180)
+                    resp.set_cookie('username', username, max_age=10 * 365 * 24 * 60 * 60)
+                    db.session.insert_one(
+                        {"persis_id": cookie, "username": username, "dateLogin": dateNow, "timeLogin": timeNow})
+                    return resp
+                else:
+                    error = "The login credentials entered by you are not valid"
+                    return render_template("userLogin.html", error=error)
+            else:
+                error = "If you didn't logged out properly wait for 3 minutes"
+                return render_template("userLogin.html", error=error)
         else:
             if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+                dateTime = sessionTime()
+                dateNow = dateTime[0]
+                timeNow = dateTime[1]
                 resp = make_response(render_template('userSuccessLogin.html'))
                 cookie = token()
                 resp.set_cookie('persis_id', cookie, max_age=180)
-                db.session.insert_one({"persis_id" : cookie, "username" : username, "loggedInAt" : datetime.datetime.now()})
+                resp.set_cookie('username', username, max_age=10 * 365 * 24 * 60 * 60)
+                db.session.insert_one({"persis_id" : cookie, "username" : username, "dateLogin" : dateNow, "timeLogin" : timeNow})
                 return resp
             else:
                 error = "The login credentials entered by you are not valid"
@@ -285,7 +341,7 @@ def otpVerify():
                 username = request.cookies.get('username')
                 resp = make_response(render_template('ECIHomePage.html'))
                 cookie = token()
-                resp.set_cookie('persis_id', cookie, max_age=180)
+                resp.set_cookie('persis_id', cookie, max_age=600)
                 if (db.session.find_one({"username" : username})):
                     data = db.session.find_one({"username" : username})
                     cookie = data["persis_id"]
@@ -309,16 +365,18 @@ def otpVerify():
 @cross_origin()
 def logout():
     try:
+        if request.method == "GET":
+            return render_template("userLogin.html")
         if request.method == "POST":
-            id = request.cookies.get("persis_id")
+            persis_id = request.cookies.get("persis_id")
             username = request.cookies.get("username")
-            if(db.session.find_one({"username": username})):
-                db.session.delete_many({"persis_id" : id})
+            if(db.session.find_one({"persis_id": persis_id})):
+                db.session.delete_many({"username" : username})
                 resp = make_response(render_template("logout.html"))
                 resp.set_cookie('persis_id', '', expires=0)
                 return resp
             else:
-                error = "If you didn't voted try logging in again"
+                error = "You already got logged out"
                 return render_template("logout.html", error = error)
     except KeyError or ValueError or NameError:
         error = "Due to session time outage, you got logged out. Try logging in again"
@@ -334,6 +392,7 @@ def generate():
     dob = request.form["dob"]
     place = request.form["place"]
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
+    success = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
     if (len(name) == 0 or len(str(uid)) == 0 or len(dob) == 0 or len(place) == 0):
         error = "You cannot leave input fields blank"
         return redirect(url_for('blank'))
@@ -359,7 +418,7 @@ def generate():
                     print(to)
                     passwordGen = password()
                     emailGen(to, passwordGen, dbName)
-                    return render_template("main.html", error=error)
+                    return render_template("main.html", success=success)
                 else:
                     error = "Elections are not happening at your place!"
                     print(error)
