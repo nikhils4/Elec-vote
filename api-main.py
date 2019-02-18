@@ -83,13 +83,14 @@ def emailSuc(to, name):
     s.starttls()
     s.login(cred.emailId, cred.emailPass)
     msg = EmailMessage()
-    message ="Hey, " + name + "," +  "\n\nThank you for using Online Voting Application.\n Your vote has been successfully casted \n\n Regards\n ECI"
+    message ="Hey, " + name.title() + "," +  "\n\nThank you for using Online Voting Application.\n Your vote has been successfully casted \n\n Regards\n ECI"
     msg.set_content(message)
     msg['Subject'] = 'Thank You - Online Voting'
     msg['From'] = "test.proje.niks@gmail.com"
     msg['To'] = to
     s.send_message(msg)
     s.quit()
+
 
 #password generation for particular user
 
@@ -129,26 +130,30 @@ def age(dbDate):
 @cross_origin()
 def vote():
     try :
-        print("Chal gaya")
-        persis_id = request.json["persis_id"]
-        vote = str(request.json["vote"])
-        print(persis_id)
-        print(vote)
-        data = db.session.find_one({"persis_id": persis_id})
-        username = data["username"]
-        emailNameData = db.citizens.find_one({"username" : username })
-        name = emailNameData["name"]
-        db.onlineVotingCred.update_one({"username" : username}, {"$set" : { "vote" : 1}})
-        db.vote.update_one({"username" : "admin"}, {"$inc" : { vote : 1 }})
-        db.session.delete_many({"username": username})
-        emailSuc(username, name)
-        error = "\n Thank you for using Online Voting. Your vote got casted sucessfully."
-        resp = make_response(render_template("logout.html", error = error))
-        resp.set_cookie('persis_id', '', expires=0)
-        return resp
+        if (request.method == "POST"):
+            print("Chal gaya")
+            persis_id = request.json["persis_id"]
+            vote = str(request.json["vote"])
+            print(persis_id)
+            print(vote)
+            data = db.session.find_one({"persis_id": persis_id})
+            username = data["username"]
+            emailNameData = db.citizens.find_one({"email" : username })
+            name = emailNameData["name"]
+            db.onlineVotingCred.update_one({"username" : username}, {"$set" : { "vote" : 1}})
+            db.vote.update_one({"username" : "admin"}, {"$inc" : { vote : 1 }})
+            db.session.delete_many({"username": username})
+            emailSuc(username, name)
+            error = "\n Thank you for using Online Voting. Your vote got casted sucessfully."
+            resp = make_response(render_template("logout.html", error = error))
+            resp.set_cookie('persis_id', '', expires=0)
+            return resp
+        elif (request.method == "GET"):
+            return "You are logged out bro, try logging in again"
     except KeyError or NameError or ValueError:
         print("Nahi chala")
         return "You are logged out bro, try logging in again"
+
 
 #route to remove particular place from db (elecPlaces)
 
@@ -271,6 +276,7 @@ def userLogin():
             if ( duration > 180):
                 db.session.delete_many({"username": username})
                 if (db.onlineVotingCred.find_one({"username": username, "password": password, "vote" : 0})):
+                    print("yahan pe")
                     dateTime = sessionTime()
                     dateNow = dateTime[0]
                     timeNow = dateTime[1]
@@ -291,7 +297,7 @@ def userLogin():
                 error = "If you didn't logged out properly wait for 3 minutes"
                 return render_template("userLogin.html", error=error)
         else:
-            if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+            if (db.onlineVotingCred.find_one({"username": username, "password": password, "vote" : 0})):
                 dateTime = sessionTime()
                 dateNow = dateTime[0]
                 timeNow = dateTime[1]
@@ -301,6 +307,9 @@ def userLogin():
                 resp.set_cookie('username', username, max_age=10 * 365 * 24 * 60 * 60)
                 db.session.insert_one({"persis_id" : cookie, "username" : username, "dateLogin" : dateNow, "timeLogin" : timeNow})
                 return resp
+            elif (db.onlineVotingCred.find_one({"username": username, "password": password, "vote": 1})):
+                error = "You already casted a vote"
+                return render_template("userLogin.html", error=error)
             else:
                 error = "The login credentials entered by you are not valid"
                 return render_template("userLogin.html", error=error)

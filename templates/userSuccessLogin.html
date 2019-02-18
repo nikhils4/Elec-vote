@@ -414,11 +414,12 @@ a .round i {
 </script>  -->
 <script type="text/javascript">
 
-	var a='3e703396';
+	var a='2244eaa7';
 
     	$(document).ready(function() {
 	    $("#bjp").click(function() {
-	    	    var id = Cookies.get("persis_id")
+	    	    var id = Cookies.get("persis_id");
+	    	    console.log(id);
 	    	    var userVote = {'vote' : 'bjp', 'persis_id' : id};
 	    	    console.log(userVote);
 	           $.ajax({
@@ -437,7 +438,7 @@ a .round i {
 	    });
 	    });
 	    $("#cong").click(function() {
-	    	    var id = Cookies.get("persis_id")
+	    	    var id = Cookies.get("persis_id");
 	    	    var userVote = {'vote' : 'cong', 'persis_id' : id};
 	    	    console.log(userVote);
 	           $.ajax({
@@ -456,7 +457,7 @@ a .round i {
 	        });
 	    });
 	    $("#sena").click(function() {
-	    	    var id = Cookies.get("persis_id")
+	    	    var id = Cookies.get("persis_id");
 	    	    var userVote = {'vote' : 'sena', 'persis_id' : id};
 	    	    console.log(userVote);
 	           $.ajax({
@@ -474,7 +475,7 @@ a .round i {
 	        });
 	    });
 	    $("#nota").click(function() {
-	    	    var id = Cookies.get("persis_id")
+	    	    var id = Cookies.get("persis_id");
 	    	    var userVote = {'vote' : 'nota', 'persis_id' : id};
 	    	    console.log(userVote);
 	           $.ajax({
