@@ -11,6 +11,8 @@ import datetime as dt
 
 #database setup
 
+
+
 app = Flask(__name__)
 cors = CORS(app)
 app.secret_key = "1iu2ihoi!@#$%^&*fsdhjfb"
@@ -22,7 +24,6 @@ citizens = db["citizens"]
 onlineVotingCred = db["onlineVotingCred"]
 elecPlaces = db["elecPlaces"]
 vote = db["vote"]
-
 
 def sessionTime():
     dateNow = str(dt.datetime.date(dt.datetime.now())).split("-")
@@ -75,6 +76,21 @@ def emailGen(to, password, name="ECI Admin"):
     s.send_message(msg)
     s.quit()
 
+#email on voting success
+
+def emailSuc(to, name):
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login(cred.emailId, cred.emailPass)
+    msg = EmailMessage()
+    message ="Hey, " + name + "," +  "\n\nThank you for using Online Voting Application.\n Your vote has been successfully casted \n\n Regards\n ECI"
+    msg.set_content(message)
+    msg['Subject'] = 'Thank You - Online Voting'
+    msg['From'] = "test.proje.niks@gmail.com"
+    msg['To'] = to
+    s.send_message(msg)
+    s.quit()
+
 #password generation for particular user
 
 def password():
@@ -105,6 +121,34 @@ def age(dbDate):
     age = date(today[0], today[1], today[2]) - date(dbDate[0], dbDate[1], dbDate[2])
     age = age.days // 365
     return age
+
+
+# route for voting
+
+@app.route("/vote", methods=["GET", "POST"])
+@cross_origin()
+def vote():
+    try :
+        print("Chal gaya")
+        persis_id = request.json["persis_id"]
+        vote = str(request.json["vote"])
+        print(persis_id)
+        print(vote)
+        data = db.session.find_one({"persis_id": persis_id})
+        username = data["username"]
+        emailNameData = db.citizens.find_one({"username" : username })
+        name = emailNameData["name"]
+        db.onlineVotingCred.update_one({"username" : username}, {"$set" : { "vote" : 1}})
+        db.vote.update_one({"username" : "admin"}, {"$inc" : { vote : 1 }})
+        db.session.delete_many({"username": username})
+        emailSuc(username, name)
+        error = "\n Thank you for using Online Voting. Your vote got casted sucessfully."
+        resp = make_response(render_template("logout.html", error = error))
+        resp.set_cookie('persis_id', '', expires=0)
+        return resp
+    except KeyError or NameError or ValueError:
+        print("Nahi chala")
+        return "You are logged out bro, try logging in again"
 
 #route to remove particular place from db (elecPlaces)
 
@@ -226,7 +270,7 @@ def userLogin():
             print(duration)
             if ( duration > 180):
                 db.session.delete_many({"username": username})
-                if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+                if (db.onlineVotingCred.find_one({"username": username, "password": password, "vote" : 0})):
                     dateTime = sessionTime()
                     dateNow = dateTime[0]
                     timeNow = dateTime[1]
@@ -237,6 +281,9 @@ def userLogin():
                     db.session.insert_one(
                         {"persis_id": cookie, "username": username, "dateLogin": dateNow, "timeLogin": timeNow})
                     return resp
+                elif (db.onlineVotingCred.find_one({"username": username, "password": password, "vote" : 1})):
+                    error = "You already casted a vote"
+                    return render_template("userLogin.html", error=error)
                 else:
                     error = "The login credentials entered by you are not valid"
                     return render_template("userLogin.html", error=error)
@@ -409,6 +456,10 @@ def generate():
             # checking persons age
             dbDate = reqData["dob"]
             dbName = (reqData["name"]).title()
+            dbEmail = reqData["email"]
+            if (db.onlineVotingCred.find_one({"username" : dbEmail, "vote" : 1})):
+                error = "You already voted. Thank you using Online Voting application "
+                return render_template("main.html", error=error)
             ageNow = age(dbDate)
             if (ageNow >= 18 ):
                 electPlace = reqData["pob"]
