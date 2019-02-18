@@ -7,6 +7,7 @@ from datetime import date
 from credentials import cred
 import json
 from flask_cors import CORS, cross_origin
+import datetime as dt
 
 #database setup
 
@@ -20,6 +21,26 @@ session = db["session"]
 citizens = db["citizens"]
 onlineVotingCred = db["onlineVotingCred"]
 elecPlaces = db["elecPlaces"]
+vote = db["vote"]
+
+
+def sessionTime():
+    dateNow = str(dt.datetime.date(dt.datetime.now())).split("-")
+    timeNow = str(dt.datetime.time(dt.datetime.now())).split(":")
+    dateNow = [int(x) for x in dateNow]
+    timeNow = [int(float(x)) for x in timeNow]
+    print("Session time called")
+    return [dateNow, timeNow]
+
+
+# def sessionDuration():
+#     dateTime = sessionTime()
+#     dateNow = dateTime[0]
+#     timeNow = dateTime[1]
+#     a = dt.datetime(dateNow[0], dateNow[1], dateNow[2], timeNow[0], timeNow[1], timeNow[2])
+#     b = dt.datetime(2013, 12, 31, 23, 59, 59)
+#     (b - a).total_seconds()
+#     print((b - a).total_seconds()
 
 
 #online voting cred of users registration and accordingly message generation
@@ -91,6 +112,7 @@ def age(dbDate):
 @cross_origin()
 def remElecPlace():
     try:
+        username = request.json['username']
         persis_id = request.json['persis_id']
         if (db.session.find_one({'persis_id': persis_id})):
             if request.method == "POST":
@@ -103,6 +125,7 @@ def remElecPlace():
             else:
                 return "Try logging in first"
     except KeyError:
+        db.session.delete_many({"username":username})
         return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 
@@ -112,6 +135,7 @@ def remElecPlace():
 @cross_origin()
 def addElecPlace():
     try:
+        username = request.json['username']
         persis_id = request.json['persis_id']
         if(db.session.find_one({'persis_id' : persis_id})):
             if request.method == 'POST':
@@ -127,6 +151,7 @@ def addElecPlace():
         else:
             return "Try logging in first"
     except KeyError:
+        db.session.delete_many({"username":username})
         return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 #route to show all the places from the db
@@ -135,8 +160,9 @@ def addElecPlace():
 @cross_origin()
 def showElecPlace():
     try:
-        print(request.json)
+        username = request.json['username']
         persis_id = request.json['persis_id']
+        print(db.session.find_one({'persis_id': persis_id}))
         if (db.session.find_one({'persis_id': persis_id})):
             if request.method == "POST":
                 places = list(db.elecPlaces.find({}, {"_id" : 0}));
@@ -146,6 +172,7 @@ def showElecPlace():
         else:
             return "Try logging in first"
     except KeyError:
+        db.session.delete_many({"username":username})
         return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 #to remove all the
@@ -154,6 +181,7 @@ def showElecPlace():
 @cross_origin()
 def clearPlace():
     try:
+        username = request.json['username']
         persis_id = request.json['persis_id']
         if (db.session.find_one({'persis_id': persis_id})):
             if request.method == "POST":
@@ -162,6 +190,7 @@ def clearPlace():
         else:
             return "Try logging in first"
     except KeyError:
+        db.session.delete_many({"username":username})
         return "Try logging in first you refreshed the page or you left the page idle for more than 10 minutes"
 
 
@@ -176,14 +205,54 @@ def userLogin():
         username = request.form["username"].strip()
         password = request.form["password"].strip()
         if (db.session.find_one({'username' : username })):
-            error = "One user is already logged in using your credentials"
-            return render_template("userLogin.html", error=error)
+            data = db.session.find_one({'username' : username })
+            dbYear = data["dateLogin"][0]
+            dbMonth = data["dateLogin"][1]
+            dbDate = data["dateLogin"][2]
+            dbHour = data["timeLogin"][0]
+            dbMinute = data["timeLogin"][1]
+            dbSecond = data["timeLogin"][2]
+            print(dbYear, dbMonth, dbDate, dbHour, dbMinute, dbSecond)
+            now = sessionTime()
+            nowYear = now[0][0]
+            nowMonth = now[0][1]
+            nowDate = now[0][2]
+            nowHour = now[1][0]
+            nowMinute = now[1][1]
+            nowSecond = now[1][2]
+            a = dt.datetime(dbYear,dbMonth, dbDate, dbHour,dbMinute, dbSecond)
+            b = dt.datetime(nowYear, nowMonth, nowDate, nowHour, nowMinute, nowSecond)
+            duration = (b - a).total_seconds()
+            print(duration)
+            if ( duration > 180):
+                db.session.delete_many({"username": username})
+                if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+                    dateTime = sessionTime()
+                    dateNow = dateTime[0]
+                    timeNow = dateTime[1]
+                    resp = make_response(render_template('userSuccessLogin.html'))
+                    cookie = token()
+                    resp.set_cookie('persis_id', cookie, max_age=180)
+                    resp.set_cookie('username', username, max_age=10 * 365 * 24 * 60 * 60)
+                    db.session.insert_one(
+                        {"persis_id": cookie, "username": username, "dateLogin": dateNow, "timeLogin": timeNow})
+                    return resp
+                else:
+                    error = "The login credentials entered by you are not valid"
+                    return render_template("userLogin.html", error=error)
+            else:
+                error = "If you didn't logged out properly wait for 3 minutes"
+                return render_template("userLogin.html", error=error)
         else:
             if (db.onlineVotingCred.find_one({"username": username, "password": password})):
+                dateTime = sessionTime()
+                dateNow = dateTime[0]
+                timeNow = dateTime[1]
                 resp = make_response(render_template('userSuccessLogin.html'))
                 cookie = token()
-                resp.set_cookie('persis_id', cookie, max_age=3000)
-                db.session.insert_one({"persis_id" : cookie, "username" : username})
+                resp.set_cookie('persis_id', cookie, max_age=180)
+                resp.set_cookie('username', username, max_age=10 * 365 * 24 * 60 * 60)
+                db.session.insert_one({"persis_id" : cookie, "username" : username, "dateLogin" : dateNow, "timeLogin" : timeNow})
                 return resp
             else:
                 error = "The login credentials entered by you are not valid"
@@ -227,26 +296,34 @@ def blank():
 @app.route("/ECILogin" , methods=["POST", "GET"])
 @cross_origin()
 def ECILogin():
-    if request.method == 'POST':
-        username = (request.form["username"]).lower()
-        if (db.session.find_one({'username' : username })):
-            error = "One user is already logged in using your credentials"
-            return render_template("ECILogin.html", error=error)
-        else:
-            username = (request.form["username"]).lower().strip()
-            passwordInput = request.form["password"].strip()
-            if ( username == cred.username and passwordInput == cred.password):
-                global otp
-                otp = password()
-                emailGen(cred.ECIEmail,otp)
-                resp = make_response(render_template('ECIOtp.html'))
-                resp.set_cookie('username' , username, max_age=3000)
-                return resp
-            else:
-                error = "Username and password provided by you is not correct"
+    try:
+        if request.method == 'POST':
+            username = (request.form["username"]).lower()
+            if (db.session.find_one({'username' : username })):
+                error = "One user is already logged in using your credentials"
                 return render_template("ECILogin.html", error=error)
-    if request.method == "GET":
-        return render_template("ECILogin.html")
+            else:
+                username = (request.form["username"]).lower().strip()
+                passwordInput = request.form["password"].strip()
+                if ( username == cred.username and passwordInput == cred.password):
+                    global otp
+                    otp = password()
+                    emailGen(cred.ECIEmail,otp)
+                    resp = make_response(render_template('ECIOtp.html'))
+                    resp.set_cookie('username' , username, max_age=10 * 365 * 24 * 60 * 60)
+                    return resp
+                else:
+                    error = "Username and password provided by you is not correct"
+                    return render_template("ECILogin.html", error=error)
+        if request.method == "GET":
+            return render_template("ECILogin.html")
+    except KeyError or ValueError or NameError:
+        error = "You cannot leave input field blank"
+        return render_template("ECILogin.html", error=error)
+    # except NameError:
+        # error = "You pushed the back and you got log out, Try logging in again"
+        # return render_template("ECILogin.html", error=error)
+
 
 
 #otp verification route for ECI Admin login
@@ -255,55 +332,55 @@ def ECILogin():
 @cross_origin()
 def otpVerify():
     # session.pop("user", None)
-    if request.method == "POST":
-        otpInput = request.form["otp"]
-        if (type(otpInput) == None):
+    try:
+        if request.method == "POST":
+            otpInput = request.form["otp"]
+            if (type(otpInput) == None):
+                return redirect(url_for("ECILogin"))
+            if (otp == otpInput):
+                username = request.cookies.get('username')
+                resp = make_response(render_template('ECIHomePage.html'))
+                cookie = token()
+                resp.set_cookie('persis_id', cookie, max_age=600)
+                if (db.session.find_one({"username" : username})):
+                    data = db.session.find_one({"username" : username})
+                    cookie = data["persis_id"]
+                else:
+                    db.session.insert_one({"persis_id": cookie, "username": username})
+                return resp
+            else:
+                if len(otpInput) == 0:
+                    error = "You cannot leave otp field blank, re-enter credentials to log in"
+                    return render_template("ECIOtp.html", error=error)
+                else:
+                    error = "Enter correct OTP"
+                    return render_template("ECIOtp.html", error=error)
+        if (request.method == "GET"):
             return redirect(url_for("ECILogin"))
-        if (otp == otpInput):
-            username = request.cookies.get('username')
-            resp = make_response(render_template('ECIHomePage.html'))
-            cookie = token()
-            resp.set_cookie('persis_id', cookie, max_age=3000)
-            if (db.session.find_one({"username" : username})):
-                data = db.session.find_one({"username" : username})
-                cookie = data["persis_id"]
-            else:
-                db.session.insert_one({"persis_id": cookie, "username": username})
-            return resp
-        # response = make_response()
-        # for i, j in zip(list_1, list_2):
-        #     url = 'http://www.website.com/{}'.format(i)
-        #     payload = 'encoded{}'.format(j)
-        #     headers = {...}
-        #     request = requests.request("POST", url, data=payload, headers=headers)
-        #     for key, value in request.cookies.items():
-        #         response.set_cookie(key, value)
-        # return response
-        else:
-            if len(otpInput) == 0:
-                error = "You cannot leave otp field blank, re-enter credentials to log in"
-                return render_template("ECIOtp.html", error=error)
-            else:
-                error = "Enter correct OTP"
-                return render_template("ECIOtp.html", error=error)
-    if (request.method == "GET"):
-        return redirect(url_for("ECILogin"))
-
+    except KeyError or ValueError or NameError:
+        error = "Due to session time outage, you got logged out. Try logging in again"
+        return render_template("ECILogin.html", error=error)
 
 @app.route("/logout", methods=["GET", "POST"])
 @cross_origin()
 def logout():
-    if request.method == "POST":
-        id = request.cookies.get("persis_id")
-        if (id == None):
-            error = "Although you must not do this"
-            return render_template("logout.html", error = error)
-        else:
-            db.session.delete_many({"persis_id" : id})
-            resp = make_response(render_template("logout.html"))
-            resp.set_cookie('persis_id', '', expires=0)
-            return resp
-
+    try:
+        if request.method == "GET":
+            return render_template("userLogin.html")
+        if request.method == "POST":
+            persis_id = request.cookies.get("persis_id")
+            username = request.cookies.get("username")
+            if(db.session.find_one({"persis_id": persis_id})):
+                db.session.delete_many({"username" : username})
+                resp = make_response(render_template("logout.html"))
+                resp.set_cookie('persis_id', '', expires=0)
+                return resp
+            else:
+                error = "You already got logged out"
+                return render_template("logout.html", error = error)
+    except KeyError or ValueError or NameError:
+        error = "Due to session time outage, you got logged out. Try logging in again"
+        return render_template("ECILogin.html", error=error)
 
 #processing route for generating password for user
 
@@ -315,6 +392,7 @@ def generate():
     dob = request.form["dob"]
     place = request.form["place"]
     error = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
+    success = "Thank you for using Online Voting, your login have been mailed to your registered email id!"
     if (len(name) == 0 or len(str(uid)) == 0 or len(dob) == 0 or len(place) == 0):
         error = "You cannot leave input fields blank"
         return redirect(url_for('blank'))
@@ -340,7 +418,7 @@ def generate():
                     print(to)
                     passwordGen = password()
                     emailGen(to, passwordGen, dbName)
-                    return render_template("main.html", error=error)
+                    return render_template("main.html", success=success)
                 else:
                     error = "Elections are not happening at your place!"
                     print(error)
