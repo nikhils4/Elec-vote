@@ -387,7 +387,13 @@
                 contentType: 'application/json',
 	            data : JSON.stringify(userVote),
 	            success: function(result) {
-	               $('body').html('result');
+	            	if(typeof(result) == "string"){
+	            		$("span.output").html(result);
+					}
+	            	else{
+						$('body').html(result);
+					}
+
 	            }
 	        });
 	     });
