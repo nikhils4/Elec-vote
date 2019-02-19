@@ -1,5 +1,4 @@
 <html>
-
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -8,11 +7,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="../static/css/demo.css" />
-	<link rel="stylesheet" type="text/css" href="../static/css/set1.css" />
 	<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
-	<title></title>
+	<title>ECI</title>
 
 	<style type="text/css">
 	body{
@@ -186,9 +182,23 @@
          	line-height: 40px;
          	border-radius: 30px;
          }
-        #ok1,#ok2:hover{
+        #ok1:hover,#ok2:hover{
                 background-color: #1574C5;
          }
+        #spinBox {
+	    z-index:999;
+	    opacity:0.8;
+	    display:none;
+	    border-radius:0.25em;
+	    width:5em;
+	    height:5em;
+	    margin: -2.5em 0 0 -2.5em;
+	    /*background-color:#f0f3f6;
+	    border:1px solid #cdcdcd;*/
+	    position:fixed;
+	    top:50%;
+	    left:50%
+	  }
 	</style>
 
 </head>
@@ -267,6 +277,7 @@
             <div id="ok" class="confirmbtn"><b>Ok</b></div>
         </div>    
     </div>
+    <div id="spinBox"><img src="../static/images/spinner.gif"></div>
 
  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script>
@@ -316,21 +327,33 @@ var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglor
 
 	$(document).ready(function() {
 	    $("#additem").click(function() {
+    	        $('#spinBox').show(); 
 	    	    var value = $("#list_item1").val();
 	    	    var id = Cookies.get("persis_id");
 				var un = Cookies.get("username");
 	    	    var place = {'place' : value, 'persis_id' : id, "username" : un};
 	    	    console.log(place);
-	           $.ajax({
+	            
+	            $.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/addElecPlace",
                 contentType: 'application/json',
 	            data : JSON.stringify(place),
+
 	            success: function(result) {
-	               document.getElementById("output").innerHTML = result;
-	            }
-	        });
-	    });
+	            document.getElementById("output").innerHTML = result;
+                $('#spinBox').hide();
+                $("#popup1").css("display", "block");
+                    $("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+                
+                $("#ok1").click(function(){
+                    $("#popup1").css("display", "none");
+
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'});
+                	});
+	        }
+	   });
+	});
 
 
 	    $("#show-btn").click(function(){
@@ -368,8 +391,9 @@ var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglor
 							disp.appendChild(tr);
                     }
 					}
-
 	            }
+	        })
+	    })
 
 	    $("#removeitem").click(function(){
 	    	var value = $("#list_item2").val();
@@ -443,23 +467,10 @@ var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglor
                 })
                 
 
-            	$("#additem").click(function () {
-                    $("#popup1").css("display", "block");
-                    $("#whole").css({
-                        'opacity':'0.2',
-                        'pointer-events': 'none'
-                });
-                })
-                $("#ok1").click(function(){
-                    $("#popup1").css("display", "none");
-
-                    $("#whole").css({
-                        'opacity':'1',
-                        'pointer-events': 'auto'
-                });
-                })
+            	// $("#additem").click(function () {
+                    
+             //    })
               
-
             	$("#removeitem").click(function () {
                     $("#popup2").css("display", "block");
                     $("#whole").css({
