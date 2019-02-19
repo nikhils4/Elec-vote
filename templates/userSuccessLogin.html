@@ -4,6 +4,7 @@
 	<title>EVM</title>
 	
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">  
@@ -155,6 +156,9 @@
 		.btn-2 .round {
 		  background-color: #00c4eb;
 		}
+		.last-row {
+			margin-top: -4px;
+		}
 
 		a {
 		  text-decoration: none;
@@ -173,10 +177,11 @@
 		  transition: all 0.3s;
 		  display: inline-block;
 		  cursor: pointer;
+		  margin-top: 10px;
 		}
 		a span {
 		  position: relative;
-		  z-index: 3;
+		  z-index: 30;
 		}
 		a .round {
 		  -moz-border-radius: 50%;
@@ -191,7 +196,7 @@
 		  -o-transition: all 0.3s ease-out;
 		  -webkit-transition: all 0.3s ease-out;
 		  transition: all 0.3s ease-out;
-		  z-index: 2;
+		  z-index: 0;
 		}
 
 		a .round i {
@@ -282,7 +287,7 @@
 
 			<!-- 3rd ROW -->
 			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
+				<img src="../static/images/nota.jpg">
 			</div>
 
 			<div class="grid-item align">
@@ -303,7 +308,7 @@
 
 			<!-- 3rd ROW -->
 			<div class="grid-item">
-				<img src="../static/images/bhajpa.jpg">
+				<img src="../static/images/congress.png">
 			</div>
 
 			<div class="grid-item align">
@@ -312,9 +317,9 @@
 
 			<div class="grid-item">
 				<div id="cong" class="type-1">
-				  <div>
+				 <div>
 				    <a class="btn btn-2">
-				      <span" class="txt" value="Congress">VOTE ME</span>
+				      <span class="txt" value="Congress">VOTE ME</span>
 				      <span class="round"><i class="fa fa-chevron-right" style="margin-top: -10px"></i></span>
 				    </a>
 				  </div>
@@ -323,10 +328,10 @@
 
 			<!-- 3rd ROW -->
 			<div class="grid-item last-row">
-				<img src="../static/images/bhajpa.jpg">
+				<img src="../static/images/sena.jpg">
 			</div>
 
-			<div class="grid-item align last-row">
+			<div class="grid-item align">
 				Sena
 			</div>
 
@@ -342,6 +347,7 @@
 			</div>	
 		</div>
 		<span class="output"></span>
+		<!-- <i class="fa fa-spinner fa-spin" style="font-size:48px;color:blue"></i> -->
 </div>
 
 </div>
@@ -353,7 +359,7 @@
     </div>
 
 	<script type="text/javascript">
-		var a='2244eaa7';
+		var a='2b04802d';
 		$(document).ready(function(){
                 $(".type-1").click(function () {
                 	party = $(this).attr('id');

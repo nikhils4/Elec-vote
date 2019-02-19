@@ -46,7 +46,7 @@
         }
         .main {
             text-align : center;
-            height: 45vh;
+            height: 50vh;
             width: 25vw;
             margin : auto auto;
             background-color: white;
@@ -131,11 +131,25 @@
 
         }
         img {
-          width: 20px;
-          height: 20px;
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          margin-top: 15px;
+          margin-left: -40px; 
+          visibility: hidden;
+        }
+        #img2 {
+            margin-left: -50px;
+            width: 48px;
+            height: 34px;
+            margin-top: 1px;
+            margin-top: 10px;    
         }
 
-        
+/*        #img2 {
+            visibility: hidden;
+        }
+       */ 
     </style>
 </head>
 <body>
@@ -154,7 +168,6 @@
         <div class="error">
             <div class="err-content">
                 <img src="../static/images/warning.svg"> <span>{{error}}</span>
-
             </div>
         </div>
 
@@ -164,7 +177,9 @@
                     <input id="username" type="text" name="username" placeholder="username" >
                 </div>
                 <div class="password">
-                    <input type="password" name="password" placeholder="password">
+                    <input id="password" type="password" name="password" placeholder="password">
+                    <img id="img1" src="../static/images/eye1.svg">
+                    <img id="img2" src="../static/images/show.svg">
                 </div>
                 <div class="display">
                     <button type="submit">SIGN IN</button>
@@ -182,6 +197,25 @@
         $(".main").css('height','55vh');
       }
 
+    var count =1;
+    if (count==1) {
+        $("#img1").css('visibility','visible');
+    }
+
+    $("img").click(function(){
+        count+=1;
+        if(count%2!=0){
+        $("#password").attr('type','password');
+        $("#img2").css('visibility','hidden');
+        $("#img1").css('visibility','visible');
+        console.log(count)
+        }
+        else {
+        $('#password').attr('type','text');
+        $("#img1").css('visibility','hidden');
+        $("#img2").css('visibility','visible');
+        }
+    })
 
     </script>
 
