@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+window.onload = function () {
+var bjp = Cookies.get("BJP");
+var cong = Cookies.get("Congress");
+var sena = Cookies.get("Shivsena");
+var nota = Cookies.get("NOTA");
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	exportEnabled: true,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	title:{
+		text: "Simple Column Chart with Index Labels"
+	},
+	data: [{
+		type: "column", //change type to bar, line, area, pie, etc
+		//indexLabel: "{y}", //Shows y value on all Data Points
+		indexLabelFontColor: "#5A5757",
+		indexLabelPlacement: "outside",
+		dataPoints: [
+			{ x: 10, y: bjp*10, indexLabel: "BJP"},
+            { x: 20, y: cong*10, indexLabel: "Congress" },
+			{ x: 30, y: sena*10 , indexLabel: "Shivsena"},
+			{ x: 40, y: nota*10 , indexLabel: "NOTA"}
+
+		]
+	}]
+});
+chart.render();
+
+}
+setTimeout(function() {
+  location.reload();
+}, 10000);
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

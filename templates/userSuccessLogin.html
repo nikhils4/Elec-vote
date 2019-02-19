@@ -6,7 +6,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">  
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<!--	<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+
 
 	<style type="text/css">
 		body {
@@ -230,7 +232,7 @@
 <div id="whole">
 	<div>
 		<div class="user-name">
-			<div class="content"><b style="color:#d8daff">User Name</b></div>
+			<div class="content" id="name"><b style="color:#d8daff"></b></div>
 		</div>
 
 		<div class="head">
@@ -354,7 +356,11 @@
 
 	<script type="text/javascript">
 		var a='2244eaa7';
+		var name = Cookies.get("name");
+		$("div#name").html(name);
 		$(document).ready(function(){
+			var name = Cookies.get("name");
+		$("div#name").html(name);
                 $(".type-1").click(function () {
                 	party = $(this).attr('id');
                 	// console.log($(this))
