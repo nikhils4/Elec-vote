@@ -3,10 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+        body{
+		  background-color: #007aff; 
+		  color: #fff;
+		  font-size: 100%;
+		  line-height: 1.5;
+		  font-family: "Roboto", sans-serif;
+
+        }
+   		h1 {
+		  text-align: center;
+		  font-size: 3em;
+		  font-weight: 100;
+		  text-shadow: 5px 5px 6px #1C6EA4, 9px 8px 10px #1C6EA4;
+		}
+		button {
+            height: 60px;
+            background: transparent;
+            outline: none;
+            width: 25vw;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 5px 10px 0 rgba(189,89,215,0.25);
+            text-align: center;
+            background-color: #2948ff;
+            color : white;
+            cursor: pointer;
+        }
+       	form {
+        	margin-left: 36vw;
+        }
+
+    </style>
 </head>
 <body>
-You are sucessfully logged out
+
+		<h1>You are sucessfully logged out</h1>
 {{error}}
+		<h1>See the ongoing reults</h1>
+	<form action="{{url_for('result')}}" method="GET">
+		<button><h2><b>Results</b></h2></button>
+	</form>
+
 <input id="alwaysFetch" type="hidden" />
 <script>
     setTimeout(function () {

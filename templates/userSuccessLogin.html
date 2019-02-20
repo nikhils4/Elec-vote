@@ -152,14 +152,12 @@
                 background-color: #1574C5;
          }
 
-		.btn-2 {
-		  background-color: #00AFD1;
-		}
 		.btn-2 .round {
 		  background-color: #00c4eb;
 		}
 		.last-row {
 			margin-top: -4px;
+
 		}
 
 		a {
@@ -333,7 +331,7 @@
 				<img src="../static/images/sena.jpg">
 			</div>
 
-			<div class="grid-item align">
+			<div class="grid-item align" style="border-bottom: 0px solid;">
 				Sena
 			</div>
 
@@ -370,6 +368,10 @@
 		$("div#name").html(name);
                 $(".type-1").click(function () {
                 	party = $(this).attr('id');
+                	$("#whole").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
                 	// console.log($(this))
                     $("#popup").css("display", "block");
                     $("#whole").css({
