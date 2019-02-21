@@ -15,7 +15,6 @@ import datetime as dt
 
 app = Flask(__name__)
 cors = CORS(app)
-app.secret_key = "1iu2ihoi!@#$%^&*fsdhjfb"
 client = MongoClient("localhost", 27017)
 
 db = client["elec-vote"]
