@@ -152,7 +152,7 @@ def vote():
             db.session.delete_many({"username": username})
             emailSuc(username, name)
             error = "\n Thank you for using Online Voting. Your vote got casted sucessfully."
-            resp = make_response(render_template("logout.html", error = error))
+            resp = make_response(error)
             resp.set_cookie('persis_id', '', expires=0)
             return resp
         elif (request.method == "GET"):
@@ -448,7 +448,7 @@ def logout():
                 resp.set_cookie('persis_id', '', expires=0)
                 return resp
             else:
-                error = "You already got logged out"
+                error = "You are logged out"
                 return render_template("logout.html", error = error)
     except KeyError or ValueError or NameError:
         error = "Due to session time outage, you got logged out. Try logging in again"
