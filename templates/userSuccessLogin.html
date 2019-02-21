@@ -229,15 +229,15 @@
 		}
         #spinBox {
 	    z-index:999;
-	    opacity:0.8;
+	    opacity:1;
 	    display:none;
-	    border-radius:0.25em;
-	    width:5em;
-	    height:5em;
+	  
+	    width:1em;
+	    height:1em;
 	    margin: -2.5em 0 0 -2.5em;
 	    /*background-color:#f0f3f6;
 	    border:1px solid #cdcdcd;*/
-	    transform: translate(-50%,-50%);
+	    
 	    position:fixed;
 	    top:50%;
 	    left:50%
@@ -362,9 +362,9 @@
 		</div>
 		<span class="output"></span>
 		<!-- <i class="fa fa-spinner fa-spin" style="font-size:48px;color:blue"></i> -->
-		<div id="spinBox"><img src="../static/images/spinner.gif"></div>
-</div>
 
+</div>
+		<div id="spinBox" style="opacity: 1"><img src="../static/images/spinner.gif"></div>
 </div>
 	<div id="popup"><h3 style="text-align: center;padding-top: 10px">Are you sure ?</h3>
         <div style="display: flex;padding-top: 59.7px">    
@@ -374,7 +374,9 @@
     </div>
 
 	<script type="text/javascript">
+
 		var a='9b6451fc';
+			
 		var name = Cookies.get("name");
 		$("div#name").html(name);
 
@@ -383,15 +385,11 @@
 		$("div#name").html(name);
                 $(".type-1").click(function () {
                 	party = $(this).attr('id');
-                	$("#whole").css({
-                        'opacity':'0.2',
-                        'pointer-events': 'none'
+                	$("#whole").css({'opacity':'0.1','pointer-events': 'none'
                 });
                 	// console.log($(this))
                     $("#popup").css("display", "block");
-                    $("#whole").css({
-                        'opacity':'0.2',
-                        'pointer-events': 'none'
+                    $("#whole").css({'opacity':'0.1','pointer-events': 'none'
                 });
                 })
                 $("#cancel").click(function(){
@@ -402,7 +400,7 @@
               	$("#ok").click(function() {
               	$('#spinBox').show();
               	$("#popup").css("display", "none");
-                    $("#whole").css({'opacity':'.5','pointer-events': 'none'
+                    $("#whole").css({'opacity':'.1','pointer-events': 'none'
                 });
     	    	
 	    	    var id = Cookies.get("persis_id")
