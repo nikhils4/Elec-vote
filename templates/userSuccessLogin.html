@@ -396,17 +396,13 @@
                 })
                 $("#cancel").click(function(){
                     $("#popup").css("display", "none");
-                    $("#whole").css({
-                        'opacity':'1',
-                        'pointer-events': 'auto'
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'
                 });
                 });
               	$("#ok").click(function() {
               	$('#spinBox').show();
               	$("#popup").css("display", "none");
-                    $("#whole").css({
-                        'opacity':'.5',
-                        'pointer-events': 'none'
+                    $("#whole").css({'opacity':'.5','pointer-events': 'none'
                 });
     	    	
 	    	    var id = Cookies.get("persis_id")

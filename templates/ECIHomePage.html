@@ -274,9 +274,9 @@
     <div id="popup1" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
             <div id="ok1"><b style="text-align: center;">Ok</b></div>
     </div>
-    <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
+    <!-- <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
             <div id="ok2"><b style="text-align: center;">Ok</b></div>
-    </div>
+    </div> -->
 
     <div id="popup"><h3 style="text-align: center;padding-top: 10px">Are you sure ?</h3>
         <div style="display: flex;padding-top: 59.7px">    
@@ -440,7 +440,21 @@ var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglor
 			var place = {'persis_id' : id, "username" : un};
 			console.log(place);
 			$("#whole").css({'opacity':'0.2','pointer-events': 'none'});
-    	    $('#spinBox').show();
+    	    
+
+    	    $("#popup").css("display", "block");
+                    $("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+                
+    	    $("#cancel").click(function(){
+                    $("#popup").css("display", "none");
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'
+                });
+                });
+    	    $("#ok").click(function(){
+                    $("#popup").css("display", "none");
+
+                    $("#whole").css({'opacity':'0.6','pointer-events': 'none'});
+                	$('#spinBox').show();
 
 	    	$.ajax({
 	            type: 'POST',
@@ -461,6 +475,7 @@ var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglor
                     $("#whole").css({'opacity':'1','pointer-events': 'auto'});
                 	});
 	            }
+	    })
 	    })
 	});
 

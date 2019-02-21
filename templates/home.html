@@ -23,6 +23,9 @@
             text-align: center;
             background-color: #2948ff;
             color : white;
+            margin-top: -100px;
+            margin-left: -50px;
+            cursor: pointer;
         }
         #form1{
         	margin-top: 40vh;
@@ -44,6 +47,9 @@
 		<form action="{{url_for('login')}}" method="GET">
 			<button><h2><b>Vote Now</b></h2></button>
 		</form>
+	<form action="{{url_for('result')}}" method="GET">
+		<button><h2><b>Result</b></h2></button>
+	</form>
 
 </body>
 </html>
