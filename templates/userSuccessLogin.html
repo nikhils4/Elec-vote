@@ -152,14 +152,12 @@
                 background-color: #1574C5;
          }
 
-		.btn-2 {
-		  background-color: #00AFD1;
-		}
 		.btn-2 .round {
 		  background-color: #00c4eb;
 		}
 		.last-row {
 			margin-top: -4px;
+
 		}
 
 		a {
@@ -229,7 +227,21 @@
 		.type-1 a:hover .round i {
 		  left: 12%;
 		}
-
+        #spinBox {
+	    z-index:999;
+	    opacity:0.8;
+	    display:none;
+	    border-radius:0.25em;
+	    width:5em;
+	    height:5em;
+	    margin: -2.5em 0 0 -2.5em;
+	    /*background-color:#f0f3f6;
+	    border:1px solid #cdcdcd;*/
+	    transform: translate(-50%,-50%);
+	    position:fixed;
+	    top:50%;
+	    left:50%
+	  }
 	</style>
 </head>
 <body>
@@ -333,7 +345,7 @@
 				<img src="../static/images/sena.jpg">
 			</div>
 
-			<div class="grid-item align">
+			<div class="grid-item align" style="border-bottom: 0px solid;">
 				Sena
 			</div>
 
@@ -350,6 +362,7 @@
 		</div>
 		<span class="output"></span>
 		<!-- <i class="fa fa-spinner fa-spin" style="font-size:48px;color:blue"></i> -->
+		<div id="spinBox"><img src="../static/images/spinner.gif"></div>
 </div>
 
 </div>
@@ -370,6 +383,10 @@
 		$("div#name").html(name);
                 $(".type-1").click(function () {
                 	party = $(this).attr('id');
+                	$("#whole").css({
+                        'opacity':'0.2',
+                        'pointer-events': 'none'
+                });
                 	// console.log($(this))
                     $("#popup").css("display", "block");
                     $("#whole").css({
@@ -379,26 +396,25 @@
                 })
                 $("#cancel").click(function(){
                     $("#popup").css("display", "none");
-                    $("#whole").css({
-                        'opacity':'1',
-                        'pointer-events': 'auto'
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'
                 });
                 });
               	$("#ok").click(function() {
+              	$('#spinBox').show();
               	$("#popup").css("display", "none");
-                    $("#whole").css({
-                        'opacity':'1',
-                        'pointer-events': 'auto'
+                    $("#whole").css({'opacity':'.5','pointer-events': 'none'
                 });
-                
+    	    	
 	    	    var id = Cookies.get("persis_id")
 	    	    var userVote = {'vote' : party, 'persis_id' : id};
 	    	    console.log(userVote);
+	            
 	            $.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/vote",
                 contentType: 'application/json',
 	            data : JSON.stringify(userVote),
+	            
 	            success: function(result) {
 	            	if(typeof(result) == "string"){
 	            		$("span.output").html(result);
@@ -406,7 +422,8 @@
 	            	else{
 						$('body').html(result);
 					}
-
+					 $('#spinBox').hide();
+                	 $("#whole").css({'opacity':'1','pointer-events': 'auto'});
 	            }
 	        });
 	     });

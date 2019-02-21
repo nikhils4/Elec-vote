@@ -23,7 +23,7 @@
 		height: 8vh;
 		background: #0f0c29;
 		background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
-		
+		z-index: 10;
 	}
 		
 	#list_item1, #list_item2 {
@@ -45,11 +45,13 @@
 	}
 
 	#cont td, #cont th {
-	  border: 1px solid #ddd;
+	  border: 1px solid #849fc9;
 	  padding: 8px;
 	  
 	}
-
+    #cont tr{
+    	background-color: #849fc9;
+    }
 	#cont tr:nth-child(even){background-color: #ffff;}
 
 	#cont tr:hover {background-color: #ddd;}
@@ -111,6 +113,10 @@
 			background: #1261ea;
         	border:2px solid #4e54c8;
 
+		}
+		#show-btn {
+			position: absolute;
+			margin-top: 4px;
 		}
 		#clear-btn{
 			background: #CB356B;
@@ -195,6 +201,7 @@
 	    margin: -2.5em 0 0 -2.5em;
 	    /*background-color:#f0f3f6;
 	    border:1px solid #cdcdcd;*/
+	    transform: translate(-50%,-50%);
 	    position:fixed;
 	    top:50%;
 	    left:50%
@@ -267,9 +274,9 @@
     <div id="popup1" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
             <div id="ok1"><b style="text-align: center;">Ok</b></div>
     </div>
-    <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
+    <!-- <div id="popup2" style="height: 130px;"><h3 style="text-align: center;padding-top: 10px"><div id="output"></div></h3>
             <div id="ok2"><b style="text-align: center;">Ok</b></div>
-    </div>
+    </div> -->
 
     <div id="popup"><h3 style="text-align: center;padding-top: 10px">Are you sure ?</h3>
         <div style="display: flex;padding-top: 59.7px">    
@@ -290,43 +297,14 @@
 
 
 	<script type="text/javascript">
-
-	// on press of logout
-	// get 
-	// to delete perses ie cookie 
-
-//	window.location.hash="no-back-button";
-//	window.location.hash="Again-No-back-button";
-//	window.onhashchange=function(){window.location.hash="no-back-button";}
-
 var a ='9b6451fc'
-		// function aler() {
-		// 	alert("Are you sure?");
-		// 
 
-// var newarr = [{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglore'},{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglore'},{'placeName':'Mumbai'},{'placeName':'Delhi'},{'placeName':'Banglore'}];
-
-			// var disp = document.getElementById("cont")
-            //         $("table#cont").empty();
-            //         var trh = document.createElement('tr');
-            //         var th = trh.appendChild(document.createElement('th'));
-            //         th.innerHTML = "Index";
-            //         var th = trh.appendChild(document.createElement('th'));
-            //         th.innerHTML = "Place"
-            //         disp.appendChild(trh);
-            //         for(var i = 0 ; i < newarr.length ; i++) {
-            //             var tr = document.createElement('tr');
-            //             var td = tr.appendChild(document.createElement('td'));
-            //             td.innerHTML = i + 1;
-            //             var td = tr.appendChild(document.createElement('td'));
-            //             td.innerHTML = newarr[i]['placeName'];
-            //             disp.appendChild(tr);
-            //         }
 
 
 
 	$(document).ready(function() {
 	    $("#additem").click(function() {
+	    	$("#whole").css({'opacity':'0.2','pointer-events': 'none'});
     	        $('#spinBox').show(); 
 	    	    var value = $("#list_item1").val();
 	    	    var id = Cookies.get("persis_id");
@@ -357,10 +335,13 @@ var a ='9b6451fc'
 
 
 	    $("#show-btn").click(function(){
+	    	
 	    	var id = Cookies.get("persis_id");
 			var un = Cookies.get("username");
 			var place = {'persis_id' : id, "username" : un};
 			console.log(place);
+			$("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+    	    $('#spinBox').show();
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/showElecPlace",
@@ -369,6 +350,8 @@ var a ='9b6451fc'
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
 	            	// $("#cont").show();
+                	$('#spinBox').hide();
+
 					if (typeof(result) == "string"){
 						$("table#cont").empty();
 						document.getElementById("output").innerHTML = result;
@@ -391,6 +374,14 @@ var a ='9b6451fc'
 							disp.appendChild(tr);
                     }
 					}
+					$("#popup1").css("display", "block");
+                    $("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+                
+                	$("#ok1").click(function(){
+                    $("#popup1").css("display", "none");
+
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'});
+                	});
 	            }
 	        })
 	    })
@@ -401,6 +392,8 @@ var a ='9b6451fc'
 			var un = Cookies.get("username");
 			var place = {'persis_id' : id, "username" : un, 'place' : value};
 			console.log(place);
+			$("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+    	    $('#spinBox').show();
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/remElecPlace",
@@ -409,6 +402,15 @@ var a ='9b6451fc'
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
 	            	document.getElementById("output").innerHTML=result;
+	            	 $('#spinBox').hide();
+	            	$("#popup1").css("display", "block");
+                    $("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+                
+                	$("#ok1").click(function(){
+                    $("#popup1").css("display", "none");
+
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'});
+                	});
 	            }
 	    	})
 		});
@@ -419,6 +421,23 @@ var a ='9b6451fc'
 			var un = Cookies.get("username");
 			var place = {'persis_id' : id, "username" : un};
 			console.log(place);
+			$("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+    	    
+
+    	    $("#popup").css("display", "block");
+                    $("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+                
+    	    $("#cancel").click(function(){
+                    $("#popup").css("display", "none");
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'
+                });
+                });
+    	    $("#ok").click(function(){
+                    $("#popup").css("display", "none");
+
+                    $("#whole").css({'opacity':'0.6','pointer-events': 'none'});
+                	$('#spinBox').show();
+
 	    	$.ajax({
 	            type: 'POST',
 	            url: "http://"+a+".ngrok.io/clearPlace",
@@ -428,7 +447,17 @@ var a ='9b6451fc'
                 // headers: {'x-my-custom-header':'mc'},
 	            success: function(result) {
 	            	document.getElementById("output").innerHTML=result;
+	            	 $('#spinBox').hide();
+	            	$("#popup1").css("display", "block");
+                    $("#whole").css({'opacity':'0.2','pointer-events': 'none'});
+                
+                	$("#ok1").click(function(){
+                    $("#popup1").css("display", "none");
+
+                    $("#whole").css({'opacity':'1','pointer-events': 'auto'});
+                	});
 	            }
+	    })
 	    })
 	});
 
@@ -471,22 +500,22 @@ var a ='9b6451fc'
                     
              //    })
               
-            	$("#removeitem").click(function () {
-                    $("#popup2").css("display", "block");
-                    $("#whole").css({
-                        'opacity':'0.2',
-                        'pointer-events': 'none'
-                });
-                })
-                $("#ok2").click(function(){
-                    $("#popup2").css("display", "none");
+            	// $("#removeitem").click(function () {
+             //        $("#popup2").css("display", "block");
+             //        $("#whole").css({
+             //            'opacity':'0.2',
+             //            'pointer-events': 'none'
+             //    });
+             //    })
+             //    $("#ok2").click(function(){
+             //        $("#popup2").css("display", "none");
 
-                    $("#whole").css({
-                        'opacity':'1',
-                        'pointer-events': 'auto'
-                });
-                })
-                });
+             //        $("#whole").css({
+             //            'opacity':'1',
+             //            'pointer-events': 'auto'
+             //    });
+             //    })
+             //    });
 
 </script>
 
