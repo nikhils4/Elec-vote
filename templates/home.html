@@ -5,7 +5,9 @@
 
 
 	<style type="text/css">
-		
+		/*body{
+			background-image: url("../static/images/star-bg.svg") center cover cover;
+		}	*/	
 		form{
 			height: 100px;
 			width: 100px;
@@ -32,14 +34,12 @@
         }
         body{
         	background: #0f0c29;
-			background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+			/*background: linear-gradient(to right, #24243e, #302b63, #0f0c29);*/
         }
-
-
 	</style>
 </head>
 <body>
-
+		<img style="position: absolute;z-index:-2;max-height: 700px;max-width: 100%;margin-top: -310px;margin-left: 160px;" src="../static/images/star-bg.svg">
 	
 	<form id="form1" action="{{url_for('gen')}}" method="GET">
 		<button><h2><b>Generate Credentials</b></h2></button>
