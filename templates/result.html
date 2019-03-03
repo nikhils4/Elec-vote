@@ -5,15 +5,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 window.onload = function () {
-// var bjp = Cookies.get("BJP");
-// var cong = Cookies.get("Congress");
-// var sena = Cookies.get("Shivsena");
-// var nota = Cookies.get("NOTA");
+var bjp = Cookies.get("BJP");
+var cong = Cookies.get("Congress");
+var sena = Cookies.get("Shivsena");
+var nota = Cookies.get("NOTA");
 
-var bjp = 10;
-var cong = 2;
-var sena = 4;
-var nota = 7;
 
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
@@ -52,7 +48,7 @@ chart.render();
 	}
 
 	#particles-js {
-		background-color: blue;
+		background-color: black;
 		position: absolute;
 		width: 100%;
 		height: 100%;
